@@ -1,0 +1,22 @@
+﻿<section>
+    <div class="hero-unit">
+        <h1>Speaker registration</h1>
+        <div>
+            <form class="form-inline">
+                <label>Speaker Name: </label><input type="text" class="input-large" data-bind="value: speaker"/>
+                <input class="btn btn-primary" type="button" data-bind="click:registerSpeaker" value="Register"/>
+            </form>
+        </div>
+    </div>
+    <div data-bind="visible: speakerRegistered()">
+        <!--ko with: registrationInput-->
+        <h1 data-bind="text:'Register session for ' + speaker()"></h1>
+        <form class="form-horizontal">
+            <label>Tile: </label><input type="Text" data-bind="value:title" class="input-large"/>
+            <label>Description: </label><textarea type="text" data-bind="value: description" />
+            <label>Level: </label><input type="Text" data-bind="value:level" class="input-small" />
+            <input class="btn btn-primary" type="button" value="Add session" data-bind="click:$parent.registerSession"/>
+        </form>
+        <!--/ko-->
+    </div>
+</section>
