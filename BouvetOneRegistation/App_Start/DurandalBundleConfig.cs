@@ -13,13 +13,13 @@ namespace BouvetOneRegistation {
 			.Include("~/Scripts/bootstrap.js")
 			.Include("~/Scripts/knockout-{version}.js")
             .Include("~/Scripts/toastr.min.js")
+            .Include("~/Scripts/underscore.min.js")
 		);
 
       bundles.Add(
         new StyleBundle("~/Content/css")
           .Include("~/Content/ie10mobile.css")
-          .Include("~/Content/bootstrap.min.css")
-          .Include("~/Content/bootstrap-responsive.min.css")
+          .Include("~/Content/bootstrap/bootstrap.min.css")
           .Include("~/Content/font-awesome.min.css")
 		  .Include("~/Content/durandal.css")
           .Include("~/Content/starterkit.css")
