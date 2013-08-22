@@ -15,16 +15,16 @@ exports.config = function(weyland) {
                 name:'../Scripts/almond-custom', //to deploy with require.js, use the build's name here instead
                 insertRequire:['main'], //not needed for require
                 baseUrl : 'App',
-                mainConfigFile:'App/main.js', //not needed for require
+                //mainConfigFile:'App/main.js', //not needed for require
                 wrap:true, //not needed for require
                 paths : {
                     'text': '../Scripts/text',
                     'durandal': '../Scripts/durandal',
                     'plugins': '../Scripts/durandal/plugins',
                     'transitions': '../Scripts/durandal/transitions',
-                    'knockout': 'empty:',
-                    'bootstrap': 'empty:',
-                    'jquery': 'empty:'
+                    'knockout': '../Scripts/knockout-2.3.0',
+                    'bootstrap': '../Scripts/bootstrap',
+                    'jquery': '../Scripts/jquery-1.9.1'
                 },
                 inlineText: true,
                 optimize : 'none',

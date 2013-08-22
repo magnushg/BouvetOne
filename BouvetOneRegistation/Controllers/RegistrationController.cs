@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BouvetOneRegistation.Models;
@@ -10,13 +12,22 @@ namespace BouvetOneRegistation.Controllers
     {
         public async Task<IEnumerable<Speaker>> Get()
         {
-            using (var context = new RegistrationDbContext())
+            try
             {
-               return await context
-                   .Speakers
-                   .Include(x=>x.Sessions)
-                   .ToListAsync();
+                using (var context = new RegistrationDbContext())
+                {
+                    return await context
+                        .Speakers
+                        .Include(x => x.Sessions)
+                        .ToListAsync();
+                }
             }
+            catch (Exception e)
+            {
+                Trace.Write(e.Message);
+                throw;
+            }
+            
         }
 
         [HttpPost("registration/speaker")]
