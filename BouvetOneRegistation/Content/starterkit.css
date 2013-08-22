@@ -47,6 +47,14 @@
     visibility: visible;
 }
 
+.registrationWell {
+    padding: 33px;
+}
+
+.speakerButton {
+    margin-top: 9px;
+}
+
 @media (max-width: 979px) {
     .page-host {
         top: 0;

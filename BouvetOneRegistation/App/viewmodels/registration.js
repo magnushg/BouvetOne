@@ -10,6 +10,8 @@
     self.speakerRegistered = ko.computed(function() {
         return self.speakerId() != '';
     });
+    self.defaultLevel = 'Middels - 200';
+    self.levels = ko.observableArray(['Lett - 100', self.defaultLevel, 'Ekspert - 300']);
     self.speakers = ko.observableArray([]);
     self.sessions = ko.computed(function() {
         return _.flatten(_.map(self.speakers(), function(speaker) {
@@ -26,9 +28,9 @@
 
     self.intializeSessionInput = function () {
         return {
-            title: '',
-            description: '',
-            level: ''
+            title: ko.observable(''),
+            description: ko.observable(''),
+            level: ko.observable(self.defaultLevel)
         };
     };
     self.registrationInput = ko.observable(self.intializeSessionInput());
@@ -58,10 +60,17 @@
                 return s.id === self.speakerId();
             });
             if (speaker !== undefined) {
-                speaker.sessions.push({ speaker: speaker.name, title: registrationInput().title, description: self.registrationInput().description, level: self.registrationInput().level });
+                speaker.sessions.push({ speaker: speaker.name, title: registrationInput().title(), description: self.registrationInput().description(), level: self.registrationInput().level() });
+                self.clearInput();
             }
             
         });
+    };
+
+    self.clearInput = function() {
+        self.registrationInput().title('');
+        self.registrationInput().description('');
+        self.registrationInput().level(self.defaultLevel);
     };
 
     self.activate = function() {
@@ -81,6 +90,7 @@
         speakerId: self.speakerId,
         speaker: self.speaker,
         sessions: self.sessions,
+        levels: self.levels,
         speakerRegistered: self.speakerRegistered,
         registerSession: self.registerSession,
         registerSpeaker: self.registerSpeaker,

@@ -5,17 +5,17 @@
                 toastr.success('Bruker ' + speakerName + ' ble lagt til');
                 return data;
             }).fail(function(error) {
-                toastr.error('Registration failed with error ' + error.message);
+                toastr.error('Det skjedde en feil ved registrering ' + error.message);
             });
         },
         registerSession: function(speakerId, sessionDetails) {
-            var data = { id: speakerId, title: sessionDetails.title, description: sessionDetails.description, level: sessionDetails.level };
+            var data = { id: speakerId, title: sessionDetails.title(), description: sessionDetails.description(), level: sessionDetails.level() };
             return http.post('registration/session', data).then(function (response) {
-                toastr.success('Foredrag ' + sessionDetails.title + ' ble lagt til');
+                toastr.success('Foredrag ' + sessionDetails.title() + ' ble lagt til');
                 return response;
             }).fail(function (error, message) {
                 console.log(error);
-                toastr.error('Registration failed with error ' + message);
+                toastr.error('Det skjedde en feil ved registrering ' + message);
             });
         },
         getAllSpeakers: function() {
@@ -23,7 +23,7 @@
                 return response;
             }).fail(function(error, message) {
                 console.log(error);
-                toastr.error('Speaker retrieval failed with error ' + message);
+                toastr.error('Det skjedde en feil ved henting av foredragsholdere ' + message);
             });
         }
     };
