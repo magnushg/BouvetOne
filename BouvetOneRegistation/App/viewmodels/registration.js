@@ -36,7 +36,11 @@
     self.registrationInput = ko.observable(self.intializeSessionInput());
 
     self.registerSpeaker = function() {
-        var existing = _.find(self.speakers(), function(speaker) {
+        if (self.speaker() === undefined || self.speaker() === '') {
+            toastr.warning('Skriv inn et brukernavn');
+            return;
+        }
+        var existing = _.find(self.speakers(), function (speaker) {
             return speaker.name === self.speaker();
         });
         if (existing !== undefined) {
