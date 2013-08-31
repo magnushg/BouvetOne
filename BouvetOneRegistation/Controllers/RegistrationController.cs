@@ -10,55 +10,54 @@ namespace BouvetOneRegistation.Controllers
 {
     public class RegistrationController : ApiController
     {
+        private readonly RegistrationDbContext _registrationContext;
+
+        public RegistrationController(RegistrationDbContext registrationContext)
+        {
+            _registrationContext = registrationContext;
+        }
+
         public async Task<IEnumerable<Speaker>> Get()
         {
             try
             {
-                using (var context = new RegistrationDbContext())
-                {
-                    return await context
-                        .Speakers
-                        .Include(x => x.Sessions)
-                        .ToListAsync();
-                }
+                return await _registrationContext
+                              .Speakers
+                              .Include(x => x.Sessions)
+                              .ToListAsync();
             }
             catch (Exception e)
             {
                 Trace.Write(e.Message);
                 throw;
             }
-            
+
         }
 
         [HttpPost("registration/speaker")]
         public async Task<int> PostSpeaker([FromBody]string value)
         {
-            using (var context = new RegistrationDbContext())
+            var speaker = new Speaker
             {
-                var speaker = new Speaker
-                                  {
-                                      Name = value
-                                  };
-                context.Speakers.Add(speaker);
-                await context.SaveChangesAsync();
-                return speaker.Id;
-            }
+                Name = value
+            };
+            _registrationContext.Speakers.Add(speaker);
+            await _registrationContext.SaveChangesAsync();
+            return speaker.Id;
         }
 
         [HttpPost("registration/session")]
         public async Task<int> PostSession([FromBody] SessionInput sessionInput)
         {
-            using (var context = new RegistrationDbContext())
-            {
-                var speaker = await context.Speakers.FindAsync(sessionInput.Id);
-                speaker.Sessions.Add(new Session
-                                         {
-                                            Title  = sessionInput.Title,
-                                            Description = sessionInput.Description,
-                                            Level = sessionInput.Level
-                                         });
-                return await context.SaveChangesAsync();
-            }
+            var speaker = await _registrationContext.Speakers.FindAsync(sessionInput.Id);
+            speaker.Sessions.Add(new Session
+                            {
+                                Title = sessionInput.Title,
+                                Description = sessionInput.Description,
+                                Level = sessionInput.Level
+                            });
+
+            return await _registrationContext.SaveChangesAsync();
         }
     }
 
