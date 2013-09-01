@@ -1,4 +1,4 @@
 BouvetOne
 ==========
 
-Application for managing Bouvet internal conferences
+Application for managing Bouvet internal conferences.
