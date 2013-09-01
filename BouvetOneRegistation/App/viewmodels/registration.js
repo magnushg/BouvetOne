@@ -18,6 +18,7 @@
             return _.map(speaker.sessions(), function(session) {
                 return {
                     speaker: speaker.name,
+                    id: session.id,
                     title: session.title,
                     description: session.description,
                     level: session.level
@@ -59,15 +60,27 @@
             toastr.error('Du må legge til en foredragsholder');
             return;
         }
-        registrationService.registerSession(self.speakerId(), self.registrationInput()).then(function(newID) {
+        registrationService.registerSession(self.speakerId(), self.registrationInput()).then(function(newId) {
             var speaker = _.find(self.speakers(), function(s) {
                 return s.id === self.speakerId();
             });
             if (speaker !== undefined) {
-                speaker.sessions.push({ speaker: speaker.name, title: registrationInput().title(), description: self.registrationInput().description(), level: self.registrationInput().level() });
+                speaker.sessions.push({ id: newId, speaker: speaker.name, title: registrationInput().title(), description: self.registrationInput().description(), level: self.registrationInput().level() });
                 self.clearInput();
             }
             
+        });
+    };
+
+    self.removeSession = function(session) {
+        var speaker = _.find(self.speakers(), function (spk) {
+            return spk.name === session.speaker;
+        });
+        registrationService.deleteSession(session).then(function () {
+            // Remove session from local session list
+            speaker.sessions(_.filter(speaker.sessions(), function(s) {
+                return s.id !== session.id;
+            }));
         });
     };
 
@@ -98,6 +111,7 @@
         speakerRegistered: self.speakerRegistered,
         registerSession: self.registerSession,
         registerSpeaker: self.registerSpeaker,
+        removeSession: self.removeSession,
         activate: self.activate
     };
 });

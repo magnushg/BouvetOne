@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BouvetOneRegistation.Models;
+using System.Linq;
 
 namespace BouvetOneRegistation.Controllers
 {
@@ -34,6 +36,26 @@ namespace BouvetOneRegistation.Controllers
 
         }
 
+        //[HttpDelete("delete/session")]
+        public async Task<HttpStatusCode> Delete(int sessionId)
+        {
+            try
+            {
+                var speaker = await _registrationContext.Speakers
+                    .Include(inc => inc.Sessions)
+                    .FirstAsync(s => s.Sessions.Any(x => x.Id == sessionId));
+
+                var session = speaker.Sessions.First(s => s.Id == sessionId);
+                
+                await _registrationContext.SaveChangesAsync();
+                return HttpStatusCode.NoContent;
+            }
+            catch (Exception)
+            {
+                return HttpStatusCode.InternalServerError;
+            }
+        }
+
         [HttpPost("registration/speaker")]
         public async Task<int> PostSpeaker([FromBody]string value)
         {
@@ -50,14 +72,15 @@ namespace BouvetOneRegistation.Controllers
         public async Task<int> PostSession([FromBody] SessionInput sessionInput)
         {
             var speaker = await _registrationContext.Speakers.FindAsync(sessionInput.Id);
-            speaker.Sessions.Add(new Session
-                            {
-                                Title = sessionInput.Title,
-                                Description = sessionInput.Description,
-                                Level = sessionInput.Level
-                            });
-
-            return await _registrationContext.SaveChangesAsync();
+            var session = new Session
+                              {
+                                  Title = sessionInput.Title,
+                                  Description = sessionInput.Description,
+                                  Level = sessionInput.Level
+                              };
+            speaker.Sessions.Add(session);
+            await _registrationContext.SaveChangesAsync();
+            return session.Id;
         }
     }
 
