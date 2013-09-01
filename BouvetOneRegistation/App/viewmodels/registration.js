@@ -1,4 +1,4 @@
-﻿define(['services/registrationService', 'knockout'], function (registrationService, ko) {
+﻿define(['durandal/app', 'services/registrationService', 'knockout'], function (app, registrationService, ko) {
     //Note: This module exports an object.
     //That means that every module that "requires" it will get the same object instance.
     //If you wish to be able to create multiple instances, instead export a function.
@@ -73,14 +73,18 @@
     };
 
     self.removeSession = function(session) {
-        var speaker = _.find(self.speakers(), function (spk) {
-            return spk.name === session.speaker;
-        });
-        registrationService.deleteSession(session).then(function () {
-            // Remove session from local session list
-            speaker.sessions(_.filter(speaker.sessions(), function(s) {
-                return s.id !== session.id;
-            }));
+        app.showMessage('Er du sikker på at du vil slette foredraget "' + session.title +'"?', 'Slette foredrag', ['Ja', 'Nei']).then(function(dialogResult) {
+            if (dialogResult === 'Ja') {
+                var speaker = _.find(self.speakers(), function (spk) {
+                    return spk.name === session.speaker;
+                });
+                registrationService.deleteSession(session).then(function () {
+                    // Remove session from local session list
+                    speaker.sessions(_.filter(speaker.sessions(), function (s) {
+                        return s.id !== session.id;
+                    }));
+                });
+            }
         });
     };
 

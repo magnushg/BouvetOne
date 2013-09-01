@@ -35,8 +35,7 @@ namespace BouvetOneRegistation.Controllers
             }
 
         }
-
-        //[HttpDelete("delete/session")]
+        
         public async Task<HttpStatusCode> Delete(int sessionId)
         {
             try
@@ -46,7 +45,7 @@ namespace BouvetOneRegistation.Controllers
                     .FirstAsync(s => s.Sessions.Any(x => x.Id == sessionId));
 
                 var session = speaker.Sessions.First(s => s.Id == sessionId);
-                
+                speaker.Sessions.Remove(session);
                 await _registrationContext.SaveChangesAsync();
                 return HttpStatusCode.NoContent;
             }
