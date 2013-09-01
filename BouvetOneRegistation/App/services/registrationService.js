@@ -11,7 +11,7 @@
     var registerSession = function(speakerId, sessionDetails) {
         var data = { id: speakerId, title: sessionDetails.title(), description: sessionDetails.description(), level: sessionDetails.level() };
         return http.post('registration/session', data).then(function(response) {
-            toastr.success('Foredrag ' + sessionDetails.title() + ' ble lagt til');
+            toastr.success('Foredraget "' + sessionDetails.title() + '" ble lagt til');
             return response;
         }).fail(function(error, message) {
             console.log(error);
@@ -31,7 +31,7 @@
             url: 'api/registration?sessionId=' + session.id,
             type: 'DELETE'
         }).then(function() {
-            toastr.success('Foredraget ' + session.title + ' ble slettet');
+            toastr.success('Foredraget "' + session.title + '" ble slettet');
         }).fail(function(error, message) {
             console.log(error);
             toastr.error('Det skjedde en feil ved sletting av foredrag ' + message);
