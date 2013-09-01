@@ -88,6 +88,10 @@
         });
     };
 
+    self.allowRemove = function(session) {
+        return session.speaker === self.speaker();
+    };
+
     self.clearInput = function() {
         self.registrationInput().title('');
         self.registrationInput().description('');
@@ -116,6 +120,7 @@
         registerSession: self.registerSession,
         registerSpeaker: self.registerSpeaker,
         removeSession: self.removeSession,
+        allowRemove: self.allowRemove,
         activate: self.activate
     };
 });
