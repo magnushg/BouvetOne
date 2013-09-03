@@ -42,7 +42,7 @@
             return;
         }
         var existing = _.find(self.speakers(), function (speaker) {
-            return speaker.name === self.speaker();
+            return self.speakersAreEqual(speaker.name, self.speaker());
         });
         if (existing !== undefined) {
             toastr.success('Du kan legge til flere foredrag', 'Du er allerede registrert');
@@ -76,7 +76,7 @@
         app.showMessage('Er du sikker på at du vil slette foredraget "' + session.title +'"?', 'Slette foredrag', ['Ja', 'Nei']).then(function(dialogResult) {
             if (dialogResult === 'Ja') {
                 var speaker = _.find(self.speakers(), function (spk) {
-                    return spk.name === session.speaker;
+                    return self.speakersAreEqual(spk.name,session.speaker);
                 });
                 registrationService.deleteSession(session).then(function () {
                     // Remove session from local session list
@@ -88,8 +88,14 @@
         });
     };
 
-    self.allowRemove = function(session) {
-        return session.speaker === self.speaker();
+    self.speakersAreEqual = function (speaker1, speaker2) {
+        return speaker1.toLowerCase() === speaker2.toLowerCase();
+    };
+
+    self.allowRemove = function (session) {
+        if (self.speaker() === undefined || self.speaker() === '') return false;
+        //return self.speakersAreEqual(session.speaker, self.speaker());
+        return session.speaker.toLowerCase() === self.speaker().toLowerCase();
     };
 
     self.clearInput = function() {
