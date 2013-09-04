@@ -65,10 +65,9 @@
                 return s.id === self.speakerId();
             });
             if (speaker !== undefined) {
-                speaker.sessions.push({ id: newId, speaker: speaker.name, title: registrationInput().title(), description: self.registrationInput().description(), level: self.registrationInput().level() });
+                speaker.sessions.push({ id: newIkod, speaker: speaker.name, title: registrationInput().title(), description: self.registrationInput().description(), level: self.registrationInput().level() });
                 self.clearInput();
             }
-            
         });
     };
 

@@ -70,7 +70,7 @@ namespace BouvetOneRegistation.Controllers
         [HttpPost("registration/session")]
         public async Task<int> PostSession([FromBody] SessionInput sessionInput)
         {
-            var speaker = await _registrationContext.Speakers.FindAsync(sessionInput.Id);
+            var speaker = await _registrationContext.Speakers.FindAsync(sessionInput.SpeakerId);
             var session = new Session
                               {
                                   Title = sessionInput.Title,
@@ -81,11 +81,24 @@ namespace BouvetOneRegistation.Controllers
             await _registrationContext.SaveChangesAsync();
             return session.Id;
         }
+
+        [HttpPost("registration/session/update")]
+        public async Task<int> UpdateSession([FromBody] SessionInput sessionInput)
+        {
+            var session = await _registrationContext.Sessions.FindAsync(sessionInput.SessionId);
+            session.Title = sessionInput.Title;
+            session.Description = sessionInput.Title;
+            session.Level = sessionInput.Level;
+
+            await _registrationContext.SaveChangesAsync();
+            return session.Id;
+        }
     }
 
     public class SessionInput
     {
-        public int Id { get; set; }
+        public int SpeakerId { get; set; }
+        public int SessionId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string Level { get; set; }
