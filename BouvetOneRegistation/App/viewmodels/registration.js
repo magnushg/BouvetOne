@@ -5,6 +5,7 @@
     //See the "welcome" module for an example of function export.
     var self = this;
     self.displayName = 'Registrering';
+
     self.speaker = ko.observable();
     self.speakerId = ko.observable('');
     self.speakerRegistered = ko.computed(function() {
@@ -14,7 +15,7 @@
     self.levels = ko.observableArray(['Lett - 100', self.defaultLevel, 'Ekspert - 300']);
     self.speakers = ko.observableArray([]);
     self.sessions = ko.computed(function() {
-        return _.flatten(_.map(self.speakers(), function(speaker) {
+        return _.flatten(_.map(self.speakers(), function (speaker) {
             return _.map(speaker.sessions(), function(session) {
                 return {
                     speaker: speaker.name,
@@ -93,8 +94,13 @@
 
     self.allowRemove = function (session) {
         if (self.speaker() === undefined || self.speaker() === '') return false;
-        //return self.speakersAreEqual(session.speaker, self.speaker());
         return session.speaker.toLowerCase() === self.speaker().toLowerCase();
+    };
+
+    self.filterOwnSession = function (session) {
+        if (self.speaker() === undefined || self.speaker() === '') return true; //nothing to filter by
+        if (session.speaker.toLowerCase() === self.speaker().toLowerCase()) return true;
+        return false;
     };
 
     self.clearInput = function() {
@@ -126,6 +132,7 @@
         registerSpeaker: self.registerSpeaker,
         removeSession: self.removeSession,
         allowRemove: self.allowRemove,
-        activate: self.activate
+        activate: self.activate,
+        filterOwnSession: self.filterOwnSession
     };
 });

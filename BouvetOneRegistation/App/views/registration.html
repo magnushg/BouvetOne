@@ -43,13 +43,15 @@
                     </tr>
                 </thead>
                 <tbody data-bind="foreach:sessions">
+                    <!-- ko if: $root.filterOwnSession($data) -->
                     <tr>
                         <td data-bind="text:speaker"></td>
                         <td data-bind="text:title"></td>
                         <td data-bind="text:description"></td>
                         <td data-bind="text:level"></td>
-                        <td data-bind="visible:$parent.allowRemove($data)"><span data-bind="click:$parent.removeSession" class="glyphicon glyphicon-remove"></span></td>
+                        <td data-bind="visible:$root.allowRemove($data)"><span data-bind="click:$root.removeSession" class="glyphicon glyphicon-remove"></span></td>
                     </tr>
+                    <!-- /ko -->
                 </tbody>
             </table>
         </div>
