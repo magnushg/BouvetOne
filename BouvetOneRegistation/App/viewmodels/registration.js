@@ -11,6 +11,10 @@
     self.speakerRegistered = ko.computed(function() {
         return self.speakerId() != '';
     });
+    
+    self.editSessionId = ko.observable('');
+    self.editMode = ko.observable(false);
+
     self.defaultLevel = 'Middels - 200';
     self.levels = ko.observableArray(['Lett - 100', self.defaultLevel, 'Ekspert - 300']);
     self.speakers = ko.observableArray([]);
@@ -36,6 +40,16 @@
         };
     };
     self.registrationInput = ko.observable(self.intializeSessionInput());
+
+    self.initializeSessionUpdate = function(sessionId) {
+        return {
+            title: ko.observable(''),
+            description: ko.observable(''),
+            level: ko.observable(self.defaultLevel),
+        };
+    };
+
+    self.registrationUpdateSession = ko.observable(self.initializeSessionUpdate());
 
     self.registerSpeaker = function() {
         if (self.speaker() === undefined || self.speaker() === '') {
@@ -88,6 +102,11 @@
         });
     };
 
+    self.editSession = function (session) {
+        self.editMode(true);
+        return self.editSessionId(session.sessionId);
+    };
+
     self.speakersAreEqual = function (speaker1, speaker2) {
         return speaker1.toLowerCase() === speaker2.toLowerCase();
     };
@@ -97,8 +116,10 @@
         return session.speaker.toLowerCase() === self.speaker().toLowerCase();
     };
 
+    self.allowEdit = self.allowRemove; //Implement another if needed
+
     self.filterOwnSession = function (session) {
-        if (self.speaker() === undefined || self.speaker() === '') return true; //nothing to filter by
+        if (self.speaker() === undefined || self.speaker() === '') return true; //no speaker to filter by
         if (session.speaker.toLowerCase() === self.speaker().toLowerCase()) return true;
         return false;
     };
@@ -120,19 +141,20 @@
             }));
         });
     };
-    
-    return {
-        displayName: self.displayName,
-        speakerId: self.speakerId,
-        speaker: self.speaker,
-        sessions: self.sessions,
-        levels: self.levels,
-        speakerRegistered: self.speakerRegistered,
-        registerSession: self.registerSession,
-        registerSpeaker: self.registerSpeaker,
-        removeSession: self.removeSession,
-        allowRemove: self.allowRemove,
-        activate: self.activate,
-        filterOwnSession: self.filterOwnSession
-    };
+
+    return self;
+//    return {
+//        displayName: self.displayName,
+//        speakerId: self.speakerId,
+//        speaker: self.speaker,
+//        sessions: self.sessions,
+//        levels: self.levels,
+//        speakerRegistered: self.speakerRegistered,
+//        registerSession: self.registerSession,
+//        registerSpeaker: self.registerSpeaker,
+//        removeSession: self.removeSession,
+//        allowRemove: self.allowRemove,
+//        activate: self.activate,
+//        filterOwnSession: self.filterOwnSession
+//    };
 });
