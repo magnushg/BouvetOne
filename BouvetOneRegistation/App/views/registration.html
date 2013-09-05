@@ -55,7 +55,7 @@
                     <!-- /ko -->
                     
                     <td colspan="6">
-                        <div data-bind="visible: editMode()">
+                        <div data-bind="visible: $parent.isEditingSession($data)">
                             <!--ko with: $data -->
                             <form role="form" class="form-horizontal">
                                 <div class="form-group">

@@ -13,7 +13,10 @@
     });
     
     self.editSessionId = ko.observable('');
-    self.editMode = ko.observable(false);
+    self.isEditingSession = function (session) {
+        console.log(editSessionId === session.id);
+        return editSessionId === session.id;
+    };
 
     self.defaultLevel = 'Middels - 200';
     self.levels = ko.observableArray(['Lett - 100', self.defaultLevel, 'Ekspert - 300']);
@@ -103,8 +106,8 @@
     };
 
     self.editSession = function (session) {
-        self.editMode(true);
-        return self.editSessionId(session.sessionId);
+        self.editSessionId = session.id;
+        return;
     };
 
     self.speakersAreEqual = function (speaker1, speaker2) {
