@@ -43,12 +43,40 @@
                     </tr>
                 </thead>
                 <tbody data-bind="foreach:sessions">
+                    <!-- ko if: $root.filterOwnSession($data) -->
                     <tr>
                         <td data-bind="text:speaker"></td>
                         <td data-bind="text:title"></td>
                         <td data-bind="text:description"></td>
                         <td data-bind="text:level"></td>
-                        <td data-bind="visible:$parent.allowRemove($data)"><span data-bind="click:$parent.removeSession" class="glyphicon glyphicon-remove"></span></td>
+                        <td data-bind="visible:$root.allowRemove($data)"><span data-bind="click:$root.removeSession" class="glyphicon glyphicon-remove"></span></td>
+                        <td data-bind="visible:$root.allowEdit($data)"><span data-bind="click:$root.editSession" class="glyphicon glyphicon-edit"></span></td>
+                    </tr>
+                    <!-- /ko -->
+                    
+                    <td colspan="6">
+                        <div data-bind="visible: $parent.isEditingSession($data)">
+                            <!--ko with: $data -->
+                            <form role="form" class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="sr-only">Tile</label>
+                                    <input type="Text" placeholder="Tittel" data-bind="value: title" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only">Description</label>
+                                    <textarea class="form-control" placeholder="Beskrivelse" data-bind="value: description" />
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only">Level</label>
+                                    <select data-bind="options:$root.levels, value:level" class="col-lg-4 form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-primary" type="submit" data-bind="click: $parent.updateSession">Oppdater foredrag</button>
+                                </div>
+                            </form>
+                            <!-- /ko -->
+                        </div>
+                    </td>
                     </tr>
                 </tbody>
             </table>

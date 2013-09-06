@@ -7,5 +7,6 @@ namespace BouvetOneRegistation.Models
         public RegistrationDbContext()  : base(nameOrConnectionString: "BouvetOneRegistration") { }
         
         public DbSet<Speaker> Speakers { get; set; }
+        public DbSet<Session> Sessions { get; set; }
     }
 }

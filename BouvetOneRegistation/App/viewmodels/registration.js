@@ -5,16 +5,24 @@
     //See the "welcome" module for an example of function export.
     var self = this;
     self.displayName = 'Registrering';
+
     self.speaker = ko.observable();
     self.speakerId = ko.observable('');
     self.speakerRegistered = ko.computed(function() {
         return self.speakerId() != '';
     });
+    
+    self.editSessionId = ko.observable('');
+    self.isEditingSession = function (session) {
+        console.log(editSessionId === session.id);
+        return editSessionId === session.id;
+    };
+
     self.defaultLevel = 'Middels - 200';
     self.levels = ko.observableArray(['Lett - 100', self.defaultLevel, 'Ekspert - 300']);
     self.speakers = ko.observableArray([]);
     self.sessions = ko.computed(function() {
-        return _.flatten(_.map(self.speakers(), function(speaker) {
+        return _.flatten(_.map(self.speakers(), function (speaker) {
             return _.map(speaker.sessions(), function(session) {
                 return {
                     speaker: speaker.name,
@@ -36,13 +44,23 @@
     };
     self.registrationInput = ko.observable(self.intializeSessionInput());
 
+    self.initializeSessionUpdate = function(sessionId) {
+        return {
+            title: ko.observable(''),
+            description: ko.observable(''),
+            level: ko.observable(self.defaultLevel),
+        };
+    };
+
+    self.registrationUpdateSession = ko.observable(self.initializeSessionUpdate());
+
     self.registerSpeaker = function() {
         if (self.speaker() === undefined || self.speaker() === '') {
             toastr.warning('Skriv inn et brukernavn');
             return;
         }
         var existing = _.find(self.speakers(), function (speaker) {
-            return speaker.name === self.speaker();
+            return self.speakersAreEqual(speaker.name, self.speaker());
         });
         if (existing !== undefined) {
             toastr.success('Du kan legge til flere foredrag', 'Du er allerede registrert');
@@ -65,10 +83,9 @@
                 return s.id === self.speakerId();
             });
             if (speaker !== undefined) {
-                speaker.sessions.push({ id: newId, speaker: speaker.name, title: registrationInput().title(), description: self.registrationInput().description(), level: self.registrationInput().level() });
+                speaker.sessions.push({ id: newIkod, speaker: speaker.name, title: registrationInput().title(), description: self.registrationInput().description(), level: self.registrationInput().level() });
                 self.clearInput();
             }
-            
         });
     };
 
@@ -76,7 +93,7 @@
         app.showMessage('Er du sikker på at du vil slette foredraget "' + session.title +'"?', 'Slette foredrag', ['Ja', 'Nei']).then(function(dialogResult) {
             if (dialogResult === 'Ja') {
                 var speaker = _.find(self.speakers(), function (spk) {
-                    return spk.name === session.speaker;
+                    return self.speakersAreEqual(spk.name,session.speaker);
                 });
                 registrationService.deleteSession(session).then(function () {
                     // Remove session from local session list
@@ -88,8 +105,26 @@
         });
     };
 
-    self.allowRemove = function(session) {
-        return session.speaker === self.speaker();
+    self.editSession = function (session) {
+        self.editSessionId = session.id;
+        return;
+    };
+
+    self.speakersAreEqual = function (speaker1, speaker2) {
+        return speaker1.toLowerCase() === speaker2.toLowerCase();
+    };
+
+    self.allowRemove = function (session) {
+        if (self.speaker() === undefined || self.speaker() === '') return false;
+        return session.speaker.toLowerCase() === self.speaker().toLowerCase();
+    };
+
+    self.allowEdit = self.allowRemove; //Implement another if needed
+
+    self.filterOwnSession = function (session) {
+        if (self.speaker() === undefined || self.speaker() === '') return true; //no speaker to filter by
+        if (session.speaker.toLowerCase() === self.speaker().toLowerCase()) return true;
+        return false;
     };
 
     self.clearInput = function() {
@@ -109,18 +144,20 @@
             }));
         });
     };
-    
-    return {
-        displayName: self.displayName,
-        speakerId: self.speakerId,
-        speaker: self.speaker,
-        sessions: self.sessions,
-        levels: self.levels,
-        speakerRegistered: self.speakerRegistered,
-        registerSession: self.registerSession,
-        registerSpeaker: self.registerSpeaker,
-        removeSession: self.removeSession,
-        allowRemove: self.allowRemove,
-        activate: self.activate
-    };
+
+    return self;
+//    return {
+//        displayName: self.displayName,
+//        speakerId: self.speakerId,
+//        speaker: self.speaker,
+//        sessions: self.sessions,
+//        levels: self.levels,
+//        speakerRegistered: self.speakerRegistered,
+//        registerSession: self.registerSession,
+//        registerSpeaker: self.registerSpeaker,
+//        removeSession: self.removeSession,
+//        allowRemove: self.allowRemove,
+//        activate: self.activate,
+//        filterOwnSession: self.filterOwnSession
+//    };
 });

@@ -9,13 +9,23 @@
         });
     };
     var registerSession = function(speakerId, sessionDetails) {
-        var data = { id: speakerId, title: sessionDetails.title(), description: sessionDetails.description(), level: sessionDetails.level() };
+        var data = { speakerId: speakerId, title: sessionDetails.title(), description: sessionDetails.description(), level: sessionDetails.level() };
         return http.post('registration/session', data).then(function(response) {
             toastr.success('Foredraget "' + sessionDetails.title() + '" ble lagt til');
             return response;
         }).fail(function(error, message) {
             console.log(error);
             toastr.error('Det skjedde en feil ved registrering ' + message);
+        });
+    };
+    var updateSession = function(sessionId, sessionDetails) {
+        var data = { speakerId: speakerId, title: sessionDetails.title(), description: sessionDetails.description(), level: sessionDetails.level() };
+        return http.post('registration/session/update', data).then(function (response) {
+            toastr.success('Foredraget "' + sessionDetails.title() + '" ble oppdatert');
+            return response;
+        }).fail(function (error, message) {
+            console.log(error);
+            toastr.error('Det skjedde en feil ved oppdatering ' + message);
         });
     };
     var getAllSpeakers = function() {
