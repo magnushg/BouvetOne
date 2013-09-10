@@ -19,6 +19,7 @@ namespace BouvetOneRegistation.Controllers
             _registrationContext = registrationContext;
         }
 
+        [HttpGet("api/registration")]
         public async Task<IEnumerable<Speaker>> Get()
         {
             try
@@ -33,8 +34,25 @@ namespace BouvetOneRegistation.Controllers
                 Trace.Write(e.Message);
                 throw;
             }
-
         }
+
+        [HttpGet("registration/program")]
+        public async Task<IEnumerable<TimeSlot>> Program()
+        {
+            try
+            {
+                return await _registrationContext
+                            .TimeSlots
+                            .Include(x => x.Session)
+                            .OrderByDescending(x => x.EventDay)
+                            .ToListAsync();
+            }
+            catch (Exception e)
+            {
+                Trace.Write(e.Message);
+                throw;
+            }
+        } 
         
         public async Task<HttpStatusCode> Delete(int sessionId)
         {

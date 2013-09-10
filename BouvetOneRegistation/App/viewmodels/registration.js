@@ -22,17 +22,19 @@
     self.levels = ko.observableArray(['Lett - 100', self.defaultLevel, 'Ekspert - 300']);
     self.speakers = ko.observableArray([]);
     self.sessions = ko.computed(function() {
-        return _.flatten(_.map(self.speakers(), function (speaker) {
+        var a = _.flatten(_.map(self.speakers(), function (speaker) {
             return _.map(speaker.sessions(), function(session) {
-                return {
+                var b = {
                     speaker: speaker.name,
                     id: session.id,
                     title: session.title,
                     description: session.description,
                     level: session.level
                 };
+                return b;
             });
         }));
+        return a;
     });
 
     self.intializeSessionInput = function () {
@@ -44,7 +46,7 @@
     };
     self.registrationInput = ko.observable(self.intializeSessionInput());
 
-    self.initializeSessionUpdate = function(sessionId) {
+    self.initializeSessionUpdate = function() {
         return {
             title: ko.observable(''),
             description: ko.observable(''),
@@ -83,10 +85,15 @@
                 return s.id === self.speakerId();
             });
             if (speaker !== undefined) {
-                speaker.sessions.push({ id: newIkod, speaker: speaker.name, title: registrationInput().title(), description: self.registrationInput().description(), level: self.registrationInput().level() });
+                speaker.sessions.push({ id: newId, speaker: speaker.name, title: registrationInput().title(), description: self.registrationInput().description(), level: self.registrationInput().level() });
                 self.clearInput();
             }
         });
+    };
+    
+    self.updateSession = function () {
+        console.log(self.registrationUpdateSession);
+//        registrationService.updateSession()
     };
 
     self.removeSession = function(session) {
@@ -146,18 +153,4 @@
     };
 
     return self;
-//    return {
-//        displayName: self.displayName,
-//        speakerId: self.speakerId,
-//        speaker: self.speaker,
-//        sessions: self.sessions,
-//        levels: self.levels,
-//        speakerRegistered: self.speakerRegistered,
-//        registerSession: self.registerSession,
-//        registerSpeaker: self.registerSpeaker,
-//        removeSession: self.removeSession,
-//        allowRemove: self.allowRemove,
-//        activate: self.activate,
-//        filterOwnSession: self.filterOwnSession
-//    };
 });

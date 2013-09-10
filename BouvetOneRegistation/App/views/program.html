@@ -1,0 +1,16 @@
+﻿<section>
+    <div class="jumbotron">
+        <div class="container">
+            <h1 data-bind="html: displayName"></h1>
+        </div>
+    </div>
+    <div class="container">
+        <div class ="table-responsive">
+            <table data-bind="foreach:sessions">
+                <tr>
+                    <td data-bind="text:id"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>

@@ -19,7 +19,7 @@
         });
     };
     var updateSession = function(sessionId, sessionDetails) {
-        var data = { speakerId: speakerId, title: sessionDetails.title(), description: sessionDetails.description(), level: sessionDetails.level() };
+        var data = { sessionId: sessionId, speakerId: speakerId, title: sessionDetails.title(), description: sessionDetails.description(), level: sessionDetails.level() };
         return http.post('registration/session/update', data).then(function (response) {
             toastr.success('Foredraget "' + sessionDetails.title() + '" ble oppdatert');
             return response;
@@ -30,6 +30,14 @@
     };
     var getAllSpeakers = function() {
         return http.get('api/registration').then(function(response) {
+            return response;
+        }).fail(function(error, message) {
+            console.log(error);
+            toastr.error('Det skjedde en feil ved henting av foredragsholdere ' + message);
+        });
+    };
+    var getProgram = function() {
+        return http.get('registration/program').then(function(response) {
             return response;
         }).fail(function(error, message) {
             console.log(error);
@@ -52,6 +60,7 @@
         registerSpeaker: registerSpeaker,
         registerSession: registerSession,
         getAllSpeakers: getAllSpeakers,
-        deleteSession: deleteSession
+        deleteSession: deleteSession,
+        getProgram: getProgram
     };
 })

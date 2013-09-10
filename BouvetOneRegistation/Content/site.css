@@ -1,0 +1,6 @@
+﻿.edit-panel td {
+    padding: 20px;
+}
+.edit-panel td:hover {
+    background-color: #ffffff;
+}

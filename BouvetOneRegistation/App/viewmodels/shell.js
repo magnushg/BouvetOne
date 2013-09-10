@@ -8,7 +8,8 @@
         },
         activate: function () {
             router.map([
-                { route: '', title:'Registrering', moduleId: 'viewmodels/registration', nav: true }
+                { route: '', title: 'Registrering', moduleId: 'viewmodels/registration', nav: true },
+                { route: '', title: 'Program', moduleId: 'viewmodels/program', nav: true }
             ]).buildNavigationModel();
             
             return router.activate();

@@ -8,5 +8,6 @@ namespace BouvetOneRegistation.Models
         
         public DbSet<Speaker> Speakers { get; set; }
         public DbSet<Session> Sessions { get; set; }
+        public DbSet<TimeSlot> TimeSlots { get; set; }
     }
 }

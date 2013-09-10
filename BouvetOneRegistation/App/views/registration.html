@@ -53,7 +53,7 @@
                         <td data-bind="visible:$root.allowEdit($data)"><span data-bind="click:$root.editSession" class="glyphicon glyphicon-edit" onclick="javascript:$(this).parents('tr').next().toggle();"></span></td>
                     </tr>
                     <!-- /ko -->
-                    <tr data-bind="visible: $parent.isEditingSession($data)">
+                    <tr data-bind="visible: $parent.isEditingSession($data)" class="edit-panel">
                         <td colspan="6">
                             <div>
                                 <!--ko with: $data -->
@@ -71,7 +71,7 @@
                                         <select data-bind="options:$root.levels, value:level" class="col-lg-4 form-control" />
                                     </div>
                                     <div class="form-group">
-                                        <button class="btn btn-primary" type="submit" data-bind="click: $root.updateSession">Oppdater foredrag</button>
+                                        <button class="btn btn-primary" type="button" data-bind="click: $root.updateSession">Oppdater foredrag</button>
                                     </div>
                                 </form>
                                 <!-- /ko -->
