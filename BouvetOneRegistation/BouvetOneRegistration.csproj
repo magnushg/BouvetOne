@@ -181,6 +181,8 @@
     <Compile Include="Models\SessionConfiguration.cs" />
     <Compile Include="Models\Speaker.cs" />
     <Compile Include="Models\SpeakerConfiguration.cs" />
+    <Compile Include="Models\TimeRow.cs" />
+    <Compile Include="Models\TimeRowConfiguration.cs" />
     <Compile Include="Models\TimeSlot.cs" />
     <Compile Include="Models\TimeSlotConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -208,11 +210,15 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\font\fontawesome-webfont.svg" />
     <Content Include="Content\ie10mobile.css" />
+    <Content Include="Content\images\arrow.png" />
     <Content Include="Content\images\icon.png" />
     <Content Include="Content\images\ios-startup-image-landscape.png" />
     <Content Include="Content\images\ios-startup-image-portrait.png" />
+    <Content Include="Content\images\spinner.png" />
     <Content Include="Content\site.css" />
     <Content Include="Content\starterkit.css" />
+    <Content Include="Content\Stashy.css" />
+    <Content Include="Content\Stashy.min.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="Global.asax" />
@@ -239,6 +245,9 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Scripts\jquery.hammer.min.js" />
+    <Content Include="Scripts\Stashy.js" />
+    <Content Include="Scripts\Stashy.min.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
     <Content Include="Scripts\underscore.min.map" />

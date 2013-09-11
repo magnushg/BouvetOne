@@ -4,13 +4,31 @@
             <h1 data-bind="html: displayName"></h1>
         </div>
     </div>
-    <div class="container">
-        <div class ="table-responsive">
-            <table data-bind="foreach:sessions">
-                <tr>
-                    <td data-bind="text:id"></td>
-                </tr>
-            </table>
+    <div class="container" id="eventProgram">
+        <div class="st-slider">
+            <ul class="st-slider-panes slide-sky"> <!--todo: databind days for slide-effect -->
+                <li style="width: 100%">
+                    <!-- rooms -->
+                    <div class="row program-rooms" data-bind="foreach: rooms">
+                        <div class="col-lg-1" data-bind="html: name"></div>
+                    </div>
+                    <!-- timerows X sessions -->
+                    <div data-bind="foreach:timerows">
+                        <div class="row">
+                            <div class="col-lg-1" data-bind="html: startTime"></div>
+                            <div data-bind="foreach:slots" class="slot-space">
+                                <div class="col-lg-1" data-bind="html: session.title, css: gridOffset($index, slotIndex)"></div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 </section>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        Stashy.Slider("#eventProgram", { showControls: true, enableTouch: true }).on();
+    });
+</script>

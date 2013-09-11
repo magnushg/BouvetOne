@@ -14,6 +14,9 @@ namespace BouvetOneRegistation {
 			.Include("~/Scripts/knockout-{version}.js")
             .Include("~/Scripts/toastr.min.js")
             .Include("~/Scripts/underscore.min.js")
+            .Include("~/Scripts/jquery.hammer.min.js")
+            .Include("~/Scripts/Stashy.js")
+            .Include("~/Scripts/underscore.min.js")
 		);
 
       bundles.Add(
@@ -24,6 +27,7 @@ namespace BouvetOneRegistation {
 		  .Include("~/Content/durandal.css")
           .Include("~/Content/starterkit.css")
           .Include("~/Content/toastr.min.css")
+          .Include("~/Content/Stashy.css")
           .Include("~/Content/site.css")
         );
     }

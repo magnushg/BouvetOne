@@ -37,15 +37,14 @@ namespace BouvetOneRegistation.Controllers
         }
 
         [HttpGet("registration/program")]
-        public async Task<IEnumerable<TimeSlot>> Program()
+        public async Task<IEnumerable<TimeRow>> Program()
         {
             try
             {
                 return await _registrationContext
-                            .TimeSlots
-                            .Include(x => x.Session)
-                            .OrderByDescending(x => x.EventDay)
-                            .ToListAsync();
+                                 .TimeRows
+                                 .Include(x => x.Slots)
+                                 .ToListAsync();
             }
             catch (Exception e)
             {

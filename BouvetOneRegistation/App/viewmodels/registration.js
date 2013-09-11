@@ -22,19 +22,17 @@
     self.levels = ko.observableArray(['Lett - 100', self.defaultLevel, 'Ekspert - 300']);
     self.speakers = ko.observableArray([]);
     self.sessions = ko.computed(function() {
-        var a = _.flatten(_.map(self.speakers(), function (speaker) {
+        return _.flatten(_.map(self.speakers(), function (speaker) {
             return _.map(speaker.sessions(), function(session) {
-                var b = {
+                return {
                     speaker: speaker.name,
                     id: session.id,
                     title: session.title,
                     description: session.description,
                     level: session.level
                 };
-                return b;
             });
         }));
-        return a;
     });
 
     self.intializeSessionInput = function () {

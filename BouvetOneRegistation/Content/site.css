@@ -4,3 +4,18 @@
 .edit-panel td:hover {
     background-color: #ffffff;
 }
+.slide-sky {
+    background-color: #3bcbcb;
+    color: #ffffff;
+    padding: 20px;
+}
+
+.slot-space [class^="col-"] {
+    background-color: #ffffd7;
+    color: #000000;
+}
+
+/* bootstrap offset first room */
+.program-rooms:first-child {
+    margin-left: 8.333333333333332%;
+}

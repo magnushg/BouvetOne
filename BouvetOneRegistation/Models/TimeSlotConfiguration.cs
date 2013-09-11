@@ -7,7 +7,7 @@ namespace BouvetOneRegistation.Models
         public TimeSlotConfiguration()
         {
             HasKey(x => x.Id);
-            HasOptional(x => x.Session);
+            HasRequired(x => x.Session);
         }
     }
 }
