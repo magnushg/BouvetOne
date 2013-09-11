@@ -175,6 +175,10 @@
     <Compile Include="Migrations\201308201926341_relationships.Designer.cs">
       <DependentUpon>201308201926341_relationships.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201309060817184_session_time.cs" />
+    <Compile Include="Migrations\201309060817184_session_time.Designer.cs">
+      <DependentUpon>201309060817184_session_time.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\RegistrationDbContext.cs" />
     <Compile Include="Models\Session.cs" />
@@ -324,6 +328,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201308201926341_relationships.resx">
       <DependentUpon>201308201926341_relationships.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201309060817184_session_time.resx">
+      <DependentUpon>201309060817184_session_time.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
