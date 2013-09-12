@@ -12,10 +12,16 @@
 
 .slot-space [class^="col-"] {
     background-color: #ffffd7;
+    min-height: 40px;
     color: #000000;
+    border: 1px #3bcbcb solid;
 }
 
 /* bootstrap offset first room */
 .program-rooms:first-child {
     margin-left: 8.333333333333332%;
+}
+
+#eventProgram h1 {
+    
 }

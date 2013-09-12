@@ -4,7 +4,11 @@
     self.test = ko.observable('test');
     self.timerows = ko.observableArray([]);
     self.rooms = ko.observableArray([]);
-
+    self.columnClass = ko.computed(function() {
+        return "col-md-2";
+    });
+    self.prev_grid_position = 0;
+    
     self.activate = function() {
         //todo: theres no support for multiple event-days
 
@@ -28,11 +32,20 @@
             self.rooms(rooms);
         });
     };
-    
+
     //helper function to figure out grid-offset
-    self.gridOffset = function (index, slotIndex) {
-        var css = "col-lg-offset-" + (ko.utils.unwrapObservable(slotIndex) - ko.utils.unwrapObservable(index));
-        return css;
+    self.gridOffset = function (slots, index) {
+        if (index() == 0) {
+            self.prev_grid_position = slots[index()].slotIndex;
+            return "col-md-offset-" + self.prev_grid_position * 2;
+        }
+        else {
+            var slotIndex = slots[index()].slotIndex;
+            var css = "col-md-offset-" + (slotIndex - (self.prev_grid_position + 1)) * 2;
+            self.prev_grid_position = slotIndex;
+
+            return css;
+        }
     };
 
     var _formatTime = function(date) {
