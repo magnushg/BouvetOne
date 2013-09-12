@@ -26,6 +26,7 @@
             return _.map(speaker.sessions(), function(session) {
                 return {
                     speaker: speaker.name,
+                    speakerId: speaker.id,
                     id: session.id,
                     title: session.title,
                     description: session.description,
@@ -90,7 +91,8 @@
     };
     
     self.updateSession = function (session) {
-        registrationService.updateSession(session);
+        registrationService.updateSession(session).then(function (response) {
+        });
         console.log(self.registrationUpdateSession);
     };
 

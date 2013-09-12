@@ -20,9 +20,9 @@
         });
     };
     self.updateSession = function(session) {
-        var data = { sessionId: session.Id, speaker: speakerId, title: sessionDetails.title(), description: sessionDetails.description(), level: sessionDetails.level() };
-        return http.post('registration/session/update', session).then(function (response) {
-            toastr.success('Foredraget "' + session.title() + '" ble oppdatert');
+        var data = { sessionId: session.id, speaker: speakerId, title: session.title, description: session.description, level: session.level };
+        return http.post('registration/session/update', data).then(function (response) {
+            toastr.success('Foredraget "' + session.title + '" ble oppdatert');
             return response;
         }).fail(function (error, message) {
             console.log(error);
