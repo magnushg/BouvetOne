@@ -89,9 +89,9 @@
         });
     };
     
-    self.updateSession = function () {
+    self.updateSession = function (session) {
+        registrationService.updateSession(session);
         console.log(self.registrationUpdateSession);
-//        registrationService.updateSession()
     };
 
     self.removeSession = function(session) {

@@ -19,10 +19,10 @@
             toastr.error('Det skjedde en feil ved registrering ' + message);
         });
     };
-    self.updateSession = function(sessionId, sessionDetails) {
-        var data = { sessionId: sessionId, speakerId: speakerId, title: sessionDetails.title(), description: sessionDetails.description(), level: sessionDetails.level() };
-        return http.post('registration/session/update', data).then(function (response) {
-            toastr.success('Foredraget "' + sessionDetails.title() + '" ble oppdatert');
+    self.updateSession = function(session) {
+        var data = { sessionId: session.Id, speaker: speakerId, title: sessionDetails.title(), description: sessionDetails.description(), level: sessionDetails.level() };
+        return http.post('registration/session/update', session).then(function (response) {
+            toastr.success('Foredraget "' + session.title() + '" ble oppdatert');
             return response;
         }).fail(function (error, message) {
             console.log(error);
