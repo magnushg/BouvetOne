@@ -51,7 +51,7 @@ namespace BouvetOneRegistation.Controllers
                 Trace.Write(e.Message);
                 throw;
             }
-        } 
+        }
         
         public async Task<HttpStatusCode> Delete(int sessionId)
         {

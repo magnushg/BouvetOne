@@ -12,8 +12,8 @@
                 <span>Bouvet SmallOne</span>
             </a>
         </div>
-        <div class="navbar-collapse collapse">
-             <ul class="nav navbar-nav" data-bind="foreach: router.navigationModel">
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav" data-bind="foreach: router.navigationModel">
                 <li data-bind="css: { active: isActive }">
                     <a data-bind="attr: { href: hash }, html: title"></a>
                 </li>
@@ -24,5 +24,5 @@
         </div><!--/.navbar-collapse -->
       </div>
     </div>
-    <div class="page-host" data-bind="router: { transition:'entrance', cacheViews:true }"></div>
+    <div class="page-host" data-bind="router: { transition:'entrance'}"></div>
 </div>

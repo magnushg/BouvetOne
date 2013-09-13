@@ -50,6 +50,7 @@
                         <td data-bind="text:description"></td>
                         <td data-bind="text:level"></td>
                         <td data-bind="visible:$root.allowRemove($data)"><span data-bind="click:$root.removeSession" class="glyphicon glyphicon-remove"></span></td>
+                        <!--todo: fix ugly onclick-toggle -->
                         <td data-bind="visible:$root.allowEdit($data)"><span data-bind="click:$root.editSession" class="glyphicon glyphicon-edit" onclick="javascript:$(this).parents('tr').next().toggle();"></span></td>
                     </tr>
                     <!-- /ko -->
@@ -58,21 +59,10 @@
                             <div>
                                 <!--ko with: $data -->
                                 <form role="form" class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="sr-only">Tile</label>
                                         <input type="Text" placeholder="Tittel" data-bind="value: title" class="form-control" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="sr-only">Description</label>
                                         <textarea class="form-control" placeholder="Beskrivelse" data-bind="value: description" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="sr-only">Level</label>
                                         <select data-bind="options:$root.levels, value:level" class="col-lg-4 form-control" />
-                                    </div>
-                                    <div class="form-group">
                                         <button class="btn btn-primary" type="button" data-bind="click: $root.updateSession">Oppdater foredrag</button>
-                                    </div>
                                 </form>
                                 <!-- /ko -->
                             </div>

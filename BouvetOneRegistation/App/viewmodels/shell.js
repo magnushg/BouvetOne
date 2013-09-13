@@ -7,12 +7,12 @@
             app.showMessage('Search not yet implemented...');
         },
         activate: function () {
-            router.map([
-                { route: '', title: 'Registrering', moduleId: 'viewmodels/registration', nav: true },
-                { route: '', title: 'Program', moduleId: 'viewmodels/program', nav: true }
-            ]).buildNavigationModel();
-            
-            return router.activate();
+            return router.map([
+                { route: '',                title: 'Registrering',  moduleId: 'viewmodels/registration',    nav: true},
+                { route: 'program',         title: 'Program',       moduleId: 'viewmodels/program',         nav: true}
+            ]).buildNavigationModel()
+                .mapUnknownRoutes('viewmodels/404', '404')
+                .activate();
         }
     };
 });
