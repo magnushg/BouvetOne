@@ -4,14 +4,20 @@
         'durandal': '../Scripts/durandal',
         'plugins': '../Scripts/durandal/plugins',
         'transitions': '../Scripts/durandal/transitions',
-        'knockout': '../Scripts/knockout-2.3.0'
+        'knockout': '../Scripts/knockout-2.3.0',
     }
 });
 
 define('jquery', function() { return jQuery; });
 define('knockout', ko);
 
-define(['durandal/system', 'durandal/app', 'durandal/viewLocator'],  function (system, app, viewLocator) {
+define('MobileServiceClient',[], function() {
+    return new WindowsAzure.MobileServiceClient(
+        "https://bouvetone.azure-mobile.net/",
+        "EtYYTUWSOGGzPeWqVVVWTEKlqopMKK63");
+});
+
+define(['durandal/system', 'durandal/app', 'durandal/viewLocator'], function (system, app, viewLocator) {
     //>>excludeStart("build", true);
     system.debug(true);
     //>>excludeEnd("build");
