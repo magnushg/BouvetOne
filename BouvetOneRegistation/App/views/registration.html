@@ -1,6 +1,6 @@
 ﻿<section>
     <!-- Main jumbotron for a primary marketing message or call to action -->
-    
+    <!-- ko if: isAuthenticated() -->
     <div class="jumbotron">
         <div class="container">
             <h1>SmallOne registrering</h1>
@@ -35,7 +35,7 @@
                     <select data-bind="options:$parent.levels, value:level" class="col-lg-4 form-control" />
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-primary" type="submit" data-bind="click: $parent.registerSession">Legg til foredrag</button>
+                    <button class="btn btn-primary" type="submit" data-bind="click: $parent.registerSession($parent.data)">Legg til foredrag</button>
                 </div>
             </form>
             <!--/ko-->
@@ -50,7 +50,6 @@
                         </tr>
                     </thead>
                     <tbody data-bind="foreach:sessions">
-                        <!-- ko if: $root.filterOwnSession($data) -->
                         <tr>
                             <td data-bind="text:speaker"></td>
                             <td data-bind="text:title"></td>
@@ -60,7 +59,6 @@
                             <!--todo: fix ugly onclick-toggle -->
                             <td data-bind="visible:$root.allowEdit($data)"><span data-bind="click:$root.editSession" class="glyphicon glyphicon-edit" onclick="javascript:$(this).parents('tr').next().toggle();"></span></td>
                         </tr>
-                        <!-- /ko -->
                         <tr data-bind="visible: $parent.isEditingSession($data)" class="edit-panel">
                             <td colspan="6">
                                 <div>
@@ -80,4 +78,12 @@
             </div>
         </div>
     </div>
+    <!-- /ko -->
+
+    <div class="jumbotron" data-bind="visible: !isAuthenticated()">
+        <div class="container">        
+            <h1>Vennligst logg inn</h1>
+        </div>
+    </div>
+    <!-- /ko -->
 </section>

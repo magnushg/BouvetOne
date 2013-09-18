@@ -28,11 +28,11 @@
         },
         logout: function () {
             client.logout();
-            localStorage.currentUser = null;
+            delete localStorage.currentUser;
         },
         authenticated: ko.computed(function () {
             //todo: ugly. had to put there since authenticate is called before activate
-            if (localStorage.currentUser != null) {
+            if (localStorage.currentUser !== null && localStorage.currentUser !== undefined) {
                 client.currentUser = JSON.parse(localStorage.currentUser);
             }
             

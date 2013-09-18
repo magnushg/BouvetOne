@@ -21,10 +21,11 @@
         });
     };
 
-    self.registerSession = function(sessionDetails) {
+    self.registerSessionAsync = function(sessionDetails) {
         var data = { speakerId: speakerId, title: sessionDetails.title(), description: sessionDetails.description(), level: sessionDetails.level() };
-        client.getTable('Session').insert(data).then(function(response) {
+        return client.getTable('Session').insert(data).then(function(response) {
             toastr.success('Foredraget "' + sessionDetails.title() + '" ble lagt til');
+            return response;
         }, function(error) {
             toastr.error(error);
         });

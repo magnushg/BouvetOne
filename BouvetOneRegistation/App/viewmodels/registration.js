@@ -6,25 +6,28 @@
     var self = this;
     self.displayName = 'Registrering';
 
+    //-- observables and variables
     self.speaker = ko.observable('');
-    self.speakerNameInput = ko.observable('');
     self.speakerId = ko.observable(webservice.currentUser ? webservice.currentUser.userId : '');
-    
+    self.speakerNameInput = ko.observable('');
+    self.sessions = ko.observableArray([]);
+    self.defaultLevel = 'Middels - 200';
+    self.levels = ko.observableArray(['Lett - 100', self.defaultLevel, 'Ekspert - 300']);
+    self.editSessionId = ko.observable('');
+    self.editSessionId = null;
+
+    //-- computed variables
+    self.isAuthenticated = ko.computed(function () {
+        return webservice.currentUser !== null && webservice.currentUser !== undefined;
+    });
     self.speakerRegistered = ko.computed(function () {
         return self.speaker() != '';
     });
-    
-    self.editSessionId = ko.observable('');
     self.isEditingSession = function (session) {
-        console.log(editSessionId === session.id);
         return editSessionId === session.id;
     };
     
-    self.defaultLevel = 'Middels - 200';
-    self.levels = ko.observableArray(['Lett - 100', self.defaultLevel, 'Ekspert - 300']);
-    
-    self.sessions = ko.observableArray([]);
-
+    //-- forms/templates
     self.intializeSessionInput = function () {
         return {
             title: ko.observable(''),
@@ -34,16 +37,7 @@
     };
     self.registrationInput = ko.observable(self.intializeSessionInput());
 
-    self.initializeSessionUpdate = function() {
-        return {
-            title: ko.observable(''),
-            description: ko.observable(''),
-            level: ko.observable(self.defaultLevel),
-        };
-    };
-
-    self.registrationUpdateSession = ko.observable(self.initializeSessionUpdate());
-
+    //-- form actions
     self.registerSpeaker = function() {
         if (self.speakerNameInput() === undefined || self.speakerNameInput() === '') {
             toastr.warning('Skriv inn et brukernavn');
@@ -57,18 +51,16 @@
     };
 
     self.registerSession = function () {
-        if (!self.speakerId()) {
-            toastr.error('Du må legge til en foredragsholder');
-            return;
-        }
-        registrationService.registerSession(self.speakerId(), self.registrationInput()).then(function(newId) {
+        registrationService.registerSessionAsync().then(function(newSession) {
+            self.sessions.push(newSession);
+            /*
             var speaker = _.find(self.speakers(), function(s) {
                 return s.id === self.speakerId();
             });
             if (speaker !== undefined) {
                 speaker.sessions.push({ id: newId, speaker: speaker.name, title: registrationInput().title(), description: self.registrationInput().description(), level: self.registrationInput().level() });
                 self.clearInput();
-            }
+            }    */
         });
     };
     
@@ -94,6 +86,7 @@
         });
     };
 
+    //-- helpers, todo: remove unused
     self.editSession = function (session) {
         self.editSessionId = session.id;
         return;
@@ -122,12 +115,26 @@
         self.registrationInput().level(self.defaultLevel);
     };
 
+    //-- activate
     self.activate = function () {
-        registrationService.getCurrentSpeakerNameAsync().then(function (name) {
-            self.speaker(name || '');
-        });
-        console.log(self.speaker());
+        if (webservice.currentUser) {
+            registrationService.getCurrentSpeakerNameAsync().then(function (name) {
+                self.speaker(name || '');
+            });
+        }
     };
 
     return self;
+
+
+    /* not in use
+     self.initializeSessionUpdate = function() {
+     return {
+     title: ko.observable(''),
+     description: ko.observable(''),
+     level: ko.observable(self.defaultLevel),
+     };
+     };
+     self.registrationUpdateSession = ko.observable(self.initializeSessionUpdate());
+     */
 });
