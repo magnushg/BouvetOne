@@ -1,4 +1,4 @@
-﻿define(['durandal/app', 'services/registrationService', 'knockout'], function (app, registrationService, ko) {
+﻿define(['durandal/app', 'services/registrationService', 'knockout', 'MobileServiceClient'], function (app, registrationService, ko, webservice) {
     //Note: This module exports an object.
     //That means that every module that "requires" it will get the same object instance.
     //If you wish to be able to create multiple instances, instead export a function.
@@ -6,10 +6,12 @@
     var self = this;
     self.displayName = 'Registrering';
 
-    self.speaker = ko.observable();
-    self.speakerId = ko.observable('');
-    self.speakerRegistered = ko.computed(function() {
-        return self.speakerId() != '';
+    self.speaker = ko.observable('');
+    self.speakerNameInput = ko.observable('');
+    self.speakerId = ko.observable(webservice.currentUser ? webservice.currentUser.userId : '');
+    
+    self.speakerRegistered = ko.computed(function () {
+        return self.speaker() != '';
     });
     
     self.editSessionId = ko.observable('');
@@ -17,24 +19,11 @@
         console.log(editSessionId === session.id);
         return editSessionId === session.id;
     };
-
+    
     self.defaultLevel = 'Middels - 200';
     self.levels = ko.observableArray(['Lett - 100', self.defaultLevel, 'Ekspert - 300']);
-    self.speakers = ko.observableArray([]);
-    self.sessions = ko.computed(function() {
-        return _.flatten(_.map(self.speakers(), function (speaker) {
-            return _.map(speaker.sessions(), function(session) {
-                return {
-                    speaker: speaker.name,
-                    speakerId: speaker.id,
-                    id: session.id,
-                    title: session.title,
-                    description: session.description,
-                    level: session.level
-                };
-            });
-        }));
-    });
+    
+    self.sessions = ko.observableArray([]);
 
     self.intializeSessionInput = function () {
         return {
@@ -56,21 +45,14 @@
     self.registrationUpdateSession = ko.observable(self.initializeSessionUpdate());
 
     self.registerSpeaker = function() {
-        if (self.speaker() === undefined || self.speaker() === '') {
+        if (self.speakerNameInput() === undefined || self.speakerNameInput() === '') {
             toastr.warning('Skriv inn et brukernavn');
             return;
         }
-        var existing = _.find(self.speakers(), function (speaker) {
-            return self.speakersAreEqual(speaker.name, self.speaker());
-        });
-        if (existing !== undefined) {
-            toastr.success('Du kan legge til flere foredrag', 'Du er allerede registrert');
-            self.speakerId(existing.id);
-            return;
-        }
-        registrationService.registerSpeaker(self.speaker()).then(function (newId) {
-            self.speakerId(newId);
-            self.speakers.push({ id: newId, name: speaker(), sessions: ko.observableArray([]) });
+        
+        registrationService.registerSpeakerNameAsync(self.speakerNameInput()).then(function (speaker) {
+            self.speakerId(speaker.userId);
+            self.speaker(speaker.name);
         });
     };
 
@@ -140,16 +122,11 @@
         self.registrationInput().level(self.defaultLevel);
     };
 
-    self.activate = function() {
-        return registrationService.getAllSpeakers().then(function(speakers) {
-            self.speakers(_.map(speakers, function(speaker) {
-                return {
-                    id: speaker.id,
-                    name: speaker.name,
-                    sessions: ko.observableArray(speaker.sessions)
-                };
-            }));
+    self.activate = function () {
+        registrationService.getCurrentSpeakerNameAsync().then(function (name) {
+            self.speaker(name || '');
         });
+        console.log(self.speaker());
     };
 
     return self;

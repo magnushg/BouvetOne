@@ -7,6 +7,9 @@
             app.showMessage('Search not yet implemented...');
         },
         activate: function () {
+            if (localStorage.currentUser != null) {
+                client.currentUser = JSON.parse(localStorage.currentUser);
+            }
             return router.map([
                 { route: '',                title: 'Registrering',  moduleId: 'viewmodels/registration',    nav: true},
                 { route: 'program',         title: 'Program',       moduleId: 'viewmodels/program',         nav: true}
@@ -16,8 +19,8 @@
         },
         login: function () {
             client.login('google').then(function (e) {
+                localStorage.currentUser = JSON.stringify(client.currentUser);
                 toastr.success('Du er logget inn');
-                authenticated(true);
             }, function (error) {
                 toastr.error('En feil oppstod');
                 console.log(error);
@@ -25,8 +28,15 @@
         },
         logout: function () {
             client.logout();
-            authenticated(false);
+            localStorage.currentUser = null;
         },
-        authenticated: ko.observable(false)
+        authenticated: ko.computed(function () {
+            //todo: ugly. had to put there since authenticate is called before activate
+            if (localStorage.currentUser != null) {
+                client.currentUser = JSON.parse(localStorage.currentUser);
+            }
+            
+            return client.currentUser != null;
+        })
     };
 });

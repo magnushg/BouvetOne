@@ -1,69 +1,65 @@
-﻿define(['plugins/http'], function(http) {
+﻿define(['plugins/http', 'MobileServiceClient'], function(http, client) {
     var self = {};
+
+    self.getCurrentSpeakerNameAsync = function () {
+        return client.getTable('Speaker')
+            .where({ userId: client.currentUser.userId })
+            .read().then(function (response) {
+                if (response.length > 0) return _.first(response).name;
+                else return null;
+            }, function(error) {
+                console.log(error);
+            });
+    };
     
-    self.registerSpeaker = function(speakerName) {
-        return http.post('registration/speaker', speakerName).then(function(data) {
-            toastr.success('Bruker ' + speakerName + ' ble lagt til');
-            return data;
-        }).fail(function(error) {
-            toastr.error('Det skjedde en feil ved registrering ' + error.message);
+    self.registerSpeakerNameAsync = function (speakerName) {
+        return client.getTable('Speaker').insert({ name: speakerName }).then(function(response) {
+            return response;
+        }, function(error) {
+            toastr.error('En feil oppstod');
+            console.log(error);
         });
     };
-    self.registerSession = function(speakerId, sessionDetails) {
+
+    self.registerSession = function(sessionDetails) {
         var data = { speakerId: speakerId, title: sessionDetails.title(), description: sessionDetails.description(), level: sessionDetails.level() };
-        return http.post('registration/session', data).then(function(response) {
+        client.getTable('Session').insert(data).then(function(response) {
             toastr.success('Foredraget "' + sessionDetails.title() + '" ble lagt til');
-            return response;
-        }).fail(function(error, message) {
-            console.log(error);
-            toastr.error('Det skjedde en feil ved registrering ' + message);
+        }, function(error) {
+            toastr.error(error);
         });
     };
-    self.updateSession = function(session) {
-        var data = { sessionId: session.id, speaker: speakerId, title: session.title, description: session.description, level: session.level };
-        return http.post('registration/session/update', data).then(function (response) {
-            toastr.success('Foredraget "' + session.title + '" ble oppdatert');
-            return response;
-        }).fail(function (error, message) {
-            console.log(error);
-            toastr.error('Det skjedde en feil ved oppdatering ' + message);
+
+    self.updateSession = function(sessionDetails) {
+        var data = { speakerId: speakerId, title: sessionDetails.title(), description: sessionDetails.description(), level: sessionDetails.level() };
+        client.getTable('Session').update(data).then(function(response) {
+            toastr.success('Foredraget ble oppdatert');
+        }, function(error) {
+            if (error.message == 'Forbidden') {
+                toastr.error('Foredraget tilhører ikke deg');
+            } else {
+                toastr.error('En ukjent feil oppstod');
+                console.log(error);
+            }
         });
     };
+    
+
     self.getAllSpeakers = function() {
-        return http.get('api/registration').then(function(response) {
-            return response;
-        }).fail(function(error, message) {
-            console.log(error);
-            toastr.error('Det skjedde en feil ved henting av foredragsholdere ' + message);
-        });
+        toastr.error('not yet ported to web services');
     };
+
+
     self.getProgram = function(dayId) {
-        return http.get('registration/program').then(function(response) {
-            return response;
-        }).fail(function(error, message) {
-            console.log(error);
-            toastr.error('Det skjedde en feil ved henting av foredragsholdere ' + message);
-        });
+        toastr.error('not yet ported to web services');
     };
+
     self.getRooms = function(dayId) {
-        return http.get('registration/rooms').then(function(response) {
-            return response;
-        }).fail(function(error, message) {
-            console.log(error);
-            toastr.error('Det skjedde en feil ved henting av foredragsholdere ' + message);
-        });
+        toastr.error('not yet ported to web services');
     };
     self.deleteSession = function(session) {
-        return $.ajax({
-            url: 'api/registration?sessionId=' + session.id,
-            type: 'DELETE'
-        }).then(function() {
-            toastr.success('Foredraget "' + session.title + '" ble slettet');
-        }).fail(function(error, message) {
-            console.log(error);
-            toastr.error('Det skjedde en feil ved sletting av foredrag ' + message);
-        });
+        toastr.error('not yet ported to web services');
     };
+
     return self;
-    
-})
+});
