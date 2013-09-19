@@ -50,8 +50,8 @@
         });
     };
 
-    self.registerSession = function () {
-        registrationService.registerSessionAsync().then(function(newSession) {
+    self.registerSession = function (session) {
+        registrationService.registerSessionAsync(session).then(function(newSession) {
             self.sessions.push(newSession);
             /*
             var speaker = _.find(self.speakers(), function(s) {
@@ -120,6 +120,9 @@
         if (webservice.currentUser) {
             registrationService.getCurrentSpeakerNameAsync().then(function (name) {
                 self.speaker(name || '');
+            });
+            registrationService.getSessionsAsync().then(function (sessions) {
+                self.sessions(sessions);
             });
         }
     };

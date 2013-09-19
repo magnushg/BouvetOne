@@ -22,7 +22,7 @@
     };
 
     self.registerSessionAsync = function(sessionDetails) {
-        var data = { speakerId: speakerId, title: sessionDetails.title(), description: sessionDetails.description(), level: sessionDetails.level() };
+        var data = { speakerId: client.currentUser.userId, title: sessionDetails.title(), description: sessionDetails.description(), level: sessionDetails.level() };
         return client.getTable('Session').insert(data).then(function(response) {
             toastr.success('Foredraget "' + sessionDetails.title() + '" ble lagt til');
             return response;
@@ -44,9 +44,14 @@
             }
         });
     };
+
+    self.deleteSession = function(session) {
+        client.getTable('Session').del
+        toastr.error('not yet ported to web services');
+    };
     
 
-    self.getAllSpeakers = function() {
+    self.getAllSpeakersA = function() {
         toastr.error('not yet ported to web services');
     };
 
@@ -58,9 +63,13 @@
     self.getRooms = function(dayId) {
         toastr.error('not yet ported to web services');
     };
-    self.deleteSession = function(session) {
-        toastr.error('not yet ported to web services');
+
+    self.getSessionsAsync = function () {
+        return client.getTable('Session').read(function (sessions) {
+            return sessions;
+        });
     };
+
 
     return self;
 });
