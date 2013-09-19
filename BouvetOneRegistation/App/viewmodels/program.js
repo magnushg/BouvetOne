@@ -1,4 +1,4 @@
-﻿define(['durandal/app', 'services/registrationService', 'knockout'], function(app, registrationService, ko) {
+﻿define(['durandal/app', 'services/programService', 'knockout'], function(app, programService, ko) {
     var self = this;
     self.displayName = 'Program';
     self.test = ko.observable('test');
@@ -11,7 +11,7 @@
     
     self.activate = function() {
         //todo: theres no support for multiple event-days
-
+                  /*
         //get program
         registrationService.getProgram().then(function (timerows) {
             self.timerows(_.map(timerows, function (timerow) {
@@ -26,10 +26,10 @@
                 };
             }));
         });
-        
+                               */
         //get rooms for given day
-        registrationService.getRooms().then(function(rooms) {
-            self.rooms(rooms);
+        programService.getRoomsAsync(1).then(function(rooms) {
+            self.rooms(_.sortBy(rooms, function (room) { return room.slotIndex}));
         });
     };
 

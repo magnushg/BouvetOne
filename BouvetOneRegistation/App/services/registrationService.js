@@ -65,8 +65,11 @@
     };
 
     self.getSessionsAsync = function () {
-        return client.getTable('Session').read(function (sessions) {
+        return client.getTable('Session').read().then(function (sessions) {
             return sessions;
+        }, function (error) {
+            toastr.error('En feil oppstod under lagringen.');
+            console.log(error);
         });
     };
 

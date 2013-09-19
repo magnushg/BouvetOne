@@ -1,6 +1,6 @@
 ﻿<section>
     <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div data-bind="visible: isAuthenticated">
+    <div data-bind="visible: isAuthenticated()">
         <div class="jumbotron">
             <div class="container">
                 <h1>SmallOne registrering</h1>
@@ -55,9 +55,28 @@
                                 <td data-bind="text:title"></td>
                                 <td data-bind="text:description"></td>
                                 <td data-bind="text:level"></td>
-                                <td data-bind="visible:$root.allowRemove($data)"><span data-bind="click:$root.removeSession" class="glyphicon glyphicon-remove"></span></td>
+                                <td><span data-bind="click:$root.removeSession" class="glyphicon glyphicon-remove"></span></td>
                                 <!--todo: fix ugly onclick-toggle -->
-                                <td data-bind="visible:$root.allowEdit($data)"><span data-bind="click:$root.editSession" class="glyphicon glyphicon-edit" onclick="javascript:$(this).parents('tr').next().toggle();"></span></td>
+                                <td>
+                                    <span data-bind="click:$root.editSession" class="glyphicon glyphicon-edit"></span>
+                                </td>
+                            </tr>
+                            <!-- editing panel
+                                todo: use durandal modal
+                            -->
+                            <tr data-bind="visible: isEditingSession()" class="edit-panel">
+                                <td colspan="6">
+                                    <div>
+                                        <!--ko with: $data -->
+                                        <form role="form" class="form-horizontal">
+                                            <input type="Text" placeholder="Tittel" data-bind="value: title" class="form-control" />
+                                            <textarea class="form-control" placeholder="Beskrivelse" data-bind="value: description" />
+                                            <select data-bind="options:$root.levels, value:level" class="col-lg-4 form-control" />
+                                            <button class="btn btn-primary" type="button" data-bind="click: $root.updateSession">Oppdater foredrag</button>
+                                        </form>
+                                        <!-- /ko -->
+                                    </div>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -66,7 +85,7 @@
         </div>
     </div>
 
-    <div class="jumbotron" data-bind="visible: false">
+    <div class="jumbotron" data-bind="visible: !isAuthenticated()">
         <div class="container">
             <h1>Vennligst logg inn</h1>
         </div>
