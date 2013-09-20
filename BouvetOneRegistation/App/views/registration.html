@@ -1,89 +1,93 @@
 ﻿<section>
     <!-- Main jumbotron for a primary marketing message or call to action -->
-    <!-- ko if: isAuthenticated() -->
-    <div class="jumbotron">
-        <div class="container">
-            <h1>SmallOne registrering</h1>
+    <div data-bind="visible: isAuthenticated()">
+        <div class="jumbotron">
+            <div class="container">
+                <h1>SmallOne registrering</h1>
 
-            <!-- ko ifnot: speakerRegistered() -->
-            <form role="form" class="form-inline">
-                <div class="form-group">
-                    <label for="speakerInput" class="sr-only">Speaker Name</label>
-                    <input type="text" placeholder="Skriv navnet ditt her" id="speakerInput" class="input-lg form-control" data-bind="value: speakerNameInput" />
-                    <button class="btn btn-primary speakerButton" type="submit" data-bind="click: registerSpeaker">Skriv navnet ditt her</button>
-                </div>
-            </form>
-            <!-- /ko -->
+                <!-- ko ifnot: speakerRegistered() -->
+                <form role="form" class="form-inline">
+                    <div class="form-group">
+                        <label for="speakerInput" class="sr-only">Speaker Name</label>
+                        <input type="text" placeholder="Skriv navnet ditt her" id="speakerInput" class="input-lg form-control" data-bind="value: speakerNameInput" />
+                        <button class="btn btn-primary speakerButton" type="submit" data-bind="click: registerSpeaker">Skriv navnet ditt her</button>
+                    </div>
+                </form>
+                <!-- /ko -->
+            </div>
         </div>
-    </div>
-    
-    <div data-bind="visible: speakerRegistered()">
-        <div class="container registrationWell well">
-            <!--ko with: registrationInput-->
-            <form role="form" class="form-horizontal">
-                <div class="form-group"><strong data-bind="text: 'Registrer foredrag for ' + speaker()"></strong></div>
-                <div class="form-group">
-                    <label class="sr-only">Tile</label>
-                    <input type="Text" placeholder="Tittel" data-bind="value: title" class="form-control" />
-                </div>
-                <div class="form-group">
-                    <label class="sr-only">Description</label>
-                    <textarea class="form-control" placeholder="Beskrivelse" data-bind="value: description" />
-                </div>
-                <div class="form-group">
-                    <label class="sr-only">Level</label>
-                    <select data-bind="options:$parent.levels, value:level" class="col-lg-4 form-control" />
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-primary" type="submit" data-bind="click: $parent.registerSession($parent.data)">Legg til foredrag</button>
-                </div>
-            </form>
-            <!--/ko-->
-        </div>
-        <div class="container">
-            <h3>Dine foredrag</h3>
-            <div class ="table-responsive">
-                <table class="table table-striped table-hover">
-                    <thead>
+
+        <div data-bind="visible: speakerRegistered()">
+            <div class="container registrationWell well" data-bind="with: registrationInput">
+
+                <form role="form" class="form-horizontal">
+                    <div class="form-group"><strong data-bind="text: 'Registrer foredrag for ' + speaker()"></strong></div>
+                    <div class="form-group">
+                        <label class="sr-only">Tile</label>
+                        <input type="Text" placeholder="Tittel" data-bind="value: title" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only">Description</label>
+                        <textarea class="form-control" placeholder="Beskrivelse" data-bind="value: description" />
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only">Level</label>
+                        <select data-bind="options:$parent.levels, value:level" class="col-lg-4 form-control" />
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary" data-bind="click: registerSession">Legg til foredrag</button>
+                    </div>
+                </form>
+
+            </div>
+            <div class="container">
+                <h3>Dine foredrag</h3>
+                <div class ="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
                         <tr>
                             <th>Foredragsholder</th><th>Tittel</th><th>Beskrivelse</th><th>Nivå</th>
                         </tr>
-                    </thead>
-                    <tbody data-bind="foreach:sessions">
-                        <tr>
-                            <td data-bind="text:speaker"></td>
-                            <td data-bind="text:title"></td>
-                            <td data-bind="text:description"></td>
-                            <td data-bind="text:level"></td>
-                            <td data-bind="visible:$root.allowRemove($data)"><span data-bind="click:$root.removeSession" class="glyphicon glyphicon-remove"></span></td>
-                            <!--todo: fix ugly onclick-toggle -->
-                            <td data-bind="visible:$root.allowEdit($data)"><span data-bind="click:$root.editSession" class="glyphicon glyphicon-edit" onclick="javascript:$(this).parents('tr').next().toggle();"></span></td>
-                        </tr>
-                        <tr data-bind="visible: $parent.isEditingSession($data)" class="edit-panel">
-                            <td colspan="6">
-                                <div>
-                                    <!--ko with: $data -->
-                                    <form role="form" class="form-horizontal">
-                                        <input type="Text" placeholder="Tittel" data-bind="value: title" class="form-control" />
-                                        <textarea class="form-control" placeholder="Beskrivelse" data-bind="value: description" />
-                                        <select data-bind="options:$root.levels, value:level" class="col-lg-4 form-control" />
-                                        <button class="btn btn-primary" type="button" data-bind="click: $root.updateSession">Oppdater foredrag</button>
-                                    </form>
-                                    <!-- /ko -->
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody data-bind="foreach:sessions">
+                            <tr>
+                                <td data-bind="text:speaker"></td>
+                                <td data-bind="text:title"></td>
+                                <td data-bind="text:description"></td>
+                                <td data-bind="text:level"></td>
+                                <td><span data-bind="click:$root.removeSession" class="glyphicon glyphicon-remove"></span></td>
+                                <!--todo: fix ugly onclick-toggle -->
+                                <td>
+                                    <span data-bind="click:$root.editSession" class="glyphicon glyphicon-edit"></span>
+                                </td>
+                            </tr>
+                            <!-- editing panel
+                                todo: use durandal modal
+                            -->
+                            <tr data-bind="visible: isEditingSession()" class="edit-panel">
+                                <td colspan="6">
+                                    <div>
+                                        <!--ko with: $data -->
+                                        <form role="form" class="form-horizontal">
+                                            <input type="Text" placeholder="Tittel" data-bind="value: title" class="form-control" />
+                                            <textarea class="form-control" placeholder="Beskrivelse" data-bind="value: description" />
+                                            <select data-bind="options:$root.levels, value:level" class="col-lg-4 form-control" />
+                                            <button class="btn btn-primary" type="button" data-bind="click: $root.updateSession">Oppdater foredrag</button>
+                                        </form>
+                                        <!-- /ko -->
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-    <!-- /ko -->
 
     <div class="jumbotron" data-bind="visible: !isAuthenticated()">
-        <div class="container">        
+        <div class="container">
             <h1>Vennligst logg inn</h1>
         </div>
     </div>
-    <!-- /ko -->
 </section>

@@ -14,7 +14,6 @@
     self.defaultLevel = 'Middels - 200';
     self.levels = ko.observableArray(['Lett - 100', self.defaultLevel, 'Ekspert - 300']);
     self.editSessionId = ko.observable('');
-    self.editSessionId = null;
 
     //-- computed variables
     self.isAuthenticated = ko.computed(function () {
@@ -23,9 +22,11 @@
     self.speakerRegistered = ko.computed(function () {
         return self.speaker() != '';
     });
-    self.isEditingSession = function (session) {
-        return editSessionId === session.id;
-    };
+    self.isEditingSession = ko.computed(function (session){
+        if (session)
+            return self.editSessionId() === session.id;
+        return false;
+    });
     
     //-- forms/templates
     self.intializeSessionInput = function () {
@@ -50,24 +51,19 @@
         });
     };
 
-    self.registerSession = function () {
-        registrationService.registerSessionAsync().then(function(newSession) {
+    self.registerSession = function (session) {
+        registrationService.registerSessionAsync(session).then(function(newSession) {
             self.sessions.push(newSession);
-            /*
-            var speaker = _.find(self.speakers(), function(s) {
-                return s.id === self.speakerId();
-            });
-            if (speaker !== undefined) {
-                speaker.sessions.push({ id: newId, speaker: speaker.name, title: registrationInput().title(), description: self.registrationInput().description(), level: self.registrationInput().level() });
-                self.clearInput();
-            }    */
+            self.clearInput();
         });
     };
     
     self.updateSession = function (session) {
+        toastr.error('not yet implemented');
+        /*
         registrationService.updateSession(session).then(function (response) {
         });
-        console.log(self.registrationUpdateSession);
+        console.log(self.registrationUpdateSession);        */
     };
 
     self.removeSession = function(session) {
@@ -88,8 +84,7 @@
 
     //-- helpers, todo: remove unused
     self.editSession = function (session) {
-        self.editSessionId = session.id;
-        return;
+        self.editSessionId(session.id);
     };
 
     self.speakersAreEqual = function (speaker1, speaker2) {
@@ -118,23 +113,15 @@
     //-- activate
     self.activate = function () {
         if (webservice.currentUser) {
+            //todo: save speaker name in localStorage and verify afterwards instead
             registrationService.getCurrentSpeakerNameAsync().then(function (name) {
                 self.speaker(name || '');
+            });
+            registrationService.getSessionsAsync().then(function (sessions) {
+                self.sessions(sessions);
             });
         }
     };
 
     return self;
-
-
-    /* not in use
-     self.initializeSessionUpdate = function() {
-     return {
-     title: ko.observable(''),
-     description: ko.observable(''),
-     level: ko.observable(self.defaultLevel),
-     };
-     };
-     self.registrationUpdateSession = ko.observable(self.initializeSessionUpdate());
-     */
 });
