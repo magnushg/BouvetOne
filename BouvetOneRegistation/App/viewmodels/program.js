@@ -27,6 +27,10 @@
             }));
         });
                                */
+        programService.getDayWithTimeSlots(0).then(function (day) {
+            programService.fillBookingsForDay(day);
+            self.timerows(day.timerows);
+        });
         //get rooms for given day
         programService.getRoomsAsync(1).then(function(rooms) {
             self.rooms(_.sortBy(rooms, function (room) { return room.slotIndex}));
