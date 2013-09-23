@@ -66,7 +66,9 @@ define(['plugins/http', 'MobileServiceClient'], function(http, client) {
                             }));
                 })
                 .then(function (e) {
-                    if (index === day.timeslots.length - 1) callback(day);
+                    if (index === day.timeslots.length - 1) {
+                        callback(day);
+                    }
                 });
         });
     }

@@ -2,7 +2,7 @@
     var self = this;
     self.displayName = 'Program';
     self.test = ko.observable('test');
-    self.timerows = ko.observableArray([]);
+    self.timeslots = ko.observableArray([]);
     self.rooms = ko.observableArray([]);
     self.columnClass = ko.computed(function() {
         return "col-md-2";
@@ -28,8 +28,16 @@
         });
                                */
         programService.getDayWithTimeSlots(0).then(function (day) {
-            programService.fillBookingsForDay(day);
-            self.timerows(day.timerows);
+            programService.fillBookingsForDay(day, function (day) {
+                self.timeslots(_.map(day.timeslots, function (timeslot) {
+                    return {
+                        id: timeslot.id,
+                        startTime: _formatTime(timeslot.startTime),
+                        endTime: _formatTime(timeslot.endTime),
+
+                    }
+                }));
+            });
         });
         //get rooms for given day
         programService.getRoomsAsync(1).then(function(rooms) {
