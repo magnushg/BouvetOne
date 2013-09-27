@@ -1,4 +1,4 @@
-define(['plugins/http', 'MobileServiceClient'], function(http, client) {
+define(['plugins/http', 'MobileServiceClient', 'jquery'], function(http, client, $) {
     var self = {};
 
     /*
@@ -46,31 +46,52 @@ define(['plugins/http', 'MobileServiceClient'], function(http, client) {
             });
     };
 
-    self.fillBookingsForDay = function (day, callback) {
-        _.each(day.timeslots, function (timeslot, index) {
-            client.getTable('Booking')
-                .where({timeslotId: timeslot.id})
-                .read().then(function (booking) {
-                    timeslot.booking = _.first(booking);
+    self.fillBookingsForDay = function (day) {
+        var requests = [],
+            deferred = $.Deferred();
 
-                    return client.getTable('Session')
-                        .where({id: timeslot.booking.sessionId})
-                        .read()
-                        .then(function (session) {
-                            timeslot.booking.session = _.first(session);
-                        })
-                        .then(client.getTable('Room')
-                            .where({id: timeslot.booking.roomId})
-                            .read().then(function (room) {
-                                timeslot.booking.room = _.first(room);
-                            }));
-                })
-                .then(function (e) {
-                    if (index === day.timeslots.length - 1) {
-                        callback(day);
-                    }
-                });
+        _.each(day.timeslots, function (timeslot, index) {
+
+            requests.push(client.getTable('Booking')
+                .where({timeslotId: timeslot.id})
+                .read()
+                .then(function (bookings) {
+                    console.log('got booking');
+                    timeslot.bookings = bookings;
+
+                    _.each(timeslot.bookings, function(booking) {
+                        self.getSession(booking.sessionId).then(function (session) {
+                            booking.session = session;
+                        });
+                        self.getRoom(booking.roomId).then(function (room) {
+                            booking.room = room;
+                        });
+                    });
+                }));
         });
+
+        $.when.apply( $, requests ).then(function() {
+            console.log('resolving');
+            deferred.resolve();
+        });
+
+        return deferred.promise();
+    }
+
+    self.getSession = function (id) {
+        return client.getTable('Session')
+            .where({id: id})
+            .read().then(function (session) {
+                return _.first(session);
+            });
+    };
+
+    self.getRoom = function (id) {
+        return client.getTable('Room')
+            .where({id: id})
+            .read().then(function (room) {
+                return _.first(room);
+            });
     }
 
     self.getRoomsAsync = function (dayId) {
