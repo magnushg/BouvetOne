@@ -1,4 +1,4 @@
-﻿define(['durandal/app', 'services/programService', 'knockout'], function(app, programService, ko) {
+﻿define(['durandal/app', 'services/programService', 'knockout','moment'], function(app, programService, ko, moment) {
     var self = this;
     self.displayName = 'Program';
     self.test = ko.observable('test');
@@ -12,20 +12,19 @@
     self.activate = function() {
         //todo: theres no support for multiple event-days
         programService.getDayWithTimeSlots(0).then(function (day) {
-            programService.fillBookingsForDay(day);
+            programService.fillBookingsForDay(day).done(function () {
+                programService.fillEmbeddedInfo(day).done(function () {
 
-            //DIRTY DIRTY DIRTY DIRTY DIRTY FIX PROMISES
-            setTimeout(function () {
-                self.timeslots(_.map(day.timeslots, function (timeslot) {
-                    return {
-                        id: timeslot.id,
-                        startTime: _formatTime(timeslot.startTime),
-                        endTime: _formatTime(timeslot.endTime),
-                        bookings: timeslot.bookings
-                    }
-                }));
-                console.log(self.timeslots());
-            }, 4000);
+                    self.timeslots(_.map(day.timeslots, function (timeslot) {
+                        return {
+                            id: timeslot.id,
+                            startTime: moment(timeslot.startTime).format('HH:mm'),
+                            endTime: moment(timeslot.endTime).format('HH:mm'),
+                            bookings: timeslot.bookings
+                        }
+                    }));
+                });
+            });
         });
 
         //get rooms for given day

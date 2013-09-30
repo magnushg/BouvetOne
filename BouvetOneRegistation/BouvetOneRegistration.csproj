@@ -252,6 +252,8 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\jquery.hammer.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\q.min.js" />
     <Content Include="Scripts\Stashy.js" />
     <Content Include="Scripts\Stashy.min.js" />
     <Content Include="Scripts\underscore.js" />

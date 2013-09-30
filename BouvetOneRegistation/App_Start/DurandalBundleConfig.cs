@@ -17,6 +17,8 @@ namespace BouvetOneRegistation {
             .Include("~/Scripts/jquery.hammer.min.js")
             .Include("~/Scripts/Stashy.js")
             .Include("~/Scripts/underscore.min.js")
+            .Include("~/Scripts/moment.js")
+            .Include("~/Scripts/q.min.js")
 		);
 
       bundles.Add(
