@@ -11,7 +11,7 @@
     
     self.activate = function() {
         //todo: theres no support for multiple event-days
-        programService.getDayWithTimeSlots(0).then(function (day) {
+        programService.getDayWithTimeSlots(1).then(function (day) {
             programService.fillBookingsForDay(day).done(function () {
                 programService.fillEmbeddedInfo(day).done(function () {
 
@@ -20,7 +20,7 @@
                             id: timeslot.id,
                             displayTime: moment(timeslot.startTime).format('HH:mm') + '-' + moment(timeslot.endTime).format('HH:mm'),
                             bookings: timeslot.bookings
-                        }
+                        };
                     }));
                 });
             });
@@ -28,7 +28,7 @@
 
         //get rooms for given day
         programService.getRoomsAsync(1).then(function(rooms) {
-            self.rooms(_.sortBy(rooms, function (room) { return room.slotIndex}));
+            self.rooms(_.sortBy(rooms, function (room) { return room.slotIndex; }));
         });
     };
 
@@ -47,13 +47,7 @@
         }
     };
 
-    var _formatTime = function(date) {
-        var hr = date.getHours(),
-            min = date.getMinutes();
-        hr = hr < 10 ? "0" + hr : hr;
-        min = min < 10 ? "0" + min : min;
-        return hr + ":" + min;
+    return {
+        activate: self.activate
     };
-
-    return self;
 });

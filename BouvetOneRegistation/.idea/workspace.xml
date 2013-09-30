@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c00f41f1-6d13-4667-829e-4de25a09c871" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/views/program.html" afterPath="$PROJECT_DIR$/App/views/program.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BouvetOneRegistration.csproj" afterPath="$PROJECT_DIR$/BouvetOneRegistration.csproj" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App_Start/DurandalBundleConfig.cs" afterPath="$PROJECT_DIR$/App_Start/DurandalBundleConfig.cs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/viewmodels/program.js" afterPath="$PROJECT_DIR$/App/viewmodels/program.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Content/site.css" afterPath="$PROJECT_DIR$/Content/site.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/services/programService.js" afterPath="$PROJECT_DIR$/App/services/programService.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/viewmodels/shell.js" afterPath="$PROJECT_DIR$/App/viewmodels/shell.js" />
     </list>
     <ignored path="BouvetOneRegistation.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -12,7 +14,7 @@
     <file path="/registrationService.js" changelist="c00f41f1-6d13-4667-829e-4de25a09c871" time="1379589821269" ignored="false" />
     <file path="/registration.html" changelist="c00f41f1-6d13-4667-829e-4de25a09c871" time="1379596634909" ignored="false" />
     <file path="/Dummy.txt" changelist="c00f41f1-6d13-4667-829e-4de25a09c871" time="1379583395523" ignored="false" />
-    <file path="/programService.js" changelist="c00f41f1-6d13-4667-829e-4de25a09c871" time="1380528197357" ignored="false" />
+    <file path="/programService.js" changelist="c00f41f1-6d13-4667-829e-4de25a09c871" time="1380538325526" ignored="false" />
     <file path="/program.html" changelist="c00f41f1-6d13-4667-829e-4de25a09c871" time="1380528656995" ignored="false" />
     <file path="/program.js" changelist="c00f41f1-6d13-4667-829e-4de25a09c871" time="1380528648149" ignored="false" />
     <file path="$USER_HOME$/WebstormProjects/PromisePractice/index.html" changelist="c00f41f1-6d13-4667-829e-4de25a09c871" time="1380119230371" ignored="false" />
@@ -20,6 +22,7 @@
     <file path="$USER_HOME$/WebstormProjects/PromisePractice/jquery.js" changelist="c00f41f1-6d13-4667-829e-4de25a09c871" time="1380118761982" ignored="false" />
     <file path="/main.js" changelist="c00f41f1-6d13-4667-829e-4de25a09c871" time="1380524196154" ignored="false" />
     <file path="/site.css" changelist="c00f41f1-6d13-4667-829e-4de25a09c871" time="1380528531175" ignored="false" />
+    <file path="/admin.html" changelist="c00f41f1-6d13-4667-829e-4de25a09c871" time="1380538797825" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,10 +42,46 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="program.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="program.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/App/views/program.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="78" selection-start="949" selection-end="949" vertical-scroll-proportion="0.38716355">
+            <state line="25" column="36" selection-start="1216" selection-end="1216" vertical-scroll-proportion="-16.346153">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="programService.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/App/services/programService.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="5" column="54" selection-start="236" selection-end="236" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="program.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/App/viewmodels/program.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="13" column="44" selection-start="553" selection-end="553" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="admin.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/App/viewmodels/admin.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="3" column="129" selection-start="107" selection-end="107" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="admin.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/App/views/admin.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="15" column="8" selection-start="515" selection-end="515" vertical-scroll-proportion="0.26397514">
               <folding />
             </state>
           </provider>
@@ -70,10 +109,11 @@
         <option value="$PROJECT_DIR$/App/viewmodels/registration.js" />
         <option value="$PROJECT_DIR$/App/views/registration.html" />
         <option value="$PROJECT_DIR$/App/main.js" />
-        <option value="$PROJECT_DIR$/App/services/programService.js" />
         <option value="$PROJECT_DIR$/Content/site.css" />
         <option value="$PROJECT_DIR$/App/views/program.html" />
         <option value="$PROJECT_DIR$/App/viewmodels/program.js" />
+        <option value="$PROJECT_DIR$/App/services/programService.js" />
+        <option value="$PROJECT_DIR$/App/views/admin.html" />
       </list>
     </option>
   </component>
@@ -173,6 +213,42 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BouvetOneRegistation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BouvetOneRegistation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="App" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="viewmodels" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BouvetOneRegistation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BouvetOneRegistation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="App" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="services" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -232,7 +308,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="3832" y="-8" width="1936" height="1176" extended-state="6" />
+    <frame x="3832" y="-8" width="1936" height="1176" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32907662" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -367,7 +443,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="22767" selection-start="22892" selection-end="22899" vertical-scroll-proportion="0.089098535">
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -393,23 +469,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/App/views/program.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="36" selection-start="1216" selection-end="1216" vertical-scroll-proportion="-16.346153">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/App/services/programService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="110" selection-start="1567" selection-end="1567" vertical-scroll-proportion="0.0">
+        <state line="5" column="54" selection-start="236" selection-end="236" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/App/viewmodels/program.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="44" selection-start="875" selection-end="875" vertical-scroll-proportion="0.32560483">
+        <state line="13" column="44" selection-start="553" selection-end="553" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/App/views/program.html">
+    <entry file="file://$PROJECT_DIR$/App/viewmodels/admin.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="78" selection-start="949" selection-end="949" vertical-scroll-proportion="0.38716355">
+        <state line="3" column="129" selection-start="107" selection-end="107" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/App/views/admin.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="8" selection-start="515" selection-end="515" vertical-scroll-proportion="0.26397514">
           <folding />
         </state>
       </provider>

@@ -12,7 +12,8 @@
             }
             return router.map([
                 { route: '',                title: 'Registrering',  moduleId: 'viewmodels/registration',    nav: true},
-                { route: 'program',         title: 'Program',       moduleId: 'viewmodels/program',         nav: true}
+                { route: 'program',         title: 'Program',       moduleId: 'viewmodels/program',         nav: true},
+                { route: 'admin',           title: 'Administrator', moduleId: 'viewmodels/admin',           nav: true}
             ]).buildNavigationModel()
                 .mapUnknownRoutes('viewmodels/404', '404')
                 .activate();

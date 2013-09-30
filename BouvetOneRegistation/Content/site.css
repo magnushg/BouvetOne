@@ -59,3 +59,8 @@ tbody td {
 .row > div {
     min-height: 40px;
 }
+
+.gridster > ul > li {
+    background-color: #999999;
+    list-style: none;
+}
