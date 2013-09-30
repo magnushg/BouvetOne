@@ -18,8 +18,7 @@
                     self.timeslots(_.map(day.timeslots, function (timeslot) {
                         return {
                             id: timeslot.id,
-                            startTime: moment(timeslot.startTime).format('HH:mm'),
-                            endTime: moment(timeslot.endTime).format('HH:mm'),
+                            displayTime: moment(timeslot.startTime).format('HH:mm') + '-' + moment(timeslot.endTime).format('HH:mm'),
                             bookings: timeslot.bookings
                         }
                     }));
