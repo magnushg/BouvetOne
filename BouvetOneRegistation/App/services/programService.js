@@ -1,6 +1,6 @@
 define(['plugins/http', 'MobileServiceClient', 'jquery'], function(http, client, $) {
     var self = {};
-
+    
     self.getDayWithTimeSlots = function (dayIndex) {
         return client.getTable('EventDay')
             .where({id: dayIndex})
@@ -90,11 +90,5 @@ define(['plugins/http', 'MobileServiceClient', 'jquery'], function(http, client,
         return client.getTable('Room').where({ eventdayId: dayId }).read();
     };
 
-    return {
-        getDayWithTimeSlots: self.getDayWithTimeSlots,
-        getRoomsAsync: self.getRoomsAsync,
-        fillEmbeddedInfo: self.fillEmbeddedInfo,
-        fillBookingsForDay: self.fillBookingsForDay,
-        getDayWithTimeSlots: self.getDayWithTimeSlots
-    };
+    return self;
 });

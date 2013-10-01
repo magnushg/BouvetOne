@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c00f41f1-6d13-4667-829e-4de25a09c871" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BouvetOneRegistration.csproj" afterPath="$PROJECT_DIR$/BouvetOneRegistration.csproj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App_Start/DurandalBundleConfig.cs" afterPath="$PROJECT_DIR$/App_Start/DurandalBundleConfig.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/viewmodels/program.js" afterPath="$PROJECT_DIR$/App/viewmodels/program.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/views/admin.html" afterPath="$PROJECT_DIR$/App/views/admin.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/viewmodels/admin.js" afterPath="$PROJECT_DIR$/App/viewmodels/admin.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/services/programService.js" afterPath="$PROJECT_DIR$/App/services/programService.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/viewmodels/shell.js" afterPath="$PROJECT_DIR$/App/viewmodels/shell.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="BouvetOneRegistation.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -54,7 +53,7 @@
       <file leaf-file-name="programService.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/App/services/programService.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="54" selection-start="236" selection-end="236" vertical-scroll-proportion="0.0">
+            <state line="5" column="54" selection-start="240" selection-end="240" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -63,7 +62,7 @@
       <file leaf-file-name="program.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/App/viewmodels/program.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="44" selection-start="553" selection-end="553" vertical-scroll-proportion="0.0">
+            <state line="15" column="44" selection-start="691" selection-end="691" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -72,7 +71,7 @@
       <file leaf-file-name="admin.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/App/viewmodels/admin.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="129" selection-start="107" selection-end="107" vertical-scroll-proportion="0.0">
+            <state line="10" column="129" selection-start="400" selection-end="400" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -81,8 +80,10 @@
       <file leaf-file-name="admin.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/App/views/admin.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="8" selection-start="515" selection-end="515" vertical-scroll-proportion="0.26397514">
-              <folding />
+            <state line="29" column="8" selection-start="1041" selection-end="1041" vertical-scroll-proportion="0.51035196">
+              <folding>
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#section#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -118,7 +119,7 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="3832" />
+    <option name="x" value="1912" />
     <option name="y" value="-8" />
     <option name="width" value="1936" />
     <option name="height" value="1176" />
@@ -308,7 +309,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="3832" y="-8" width="1936" height="1176" extended-state="7" />
+    <frame x="1912" y="-8" width="1936" height="1176" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32907662" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -478,29 +479,31 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/App/services/programService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="54" selection-start="236" selection-end="236" vertical-scroll-proportion="0.0">
+        <state line="5" column="54" selection-start="240" selection-end="240" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/App/viewmodels/program.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="44" selection-start="553" selection-end="553" vertical-scroll-proportion="0.0">
+        <state line="15" column="44" selection-start="691" selection-end="691" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/App/viewmodels/admin.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="129" selection-start="107" selection-end="107" vertical-scroll-proportion="0.0">
+        <state line="10" column="129" selection-start="400" selection-end="400" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/App/views/admin.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="8" selection-start="515" selection-end="515" vertical-scroll-proportion="0.26397514">
-          <folding />
+        <state line="29" column="8" selection-start="1041" selection-end="1041" vertical-scroll-proportion="0.51035196">
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#section#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
