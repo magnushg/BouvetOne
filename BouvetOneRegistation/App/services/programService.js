@@ -107,5 +107,31 @@ define(['plugins/http', 'MobileServiceClient', 'jquery'], function(http, client,
             });
     };
 
+    self.saveProgram = function (program, dayId) {
+        var defer = Q.defer(),
+            requests = [];
+        //couldnt find a way to delete multiple rows...
+
+        client.getTable('Booking').read().done(function(bookings) {
+            _.each(bookings, function(booking) {
+                client.getTable('Booking').del({ id: booking.id });
+            });
+        });
+        //done deleting...
+        _.each(program, function (entry) {
+
+            requests.push(client.getTable('Booking').insert({
+                roomId: entry.roomId,
+                sessionId: entry.sessionId,
+                timeslotId: entry.timeslotId,
+                dayId: entry.dayId
+            }));
+        });
+
+        Q.all(requests).then(defer.resolve());
+
+        return defer.promise;
+    };
+
     return self;
 });

@@ -10,10 +10,12 @@
                     <!-- /ko -->
                     
                     <!-- ko foreach: timeslots -->
-                    <li data-col="1" data-sizex="1" data-sizey="1" class="widget-not-draggable" data-bind="html: $data.displayTime, attr: {'data-row': $index() + 2}"></li>
+                    <li data-col="1" data-sizex="1" data-sizey="1" class="widget-not-draggable" data-bind="html: $data.displayTime, attr: {'data-row': $index() + 2, 'data-timeslot-id': $data.id}"></li>
                     <!-- /ko -->
                 </ul>
             </div> 
+            
+            <button data-bind="click: saveProgram">save</button>
         </div>
     </div>
     <div class="container">
