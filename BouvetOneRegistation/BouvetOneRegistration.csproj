@@ -194,6 +194,7 @@
   <ItemGroup>
     <Content Include="App\main-built.js" />
     <Content Include="App\main.js" />
+    <Content Include="App\services\programService.js" />
     <Content Include="App\services\registrationService.js" />
     <Content Include="App\viewmodels\404.js" />
     <Content Include="App\viewmodels\admin.js" />
@@ -217,7 +218,7 @@
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\font\fontawesome-webfont.svg" />
-    <Content Include="Content\gridster.min.css" />
+    <Content Include="Content\gridster.css" />
     <Content Include="Content\ie10mobile.css" />
     <Content Include="Content\images\arrow.png" />
     <Content Include="Content\images\icon.png" />
@@ -254,6 +255,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Scripts\gridster.js" />
     <Content Include="Scripts\jquery.hammer.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\q.min.js" />
@@ -263,7 +265,6 @@
     <Content Include="Scripts\underscore.min.js" />
     <Content Include="Scripts\underscore.min.map" />
     <None Include="Properties\PublishProfiles\BouvetOne.pubxml" />
-    <Content Include="Scripts\gridster.min.js" />
     <None Include="Web.BouvetOne.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

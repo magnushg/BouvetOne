@@ -61,6 +61,13 @@ tbody td {
 }
 
 .gridster > ul > li {
-    background-color: #999999;
     list-style: none;
+}
+
+.widget-not-draggable {
+    background-color: inherit;   
+}
+
+.widget-booking {
+    
 }

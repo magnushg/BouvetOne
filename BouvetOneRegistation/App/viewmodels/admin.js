@@ -3,6 +3,7 @@
     self.displayName = 'Administrator';
     self.timeslots = ko.observableArray([]);
     self.rooms = ko.observable();
+    self.sessions = ko.observable();
     self.gridster = null;
     self.col_width = 140;
     self.row_height = 45;
@@ -32,21 +33,25 @@
                             widget_margins: [5,5],
                             widget_base_dimensions: [col_width, row_height],
                             avoid_overlapped_widgets: true,
-                            max_cols: self.rooms().length,
-                            max_rows: self.timeslots().length
+                            max_cols: self.timeslots().length + 1,
+                            max_rows: self.rooms().length + 1,
+                            static_class: 'widget-not-draggable',
+                            draggable: {
+                                items: ".gs_w:not(.widget-not-draggable)"
+                            }
                         }).data('gridster');
 
-
+                        
                         //add widgets to gridster
                         _.each(self.timeslots(), function(timeslot, timeslotIndex) {
                             _.each(timeslot.bookings, function(booking) {
 
                                 self.gridster.add_widget(
-                                    '<li>' + booking.session.title + '</li>',
+                                    "<li class='widget-booking'>" + booking.session.title + '</li>',
                                     null, //sizex
                                     null, //sizey
-                                    booking.room.slotIndex + 1,
-                                    timeslotIndex + 1
+                                    booking.room.slotIndex + 2,
+                                    timeslotIndex + 2
                                 );
                             });
                         });
