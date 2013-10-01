@@ -25,15 +25,12 @@
                     <th>Foredragsholder</th><th>Tittel</th><th>Beskrivelse</th><th>Nivå</th><th>Godkjenn</th>
                 </tr>
             </thead>
-            <tbody data-bind="foreach:sessions">
+            <tbody data-bind="foreach: sessions">
                 <tr>
-                    <td data-bind="text:speaker"></td>
-                    <td data-bind="text:title"></td>
-                    <td data-bind="text:description"></td>
-                    <td data-bind="text:level"></td>
-                    <td>
-                        <span data-bind="click:$root.editSession" class="glyphicon glyphicon-edit"></span>
-                    </td>
+                    <td data-bind="text: $data.speaker"></td>
+                    <td data-bind="text: $data.title"></td>
+                    <td data-bind="text: $data.description"></td>
+                    <td data-bind="text: $data.level"></td>
                 </tr>
             </tbody>
         </table>

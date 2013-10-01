@@ -51,10 +51,10 @@
                         </thead>
                         <tbody data-bind="foreach:sessions">
                             <tr>
-                                <td data-bind="text:speaker"></td>
-                                <td data-bind="text:title"></td>
-                                <td data-bind="text:description"></td>
-                                <td data-bind="text:level"></td>
+                                <td data-bind="text: $data.speaker.name"></td>
+                                <td data-bind="text: $data.title"></td>
+                                <td data-bind="text: $data.description"></td>
+                                <td data-bind="text: $data.level"></td>
                                 <td><span data-bind="click:$root.removeSession" class="glyphicon glyphicon-remove"></span></td>
                                 <!--todo: fix ugly onclick-toggle -->
                                 <td>

@@ -63,6 +63,11 @@
             programService.getRoomsAsync(1).then(function (rooms) {
                 self.rooms(_.sortBy(rooms, function (room) { return room.slotIndex; }));
             });
+            
+            //get all sessions
+            registrationService.getSessionsAsync().then(function(sessions) {
+                self.sessions(sessions);
+            });
         }
     };
 });

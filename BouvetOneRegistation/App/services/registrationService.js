@@ -65,12 +65,33 @@
     };
 
     self.getSessionsAsync = function () {
-        return client.getTable('Session').read().then(function (sessions) {
-            return sessions;
+        var requests = [],
+            deferred = Q.defer(),
+            sessions = null;
+        
+        client.getTable('Session').read().then(function (s) {
+            sessions = s;
+            
+            //fetch speaker for session and append to session-object
+            _.each(sessions, function(session) {
+                var promise = client.getTable('Speaker')
+                                .where({ 'userId': session.speakerId })
+                                .read().then(function (user) {
+                                    $.extend(session, { speaker: _.first(user) });
+                                });
+                requests.push(promise);
+            });
+
+            Q.all(requests).then(function() {
+                deferred.resolve(sessions);
+            });
+
         }, function (error) {
             toastr.error('En feil oppstod under lagringen.');
             console.log(error);
         });
+        
+        return deferred.promise;
     };
 
 
