@@ -73,7 +73,16 @@
             
             //get all sessions
             registrationService.getSessionsAsync().then(function(sessions) {
-                self.sessions(sessions);
+                self.sessions(_.map(sessions, function (session) {
+                    return {
+                        id: session.id,
+                        description: session.description,
+                        title: session.title,
+                        level: session.level,
+                        isPublic: ko.observable(session.isPublic),
+                        speaker: session.speaker.name
+                    };
+                }));
             });
         },
         
