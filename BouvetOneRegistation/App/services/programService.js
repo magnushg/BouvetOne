@@ -90,5 +90,22 @@ define(['plugins/http', 'MobileServiceClient', 'jquery'], function(http, client,
         return client.getTable('Room').where({ eventdayId: dayId }).read();
     };
 
+    self.setSessionPublic = function(sessionId, isPublic) {
+        return client.getTable('Session')
+            .lookup(sessionId)
+            .then(function (session) {
+                return client.getTable('Session')
+                    .update({
+                        id: session.id,
+                        isPublic: isPublic
+                    })
+                    .then(function (response) {
+                        console.log(response);
+                    }, function(error) {
+                        console.log(error);
+                    });
+            });
+    };
+
     return self;
 });

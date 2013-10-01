@@ -27,10 +27,18 @@
             </thead>
             <tbody data-bind="foreach: sessions">
                 <tr>
-                    <td data-bind="text: $data.speaker"></td>
+                    <td data-bind="text: $data.speaker.name"></td>
                     <td data-bind="text: $data.title"></td>
                     <td data-bind="text: $data.description"></td>
                     <td data-bind="text: $data.level"></td>
+                    <td data-bind="click: $root.acceptSession">
+                        <button name="includeicon" type="button" class="btn" value="1" data-bind="css: {'btn-success': isPublic}, click: $root.activateSession">
+                            <i class="icon-ok icon-white"></i>
+                        </button>
+                        <button name="includeicon" type="button" class="btn" value="0" data-bind="css: {'btn-danger': !isPublic}, click: $root.deactivateSession">
+                            <i class="icon-remove"></i>
+                        </button>
+                    </td>
                 </tr>
             </tbody>
         </table>

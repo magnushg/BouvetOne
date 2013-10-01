@@ -7,14 +7,21 @@
     self.gridster = null;
     self.col_width = 140;
     self.row_height = 45;
-    self.sessions = ko.observable();
-
+    self.sessions = ko.observableArray([]);
+    
     self.timeslotsLength = ko.computed(function() {
         return self.timeslots().length;
     });
     
     return {
-        activate: function () {        
+        activate: function () {
+            /*
+            registrationService.getCurrentUserAsync().then(function (user) {
+                if (!user.admin) {
+                    router.navigateBack();
+                }
+            });*/
+            
             programService.getDayWithTimeSlots(1).then(function (day) {
                 programService.fillBookingsForDay(day).done(function () {
                     programService.fillEmbeddedInfo(day).done(function() {
@@ -68,6 +75,18 @@
             registrationService.getSessionsAsync().then(function(sessions) {
                 self.sessions(sessions);
             });
+        },
+        
+        activateSession: function(session) {
+            programService.setSessionPublic(session.id, true).then(function(response) {
+                session.isPublic(true);
+            });
+        },
+        deactivateSession: function(session) {
+            programService.setSessionPublic(session.id, false).then(function(response) {
+                session.isPublic(false);
+            });
         }
+
     };
 });

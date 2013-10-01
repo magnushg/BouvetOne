@@ -64,6 +64,17 @@
         toastr.error('not yet ported to web services');
     };
 
+    self.getCurrentUserAsync = function() {
+        return client.getTable('Speaker')
+            .where({ userId: client.currentUser.userId })
+            .read().then(function (response) {
+                if (response.length > 0) return _.first(response);
+                else return null;
+            }, function (error) {
+                console.log(error);
+            });
+    };
+
     self.getSessionsAsync = function () {
         var requests = [],
             deferred = Q.defer(),
