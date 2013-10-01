@@ -36,7 +36,7 @@
             el.attr('data-booking-id', booking.id);
             self.gridster.add_widget(el, null, null, booking.room.slotIndex + 2, timeslotIndex + 2);
         } else {
-            self.gridster.add_widget(el, null, null, self.rooms().length + 2, null);
+            self.gridster.add_widget(el, null, null, self.rooms().length + 2, 2);
         }
 
         return el;
@@ -82,7 +82,6 @@
                         //add widgets to gridster
                         _.each(self.timeslots(), function(timeslot, timeslotIndex) {
                             _.each(timeslot.bookings, function(booking) {
-
                                 self.addWidget(booking.session, booking, timeslotIndex);
                             });
                         });
@@ -119,15 +118,37 @@
             });
         },
         
-        activateSession: function(session) {
-            programService.setSessionPublic(session.id, true).then(function(response) {
+        activateSession: function (session) {
+            if (!session.isPublic()) {
                 session.isPublic(true);
-            });
+                
+                programService.setSessionPublic(session.id, true).then(function(response) {
+                    
+                    self.addWidget(session, null, null);
+                }, function (error) {
+                    session.isPublic(false);
+                    toastr.error(error);
+                });
+            }
         },
-        deactivateSession: function(session) {
-            programService.setSessionPublic(session.id, false).then(function(response) {
+        
+        deactivateSession: function (session) {
+            if (session.isPublic()) {
                 session.isPublic(false);
-            });
+                
+                programService.setSessionPublic(session.id, false).then(function (response) {
+                    //find widget, 
+                    //calling _.each just in case there are duplicates on the grid
+                    var el = self.gridster.$widgets.filter(function () {
+                        return $(this).attr('data-session-id') == session.id;
+                    });
+                    _.each(el, function (e) { self.gridster.remove_widget(e); });
+                    
+                }, function (error) {
+                    session.isPublic(true);
+                    toastr.error(error);
+                });
+            }
         }
     };
 });
