@@ -8,10 +8,39 @@
     self.col_width = 140;
     self.row_height = 45;
     self.sessions = ko.observableArray([]);
+    self.unassignedSessions = ko.observableArray([]);
     
     self.timeslotsLength = ko.computed(function() {
         return self.timeslots().length;
     });
+
+    //custom serialize function for gridster
+    self.gridSerialize = function($w, wgd) {
+        if ($w.hasClass('widget-not-draggable') === false) {
+            return {
+                col: wgd.col - 1, //making it nonrelative position to
+                row: wgd.row - 2, //room/timespan-columns
+                bookingId: parseInt($w.attr('data-booking-id')),
+                sessionId: parseInt($w.attr('data-session-id'))
+            };
+        }
+        return null;
+    };
+
+    self.addWidget = function(session, booking, timeslotIndex) {
+        var el = $("<li></li>").text(session.title)
+            .addClass('widget-booking')
+            .attr('data-session-id', session.id);
+
+        if (booking != null) {
+            el.attr('data-booking-id', booking.id);
+            self.gridster.add_widget(el, null, null, booking.room.slotIndex + 2, timeslotIndex + 2);
+        } else {
+            self.gridster.add_widget(el, null, null, self.rooms().length + 2, null);
+        }
+
+        return el;
+    };
     
     return {
         activate: function () {
@@ -40,12 +69,13 @@
                             widget_margins: [5,5],
                             widget_base_dimensions: [col_width, row_height],
                             avoid_overlapped_widgets: true,
-                            max_cols: self.timeslots().length + 1,
+                            max_cols: self.rooms().length + 2,
                             max_rows: self.rooms().length + 1,
                             static_class: 'widget-not-draggable',
                             draggable: {
                                 items: ".gs_w:not(.widget-not-draggable)"
-                            }
+                            },
+                            serialize_params: self.gridSerialize
                         }).data('gridster');
 
                         
@@ -53,15 +83,18 @@
                         _.each(self.timeslots(), function(timeslot, timeslotIndex) {
                             _.each(timeslot.bookings, function(booking) {
 
-                                self.gridster.add_widget(
-                                    "<li class='widget-booking'>" + booking.session.title + '</li>',
-                                    null, //sizex
-                                    null, //sizey
-                                    booking.room.slotIndex + 2,
-                                    timeslotIndex + 2
-                                );
+                                self.addWidget(booking.session, booking, timeslotIndex);
                             });
                         });
+                        
+                        //add 'bucket' for unassigned sessions
+                        self.gridster.add_widget(
+                            "<li class='widget-not-draggable'>Unassigned</li>",
+                            2,
+                            null,
+                            self.rooms().length + 2,
+                            1
+                        );
                     });
                 });
             });
@@ -96,6 +129,5 @@
                 session.isPublic(false);
             });
         }
-
     };
 });
