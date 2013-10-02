@@ -198,11 +198,13 @@
     <Content Include="App\services\registrationService.js" />
     <Content Include="App\viewmodels\404.js" />
     <Content Include="App\viewmodels\admin.js" />
+    <Content Include="App\viewmodels\editRegistration.js" />
     <Content Include="App\viewmodels\program.js" />
     <Content Include="App\viewmodels\registration.js" />
     <Content Include="App\viewmodels\shell.js" />
     <Content Include="App\views\404.html" />
     <Content Include="App\views\admin.html" />
+    <Content Include="App\views\editRegistration.html" />
     <Content Include="App\views\program.html" />
     <Content Include="App\views\registration.html" />
     <Content Include="App\views\shell.html" />

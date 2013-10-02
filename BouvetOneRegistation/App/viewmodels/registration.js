@@ -1,4 +1,4 @@
-﻿define(['durandal/app', 'services/registrationService', 'knockout', 'MobileServiceClient'], function (app, registrationService, ko, webservice) {
+﻿define(['durandal/app', 'services/registrationService', 'knockout', 'MobileServiceClient', 'viewmodels/editRegistration'], function (app, registrationService, ko, webservice, editModal) {
     //Note: This module exports an object.
     //That means that every module that "requires" it will get the same object instance.
     //If you wish to be able to create multiple instances, instead export a function.
@@ -83,10 +83,7 @@
     };
 
     //-- helpers, todo: remove unused
-    self.editSession = function (session) {
-        app.showMessage('blahblah ' + session.title(), 'mhm?', ['Save', 'Discard']);
-    };
-
+    
     self.speakersAreEqual = function (speaker1, speaker2) {
         return speaker1.toLowerCase() === speaker2.toLowerCase();
     };
@@ -131,6 +128,18 @@
                 }));
             });
         }
+    };
+    
+    self.editSession = function (session) {
+        app.showDialog(new editModal(session, self.levels)).then(function (results, save) {
+            if (save) {
+                session.title(results.title);
+                session.description(results.description);
+                session.level(results.level);
+                
+                registrationService.updateSession(session);
+            }
+        });
     };
 
     return self;

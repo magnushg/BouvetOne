@@ -32,7 +32,7 @@
     };
 
     self.updateSession = function(sessionDetails) {
-        var data = { speakerId: speakerId, title: sessionDetails.title(), description: sessionDetails.description(), level: sessionDetails.level() };
+        var data = { id: sessionDetails.id, title: sessionDetails.title(), description: sessionDetails.description(), level: sessionDetails.level() };
         client.getTable('Session').update(data).then(function(response) {
             toastr.success('Foredraget ble oppdatert');
         }, function(error) {
