@@ -1,5 +1,9 @@
 ﻿define(['knockout', 'MobileServiceClient'], function(ko, mobileservice) {
-    var user = ko.observable({ isAuthenticated: false, name: '', antiforgeryToken: null, isAdmin: false });
+    var user = ko.observable({ isAuthenticated: false, name: '', antiforgeryToken: null, isAdmin: false, role: 'Public' });
+
+    var getRole = function(usr) {
+        return usr.admin ? 'Administrator' : 'Public';
+    };
     
     return {
         user: user,
@@ -21,7 +25,8 @@
                             self.user({
                                 isAuthenticated: true,
                                 name: usr.name,
-                                isAdmin: usr.admin
+                                isAdmin: usr.admin,
+                                role: getRole(usr)
                             });
                             def.resolve(self.user());
                         }
@@ -37,9 +42,25 @@
             return this.user().isAuthenticated;
         },
         
-        getRole: function () {
-            if (this.user().isAdmin) return 'Administrator';
-            else return 'Public';
+        login: function () {
+            return mobileservice.login('google').then(function (e) {
+                toastr.success('Du er logget inn');
+                return localStorage.currentUser = JSON.stringify(mobileservice.currentUser);
+            }, function (error) {
+                toastr.error('En feil oppstod');
+                console.log(error);
+            });
+        },
+        
+        logout: function () {
+            mobileservice.logout();
+            delete localStorage.currentUser;
+            this.user({ isAuthenticated: false, name: '', antiforgeryToken: null, isAdmin: false, role: 'Public' });
+        },
+        
+        hasRightsForRole: function(role) {
+            if (this.user().isAdmin) return true;
+            return role === this.user().role;
         }
     };
 });

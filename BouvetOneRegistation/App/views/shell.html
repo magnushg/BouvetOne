@@ -14,9 +14,12 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav" data-bind="foreach: router.navigationModel">
-                    <li data-bind="css: { active: isActive }">
-                        <a data-bind="attr: { href: hash }, html: title"></a>
-                    </li>
+                    <!-- ko if: $root.hideNavItem($data) -->
+                        <li data-bind="css: { active: isActive }">
+                            <a data-bind="attr: { href: hash }, html: title"></a>
+                        </li>
+                    <!-- /ko -->
+                    
                     <!-- ko if: ($index() === ($root.router.navigationModel().length - 1)) -->
                     <li>
                         <!-- ko if: $root.isAuthenticated() -->
