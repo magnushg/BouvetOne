@@ -16,16 +16,8 @@
     self.editSessionId = ko.observable('');
 
     //-- computed variables
-    self.isAuthenticated = ko.computed(function () {
-        return webservice.currentUser !== null && webservice.currentUser !== undefined;
-    });
     self.speakerRegistered = ko.computed(function () {
         return self.speaker() != '';
-    });
-    self.isEditingSession = ko.computed(function (session){
-        if (session)
-            return self.editSessionId() === session.id;
-        return false;
     });
     
     //-- forms/templates
@@ -58,14 +50,6 @@
         });
     };
     
-    self.updateSession = function (session) {
-        toastr.error('not yet implemented');
-        /*
-        registrationService.updateSession(session).then(function (response) {
-        });
-        console.log(self.registrationUpdateSession);        */
-    };
-
     self.removeSession = function(session) {
         app.showMessage('Er du sikker på at du vil slette foredraget "' + session.title +'"?', 'Slette foredrag', ['Ja', 'Nei']).then(function(dialogResult) {
             if (dialogResult === 'Ja') {

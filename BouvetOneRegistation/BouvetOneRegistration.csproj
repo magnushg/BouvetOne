@@ -194,6 +194,7 @@
   <ItemGroup>
     <Content Include="App\main-built.js" />
     <Content Include="App\main.js" />
+    <Content Include="App\services\appsecurity.js" />
     <Content Include="App\services\programService.js" />
     <Content Include="App\services\registrationService.js" />
     <Content Include="App\viewmodels\404.js" />

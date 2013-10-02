@@ -19,10 +19,10 @@
                     </li>
                     <!-- ko if: ($index() === ($root.router.navigationModel().length - 1)) -->
                     <li>
-                        <!-- ko if: $root.authenticated() -->
+                        <!-- ko if: $root.isAuthenticated() -->
                         <a data-bind="click: $root.logout" href="#">Logg ut</a>
                         <!-- /ko -->
-                        <!-- ko ifnot: $root.authenticated() -->
+                        <!-- ko ifnot: $root.isAuthenticated() -->
                         <a data-bind="click: $root.login" href="#">Logg inn</a>
                         <!-- /ko -->
                     </li>
@@ -36,3 +36,6 @@
     </div>
     <div class="page-host" data-bind="router: { transition:'entrance'}"></div>
 </div>
+<script type="text/html">
+    
+</script>

@@ -1,19 +1,33 @@
-﻿define(['plugins/router', 'durandal/app', 'MobileServiceClient'], function (router, app, client) {
+﻿define(['plugins/router', 'durandal/app', 'MobileServiceClient', 'services/appsecurity'], function (router, app, client, appsecurity) {
     return {
         router: router,
+        
         search: function() {
             //It's really easy to show a message box.
             //You can add custom options too. Also, it returns a promise for the user's response.
             app.showMessage('Search not yet implemented...');
         },
+        isAuthenticated: ko.computed(function() {
+            return appsecurity.isAuthenticated();
+        }),
+
         activate: function () {
-            if (localStorage.currentUser != null) {
-                client.currentUser = JSON.parse(localStorage.currentUser);
+            
+            router.guardRoute = function(instance, instruction) {
+                if (instruction.config.authorize) {
+                    if (appsecurity.isAuthenticated()) {
+                        if (instruction.config.role === appsecurity.getRole()) {
+                            return true;
+                        }
+                    }
+                    return '/#program';
+                } else return true;
             }
+            
             return router.map([
-                { route: '',                title: 'Registrering',  moduleId: 'viewmodels/registration',    nav: true},
-                { route: 'program',         title: 'Program',       moduleId: 'viewmodels/program',         nav: true},
-                { route: 'admin',           title: 'Administrator', moduleId: 'viewmodels/admin',           nav: true}
+                { route: '',                title: 'Registrering',  moduleId: 'viewmodels/registration',    nav: true,  authorize: true,    role: 'Public'},
+                { route: 'program',         title: 'Program',       moduleId: 'viewmodels/program',         nav: true,  authorize: false,   role: 'Public'},
+                { route: 'admin',           title: 'Administrator', moduleId: 'viewmodels/admin',           nav: true,  authorize: true,    role: 'Administrator'}
             ]).buildNavigationModel()
                 .mapUnknownRoutes('viewmodels/404', '404')
                 .activate();
@@ -31,13 +45,5 @@
             client.logout();
             delete localStorage.currentUser;
         },
-        authenticated: ko.computed(function () {
-            //todo: ugly. had to put there since authenticate is called before activate
-            if (localStorage.currentUser !== null && localStorage.currentUser !== undefined) {
-                client.currentUser = JSON.parse(localStorage.currentUser);
-            }
-            
-            return client.currentUser != null;
-        })
     };
 });
