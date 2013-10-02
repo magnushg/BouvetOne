@@ -69,14 +69,14 @@
     self.removeSession = function(session) {
         app.showMessage('Er du sikker på at du vil slette foredraget "' + session.title +'"?', 'Slette foredrag', ['Ja', 'Nei']).then(function(dialogResult) {
             if (dialogResult === 'Ja') {
-                var speaker = _.find(self.speakers(), function (spk) {
-                    return self.speakersAreEqual(spk.name,session.speaker);
-                });
-                registrationService.deleteSession(session).then(function () {
-                    // Remove session from local session list
-                    speaker.sessions(_.filter(speaker.sessions(), function (s) {
+                
+                registrationService.deleteSession(session).then(function() {
+
+                    toastr.success(session.title + ' ble slettet.');
+
+                    _.filter(self.sessions(), function(s) {
                         return s.id !== session.id;
-                    }));
+                    });
                 });
             }
         });
@@ -117,8 +117,18 @@
             registrationService.getCurrentSpeakerNameAsync().then(function (name) {
                 self.speaker(name || '');
             });
+            
             registrationService.getSessionsAsync().then(function (sessions) {
-                self.sessions(sessions);
+                self.sessions(_.map(sessions, function(session) {
+                    return {
+                        id: session.id,
+                        description: session.description,
+                        title: session.title,
+                        level: session.level,
+                        isPublic: session.isPublic,
+                        speaker: session.speaker.name
+                    };
+                }));
             });
         }
     };

@@ -46,8 +46,7 @@
     };
 
     self.deleteSession = function(session) {
-        client.getTable('Session').del
-        toastr.error('not yet ported to web services');
+        return client.getTable('Session').del({ id: session.id });
     };
     
 
