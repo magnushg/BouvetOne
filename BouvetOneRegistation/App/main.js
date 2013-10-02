@@ -18,7 +18,7 @@ define('MobileServiceClient',[], function() {
         "EtYYTUWSOGGzPeWqVVVWTEKlqopMKK63");
 });
 
-define(['durandal/system', 'durandal/app', 'durandal/viewLocator'], function (system, app, viewLocator) {
+define(['durandal/system', 'durandal/app', 'durandal/viewLocator', 'services/appsecurity'], function (system, app, viewLocator, appsecurity) {
     //>>excludeStart("build", true);
     system.debug(true);
     //>>excludeEnd("build");
@@ -37,6 +37,10 @@ define(['durandal/system', 'durandal/app', 'durandal/viewLocator'], function (sy
         viewLocator.useConvention();
 
         //Show the app by setting the root view model for our application with a transition.
-        app.setRoot('viewmodels/shell', 'entrance');
+        appsecurity.getAuthInfo().then(function (user) {
+            appsecurity.user(user);
+            app.setRoot('viewmodels/shell', 'entrance');
+        });
+
     });
 });

@@ -28,6 +28,7 @@
         return null;
     };
 
+    //helper for adding a booking as a gridster widget
     self.addWidget = function(session, booking, timeslotIndex) {
         var el = $("<li></li>").text(session.title)
             .addClass('widget-booking')
@@ -45,13 +46,6 @@
 
     return {
         activate: function() {
-            /*
-            registrationService.getCurrentUserAsync().then(function (user) {
-                if (!user.admin) {
-                    router.navigateBack();
-                }
-            });*/
-
             programService.getDayWithTimeSlots(1).then(function(day) {
                 programService.fillBookingsForDay(day).done(function() {
                     programService.fillEmbeddedInfo(day).done(function() {
