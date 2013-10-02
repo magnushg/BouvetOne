@@ -17,6 +17,9 @@ namespace BouvetOneRegistation {
             .Include("~/Scripts/jquery.hammer.min.js")
             .Include("~/Scripts/Stashy.js")
             .Include("~/Scripts/underscore.min.js")
+            .Include("~/Scripts/moment.js")
+            .Include("~/Scripts/q.min.js")
+            .Include("~/Scripts/gridster.js")
 		);
 
       bundles.Add(
@@ -29,6 +32,7 @@ namespace BouvetOneRegistation {
           .Include("~/Content/toastr.min.css")
           .Include("~/Content/Stashy.css")
           .Include("~/Content/site.css")
+          .Include("~/Content/gridster.css")
         );
     }
 

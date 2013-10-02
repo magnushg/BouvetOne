@@ -17,12 +17,12 @@
                         </div>
                     </div>
 
-                    <!-- timerows X sessions -->
-                    <div data-bind="foreach:timerows">
+                    <!-- timeslots X sessions -->
+                    <div data-bind="foreach:timeslots">
                         <div class="row">
-                            <div class="col-md-2" data-bind="html: startTime"></div>
-                            <div data-bind="foreach:$data.slots" class="slot-space">
-                                <div class="col-md-2" data-bind="html: session.title, css: gridOffset($parent.slots, $index)"></div>
+                            <div class="col-md-2" data-bind="html: displayTime"></div>
+                            <div data-bind="foreach:$data.bookings" class="slot-space">
+                                <div class="col-md-2" data-bind="html: session.title, css: gridOffset($parent.bookings, $index)"></div>
                             </div>
                         </div>
                     </div>

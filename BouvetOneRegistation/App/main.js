@@ -4,7 +4,8 @@
         'durandal': '../Scripts/durandal',
         'plugins': '../Scripts/durandal/plugins',
         'transitions': '../Scripts/durandal/transitions',
-        'knockout': '../Scripts/knockout-2.3.0'
+        'knockout': '../Scripts/knockout-2.3.0',
+        'moment': '../Scripts/moment'
     }
 });
 

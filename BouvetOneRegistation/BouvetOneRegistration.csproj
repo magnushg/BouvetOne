@@ -194,12 +194,17 @@
   <ItemGroup>
     <Content Include="App\main-built.js" />
     <Content Include="App\main.js" />
+    <Content Include="App\services\programService.js" />
     <Content Include="App\services\registrationService.js" />
     <Content Include="App\viewmodels\404.js" />
+    <Content Include="App\viewmodels\admin.js" />
+    <Content Include="App\viewmodels\editRegistration.js" />
     <Content Include="App\viewmodels\program.js" />
     <Content Include="App\viewmodels\registration.js" />
     <Content Include="App\viewmodels\shell.js" />
     <Content Include="App\views\404.html" />
+    <Content Include="App\views\admin.html" />
+    <Content Include="App\views\editRegistration.html" />
     <Content Include="App\views\program.html" />
     <Content Include="App\views\registration.html" />
     <Content Include="App\views\shell.html" />
@@ -215,6 +220,7 @@
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\font\fontawesome-webfont.svg" />
+    <Content Include="Content\gridster.css" />
     <Content Include="Content\ie10mobile.css" />
     <Content Include="Content\images\arrow.png" />
     <Content Include="Content\images\icon.png" />
@@ -251,7 +257,10 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Scripts\gridster.js" />
     <Content Include="Scripts\jquery.hammer.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\q.min.js" />
     <Content Include="Scripts\Stashy.js" />
     <Content Include="Scripts\Stashy.min.js" />
     <Content Include="Scripts\underscore.js" />

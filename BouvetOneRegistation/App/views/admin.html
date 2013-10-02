@@ -1,0 +1,52 @@
+﻿<section>
+    <div class="jumbotron">
+        <div class="container">
+            <h2>Program</h2>
+            
+            <div class="gridster">
+                <ul>
+                    <!-- ko foreach: rooms -->
+                    <li data-row="1" data-sizex="1" data-sizey="1" class="widget-not-draggable" data-bind="html: name, attr: {'data-col': slotIndex + 2}"></li>
+                    <!-- /ko -->
+                    
+                    <!-- ko foreach: timeslots -->
+                    <li data-col="1" data-sizex="1" data-sizey="1" class="widget-not-draggable" data-bind="html: $data.displayTime, attr: {'data-row': $index() + 2, 'data-timeslot-id': $data.id}"></li>
+                    <!-- /ko -->
+                </ul>
+            </div> 
+            
+            <button data-bind="click: saveProgram">save</button>
+        </div>
+    </div>
+    <div class="container">
+        <h2>Godkjenning av talks</h2>
+        
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Foredragsholder</th><th>Tittel</th><th>Beskrivelse</th><th>Nivå</th><th>Godkjenn</th>
+                </tr>
+            </thead>
+            <tbody data-bind="template: { name: 'sessionsTemplate', foreach: sessions, as: 'session' }">
+            </tbody>
+        </table>
+    </div>
+    
+    <script type="text/html" id="sessionsTemplate">
+        <tr>
+            <td data-bind="text: $data.speaker"></td>
+            <td data-bind="text: $data.title"></td>
+            <td data-bind="text: $data.description"></td>
+            <td data-bind="text: $data.level"></td>
+            <td data-bind="click: $root.acceptSession">
+                <button name="includeicon" type="button" class="btn" value="1" data-bind="css: {'btn-success': $data.isPublic()}, click: $root.activateSession">
+                    <i class="icon-ok icon-white"></i>
+                </button>
+                <button name="includeicon" type="button" class="btn" value="0" data-bind="css: {'btn-danger': !$data.isPublic()}, click: $root.deactivateSession">
+                    <i class="icon-remove"></i>
+                </button>
+            </td>
+        </tr>
+    </script>
+</section>
+

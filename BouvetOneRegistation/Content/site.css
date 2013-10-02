@@ -55,3 +55,19 @@ tbody td {
     margin-left: 20px;
     margin-right: 20px;
 }
+
+.row > div {
+    min-height: 40px;
+}
+
+.gridster > ul > li {
+    list-style: none;
+}
+
+.widget-not-draggable {
+    background-color: inherit;   
+}
+
+.widget-booking {
+    
+}
