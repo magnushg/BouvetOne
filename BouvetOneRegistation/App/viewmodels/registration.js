@@ -84,7 +84,7 @@
 
     //-- helpers, todo: remove unused
     self.editSession = function (session) {
-        self.editSessionId(session.id);
+        app.showMessage('blahblah ' + session.title(), 'mhm?', ['Save', 'Discard']);
     };
 
     self.speakersAreEqual = function (speaker1, speaker2) {
@@ -122,9 +122,9 @@
                 self.sessions(_.map(sessions, function(session) {
                     return {
                         id: session.id,
-                        description: session.description,
-                        title: session.title,
-                        level: session.level,
+                        description: ko.observable(session.description),
+                        title: ko.observable(session.title),
+                        level: ko.observable(session.level),
                         isPublic: session.isPublic,
                         speaker: session.speaker.name
                     };

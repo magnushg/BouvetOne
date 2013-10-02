@@ -52,30 +52,14 @@
                         <tbody data-bind="foreach:sessions">
                             <tr>
                                 <td data-bind="text: $data.speaker"></td>
-                                <td data-bind="text: $data.title"></td>
-                                <td data-bind="text: $data.description"></td>
-                                <td data-bind="text: $data.level"></td>
-                                <td><span data-bind="click:$root.removeSession" class="glyphicon glyphicon-remove"></span></td>
-                                <!--todo: fix ugly onclick-toggle -->
+                                <td data-bind="text: $data.title()"></td>
+                                <td data-bind="text: $data.description()"></td>
+                                <td data-bind="text: $data.level()"></td>
                                 <td>
-                                    <span data-bind="click:$root.editSession" class="glyphicon glyphicon-edit"></span>
+                                    <span data-bind="click:$root.removeSession" class="glyphicon glyphicon-remove"></span>
                                 </td>
-                            </tr>
-                            <!-- editing panel
-                                todo: use durandal modal
-                            -->
-                            <tr data-bind="visible: isEditingSession()" class="edit-panel">
-                                <td colspan="6">
-                                    <div>
-                                        <!--ko with: $data -->
-                                        <form role="form" class="form-horizontal">
-                                            <input type="Text" placeholder="Tittel" data-bind="value: title" class="form-control" />
-                                            <textarea class="form-control" placeholder="Beskrivelse" data-bind="value: description" />
-                                            <select data-bind="options:$root.levels, value:level" class="col-lg-4 form-control" />
-                                            <button class="btn btn-primary" type="button" data-bind="click: $root.updateSession">Oppdater foredrag</button>
-                                        </form>
-                                        <!-- /ko -->
-                                    </div>
+                                <td>
+                                    <span data-bind="click:editSession" class="glyphicon glyphicon-edit"></span>
                                 </td>
                             </tr>
                         </tbody>
