@@ -10,13 +10,22 @@
         isAuthenticated: ko.computed(function() {
             return appsecurity.isAuthenticated();
         }),
+        hideNavItem: function(nav) {
+            if (nav.authorize && !appsecurity.isAuthenticated()) {
+                return false;
+            }
+            if (!appsecurity.hasRightsForRole(nav.role)) {
+                return false;
+            } 
+            return true;
+        },
 
         activate: function () {
             
             router.guardRoute = function(instance, instruction) {
                 if (instruction.config.authorize) {
                     if (appsecurity.isAuthenticated()) {
-                        if (instruction.config.role === appsecurity.getRole()) {
+                        if (appsecurity.hasRightsForRole(instruction.config.role)) {
                             return true;
                         }
                     }
@@ -32,18 +41,18 @@
                 .mapUnknownRoutes('viewmodels/404', '404')
                 .activate();
         },
-        login: function () {
-            client.login('google').then(function (e) {
-                localStorage.currentUser = JSON.stringify(client.currentUser);
-                toastr.success('Du er logget inn');
-            }, function (error) {
-                toastr.error('En feil oppstod');
-                console.log(error);
+        login: function() {
+            appsecurity.login().then(function() {
+                appsecurity.getAuthInfo().then(function(user) {
+                    console.log(user);
+                })
             });
         },
         logout: function () {
-            client.logout();
-            delete localStorage.currentUser;
+            appsecurity.logout();
+            appsecurity.getAuthInfo().then(function(user) {
+                console.log(user);
+            });
         },
     };
 });
