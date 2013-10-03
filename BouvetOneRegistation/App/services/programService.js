@@ -112,22 +112,22 @@ define(['plugins/http', 'MobileServiceClient', 'jquery'], function(http, client,
             requests = [];
         //couldnt find a way to delete multiple rows...
 
-        client.getTable('Booking').read().done(function(bookings) {
+        client.getTable('Booking').read().done(function (bookings) {
             _.each(bookings, function(booking) {
                 client.getTable('Booking').del({ id: booking.id });
             });
+            
+            //push in new bookings
+            _.each(program, function (entry) {
+                requests.push(client.getTable('Booking').insert({
+                    roomId: entry.roomId,
+                    sessionId: entry.sessionId,
+                    timeslotId: entry.timeslotId,
+                    dayId: entry.dayId
+                }));
+            });
         });
-        //done deleting...
-        _.each(program, function (entry) {
-
-            requests.push(client.getTable('Booking').insert({
-                roomId: entry.roomId,
-                sessionId: entry.sessionId,
-                timeslotId: entry.timeslotId,
-                dayId: entry.dayId
-            }));
-        });
-
+        
         Q.all(requests).then(defer.resolve());
 
         return defer.promise;
