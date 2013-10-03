@@ -34,16 +34,28 @@
         }
         
         registrationService.registerSpeakerNameAsync(self.speakerNameInput()).then(function (speaker) {
+            //update appsecurity
             appsecurity.getAuthInfo();
+            //in case any old sessions bound to the userId exists
             self.fetchSessions();
             self.speakerRegistered(true);
         });
     };
 
     self.registerSession = function (session) {
-        registrationService.registerSessionAsync(session).then(function(newSession) {
-            self.sessions.push(newSession);
+        registrationService.registerSessionAsync(session).then(function (newSession) {
             self.clearInput();
+            
+            self.sessions.push(
+                {
+                    id: newSession.id,
+                    description: ko.observable(newSession.description),
+                    title: ko.observable(newSession.title),
+                    level: ko.observable(newSession.level),
+                    isPublic: newSession.isPublic,
+                    speaker: appsecurity.user().name
+                }
+            );
         });
     };
     
@@ -91,7 +103,7 @@
                     _.filter(sessions, function(session) {
                         return session.speakerId === appsecurity.user().userId;
                     }),
-                    function (session) {
+                    function(session) {
                         return {
                             id: session.id,
                             description: ko.observable(session.description),
@@ -117,6 +129,6 @@
             }
         });
     };
-
+        
     return self;
 });
