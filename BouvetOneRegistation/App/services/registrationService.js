@@ -1,4 +1,4 @@
-﻿define(['plugins/http', 'MobileServiceClient'], function(http, client) {
+﻿define(['plugins/http', 'MobileServiceClient', 'services/appsecurity'], function(http, client, appsecurity) {
     var self = {};
 
     self.getCurrentSpeakerNameAsync = function () {
@@ -22,7 +22,12 @@
     };
 
     self.registerSessionAsync = function(sessionDetails) {
-        var data = { speakerId: client.currentUser.userId, title: sessionDetails.title(), description: sessionDetails.description(), level: sessionDetails.level() };
+        var data = {
+            speakerId: appsecurity.user().userId,
+            title: sessionDetails.title(),
+            description: sessionDetails.description(),
+            level: sessionDetails.level()
+        };
         return client.getTable('Session').insert(data).then(function(response) {
             toastr.success('Foredraget "' + sessionDetails.title() + '" ble lagt til');
             return response;
@@ -47,8 +52,8 @@
 
     self.deleteSession = function(session) {
         return client.getTable('Session').del({ id: session.id });
-    };
-    
+    }
+
 
     self.getAllSpeakersA = function() {
         toastr.error('not yet ported to web services');
