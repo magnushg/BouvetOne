@@ -1,5 +1,5 @@
 ﻿define(['knockout', 'MobileServiceClient'], function(ko, mobileservice) {
-    var user = ko.observable({ isAuthenticated: false, name: '', antiforgeryToken: null, isAdmin: false, role: 'Public' });
+    var user = ko.observable({ isAuthenticated: false, name: null, antiforgeryToken: null, isAdmin: false, role: 'Public' });
 
     var getRole = function(usr) {
         return usr.admin ? 'Administrator' : 'Public';
@@ -14,6 +14,7 @@
 
             if (localStorage.currentUser !== null && localStorage.currentUser !== undefined) {
                 mobileservice.currentUser = JSON.parse(localStorage.currentUser);
+                self.user().isAuthenticated = true;
 
                 mobileservice.getTable('Speaker')
                     .where({ userId: mobileservice.currentUser.userId })
@@ -22,14 +23,11 @@
                         if (usr.length > 0) {
                             usr = _.first(usr);
 
-                            self.user({
-                                isAuthenticated: true,
-                                name: usr.name,
-                                isAdmin: usr.admin,
-                                role: getRole(usr)
-                            });
-                            def.resolve(self.user());
+                            self.user().name     = usr.name
+                            self.user().isAdmin  = usr.admin
+                            self.user().name     = usr.name;
                         }
+                        def.resolve(self.user());
                     });
             } else {
                 def.resolve(self.user());
@@ -40,6 +38,10 @@
         
         isAuthenticated: function() {
             return this.user().isAuthenticated;
+        },
+        
+        isRegistered: function() {
+            return this.user().name !== null;
         },
         
         login: function () {
