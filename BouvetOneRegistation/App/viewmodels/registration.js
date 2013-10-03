@@ -51,13 +51,16 @@
         app.showMessage('Er du sikker på at du vil slette foredraget "' + session.title() +'"?', 'Slette foredrag', ['Ja', 'Nei']).then(function(dialogResult) {
             if (dialogResult === 'Ja') {
                 
-                registrationService.deleteSession(session).then(function() {
+                registrationService.deleteSession(session).then(function(e) {
 
-                    toastr.success(session.title + ' ble slettet.');
+                    toastr.success(session.title() + ' ble slettet.');
 
-                    _.filter(self.sessions(), function(s) {
+                    self.sessions(_.filter(self.sessions(), function(s) {
                         return s.id !== session.id;
-                    });
+                    }));
+                }, 
+                function(error) {
+                    toastr.error('Det skjedde en feil ved sletting av ' + session.title());
                 });
             }
         });
