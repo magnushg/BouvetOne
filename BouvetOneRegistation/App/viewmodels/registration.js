@@ -85,16 +85,24 @@
 
     self.fetchSessions = function() {
         registrationService.getSessionsAsync().then(function (sessions) {
-            self.sessions(_.map(sessions, function (session) {
-                return {
-                    id: session.id,
-                    description: ko.observable(session.description),
-                    title: ko.observable(session.title),
-                    level: ko.observable(session.level),
-                    isPublic: session.isPublic,
-                    speaker: session.speaker.name
-                };
-            }));
+            self.sessions(
+                _.map(
+                    //filter out sessions that arent the user's
+                    _.filter(sessions, function(session) {
+                        return session.speakerId === appsecurity.user().userId;
+                    }),
+                    function (session) {
+                        return {
+                            id: session.id,
+                            description: ko.observable(session.description),
+                            title: ko.observable(session.title),
+                            level: ko.observable(session.level),
+                            isPublic: session.isPublic,
+                            speaker: session.speaker.name
+                        };
+                    }
+                )
+            );
         });
     };
         
