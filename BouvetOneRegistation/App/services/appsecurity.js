@@ -1,4 +1,4 @@
-﻿define(['knockout', 'MobileServiceClient'], function(ko, mobileservice) {
+﻿define(['knockout', 'MobileServiceClient', 'plugins/router'], function (ko, mobileservice, router) {
     
     var getUserTemplate = function() {
         return {
@@ -67,6 +67,7 @@
             mobileservice.logout();
             delete localStorage.currentUser;
             this.user({ isAuthenticated: false, name: '', antiforgeryToken: null, isAdmin: false, role: 'Public' });
+            router.navigate('program');
         },
         
         hasRightsForRole: function(role) {

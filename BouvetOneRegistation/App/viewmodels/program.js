@@ -48,6 +48,7 @@
     };
 
     return {
-        activate: self.activate
+        activate: self.activate,
+        displayName: 'Program'
     };
 });

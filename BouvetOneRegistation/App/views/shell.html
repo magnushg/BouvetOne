@@ -13,23 +13,24 @@
                 </a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav" data-bind="foreach: router.navigationModel">
-                    <!-- ko if: $root.hideNavItem($data) -->
-                        <li data-bind="css: { active: isActive }">
-                            <a data-bind="attr: { href: hash }, html: title"></a>
-                        </li>
-                    <!-- /ko -->
+                <ul class="nav navbar-nav" data-bind="foreach: router.navigationModel()">
+                    
+                    <li data-bind="css: { active: isActive }, visible: $data.visible()">
+                        <a data-bind="attr: { href: hash }, html: title"></a>
+                    </li>
                     
                     <!-- ko if: ($index() === ($root.router.navigationModel().length - 1)) -->
                     <li>
                         <!-- ko if: $root.isAuthenticated() -->
-                        <a data-bind="click: $root.logout" href="#">Logg ut</a>
+                            <a data-bind="click: $root.logout" href="#">Logg ut</a>
                         <!-- /ko -->
+
                         <!-- ko ifnot: $root.isAuthenticated() -->
-                        <a data-bind="click: $root.login" href="#">Logg inn</a>
+                            <a data-bind="click: $root.login" href="#">Logg inn</a>
                         <!-- /ko -->
                     </li>
                     <!-- /ko -->
+
                 </ul>
                 <div class="loader pull-right" data-bind="css: { active: router.isNavigating }">
                     <i class="icon-spinner icon-2x icon-spin icon-white"></i>
