@@ -28,9 +28,14 @@ var toastr = {
     }
 };
 
-requirejs(['tests/appsecurityTest', 'Q'], function (appsecurityTest, Q) {
+requirejs(['tests/appsecurityTest', 'tests/programServiceTest', 'Q'], function (appsecurityTest, programServiceTest, Q) {
     /*
      * Appsecurity tests
     */
     appsecurityTest.run();
+    
+    /*
+     * programService tests
+    */
+    programServiceTest.run();
 })
