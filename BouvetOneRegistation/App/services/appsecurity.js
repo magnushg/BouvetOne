@@ -56,7 +56,7 @@
         login: function () {
             return mobileservice.login('google').then(function (e) {
                 toastr.success('Du er logget inn');
-                return localStorage.currentUser = JSON.stringify(mobileservice.currentUser);
+                return localStorage.currentUser = JSON.stringify(e);
             }, function (error) {
                 toastr.error('En feil oppstod');
                 console.log(error);

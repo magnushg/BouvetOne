@@ -4,32 +4,40 @@
 
     function init() {
         var nextReturnObject;
+        var currentUser;
+        
+        var promiseStub = {};
+        promiseStub.then = function (func, err) {
+            func(nextReturnObject);
+            return promiseStub;
+        };
+        promiseStub.where = function () {
+            return promiseStub;
+        };
+        promiseStub.read = function () {
+            return promiseStub;
+        };
 
         return {
             getTable: function(str) {
-                var stub = {};
-                stub.then = function(func, err) {
-                    func(nextReturnObject);
-                    return stub;
-                };
-                stub.where = function() {
-                    return stub;
-                };
-                stub.read = function() {
-                    return stub;
-                };
-
-                return stub;
+                return promiseStub;
             },
-                
-            nextReturnObject: function() {
-                return nextReturnObject;
+
+            login: function(str) {
+                return promiseStub;
+            },
+
+            logout: function () {
+                return;
             },
                 
             setNextReturnObject: function(obj) {
                 nextReturnObject = obj;
+            },
+            
+            setCurrentUser: function(obj) {
+                currentUser = obj;
             }
-
         };
     }
     

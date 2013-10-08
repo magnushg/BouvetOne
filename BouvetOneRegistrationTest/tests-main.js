@@ -19,6 +19,15 @@ requirejs.config({
     }
 });
 
+var toastr = {
+    success: function () {
+    },
+    warning: function () {
+    },
+    error: function () {
+    }
+};
+
 requirejs(['tests/appsecurityTest', 'Q'], function (appsecurityTest, Q) {
     /*
      * Appsecurity tests
