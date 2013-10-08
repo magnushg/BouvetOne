@@ -5,29 +5,18 @@
         </div>
     </div>
     <div class="container" id="eventProgram">
-        <div class="st-slider">
-            <ul class="st-slider-panes slide-sky">
-                <li style="width: 100%">
-                    <h1>Dag 1</h1>
-                    <!-- rooms -->
-                    <div class="row">
-                        <div class="col-md-2"></div> 
-                        <div data-bind="foreach: rooms">
-                            <div class="col-md-2" data-bind="html: name"></div>  
-                        </div>
-                    </div>
-
-                    <!-- timeslots X sessions -->
-                    <div data-bind="foreach:timeslots">
-                        <div class="row">
-                            <div class="col-md-2" data-bind="html: displayTime"></div>
-                            <div data-bind="foreach:$data.bookings" class="slot-space">
-                                <div class="col-md-2" data-bind="html: session.title, css: gridOffset($parent.bookings, $index)"></div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
+        <h1>Dag 1</h1>
+                    
+        <div class="gridster">
+            <ul>
+                <!-- ko foreach: rooms -->
+                <li data-row="1" data-sizex="1" data-sizey="1" class="widget-not-draggable" data-bind="html: name, attr: {'data-col': slotIndex + 2}"></li>
+                <!-- /ko -->
+                    
+                <!-- ko foreach: program -->
+                <li data-col="1" data-sizex="1" data-sizey="1" class="widget-not-draggable" data-bind="html: $data.displayTime, attr: {'data-row': $index() + 2, 'data-timeslot-id': $data.id}"></li>
+                <!-- /ko -->
             </ul>
-        </div>
+        </div> 
     </div>
 </section>
