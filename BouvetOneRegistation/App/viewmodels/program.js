@@ -10,7 +10,6 @@
     self.prev_grid_position = 0;
     
     self.activate = function() {
-        //todo: theres no support for multiple event-days
         programService.getDayWithTimeSlots(1).then(function (day) {
             programService.fillBookingsForDay(day).done(function () {
                 programService.fillEmbeddedInfo(day).done(function () {

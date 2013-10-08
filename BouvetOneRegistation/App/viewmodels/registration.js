@@ -8,7 +8,7 @@
     self.speaker = ko.observable(appsecurity.user().name);
     //self.speakerId = ko.observable(webservice.currentUser ? webservice.currentUser.userId : '');
     self.speakerNameInput = ko.observable('');
-    self.sessions = ko.observableArray([]);
+    self.mySessions = ko.observableArray([]);
     self.defaultLevel = 'Middels - 200';
     self.levels = ko.observableArray(['Lett - 100', self.defaultLevel, 'Ekspert - 300']);
     self.editSessionId = ko.observable('');
@@ -46,13 +46,13 @@
         registrationService.registerSessionAsync(session).then(function (newSession) {
             self.clearInput();
             
-            self.sessions.push(
+            self.mySessions.push(
                 {
                     id: newSession.id,
                     description: ko.observable(newSession.description),
                     title: ko.observable(newSession.title),
                     level: ko.observable(newSession.level),
-                    isPublic: newSession.isPublic,
+                    isPublic: ko.observable(newSession.isPublic),
                     speaker: appsecurity.user().name
                 }
             );
@@ -67,7 +67,7 @@
 
                     toastr.success(session.title() + ' ble slettet.');
 
-                    self.sessions(_.filter(self.sessions(), function(s) {
+                    self.mySessions(_.filter(self.mySessions(), function(s) {
                         return s.id !== session.id;
                     }));
                 }, 
@@ -97,24 +97,24 @@
 
     self.fetchSessions = function() {
         registrationService.getSessionsAsync().then(function (sessions) {
-            self.sessions(
-                _.map(
+            self.mySessions(_.map(
                     //filter out sessions that arent the user's
-                    _.filter(sessions, function(session) {
+                    _.filter(sessions, function (session) {
                         return session.speakerId === appsecurity.user().userId;
                     }),
-                    function(session) {
+                    function (session) {
                         return {
                             id: session.id,
                             description: ko.observable(session.description),
                             title: ko.observable(session.title),
                             level: ko.observable(session.level),
-                            isPublic: session.isPublic,
+                            isPublic: ko.observable(session.isPublic),
                             speaker: session.speaker.name
                         };
                     }
-                )
-            );
+                ));
+            
+            return self.mySessions();
         });
     };
         
