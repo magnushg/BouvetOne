@@ -24,6 +24,7 @@
     self.registerSessionAsync = function(sessionDetails) {
         var data = {
             speakerId: appsecurity.user().userId,
+            speaker: appsecurity.user().name,
             title: sessionDetails.title(),
             description: sessionDetails.description(),
             level: sessionDetails.level()
