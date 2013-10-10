@@ -8,6 +8,7 @@ define(['durandal/app', 'services/programService', 'services/registrationService
     pub.rooms = ko.observable();
     pub.sessions = ko.observableArray([]);
     pub.speakers = ko.observableArray([]);
+    pub.registrationInput = ko.observable();
 
     priv.gridster = null;
     
@@ -19,15 +20,8 @@ define(['durandal/app', 'services/programService', 'services/registrationService
         .then(function() {
             //get all sessions
             return registrationService.getSessionsAsync().then(function(sessions) {
-                pub.sessions(_.map(sessions, function (session) {
-                    return {
-                        id: session.id,
-                        description: session.description,
-                        title: session.title,
-                        level: session.level,
-                        isPublic: ko.observable(session.isPublic),
-                        speaker: session.speaker.name
-                    };
+                pub.sessions(_.map(sessions, function(session) {
+                    return priv.mapSession(session);
                 }));
             });
         })
@@ -96,6 +90,8 @@ define(['durandal/app', 'services/programService', 'services/registrationService
             });
         });
         
+        pub.registrationInput = ko.observable(priv.initSessionRegistration());
+        
         //get speakers
         registrationService.getSpeakers().then(function(speakers) {
             pub.speakers(speakers);
@@ -146,6 +142,17 @@ define(['durandal/app', 'services/programService', 'services/registrationService
                 toastr.success('Programmet ble lagret');
             });
     };
+
+    pub.registerSession = function() {
+        registrationService.registerSessionAsync(session).then(function (newSession) {
+
+            pub.registrationInput().title('');
+            pub.registrationInput().description('');
+            pub.registrationInput().level(self.defaultLevel);
+
+            pub.sessions.push(priv.mapSession(newSession));
+        });
+    };
     
     //custom serialize function for gridster
     priv.gridSerialize = function ($w, wgd) {
@@ -181,6 +188,26 @@ define(['durandal/app', 'services/programService', 'services/registrationService
         }
 
         return el;
+    };
+
+    priv.initSessionRegistration = function() {
+        return {
+            speaker: ko.observable(''),
+            title: ko.observable(''),
+            description: ko.observable(''),
+            level: ko.observable(self.defaultLevel)
+        };
+    };
+    
+    priv.mapSession = function (session) {
+        return {
+            id: session.id,
+            description: session.description,
+            title: session.title,
+            level: session.level,
+            isPublic: ko.observable(session.isPublic),
+            speaker: session.speaker.name
+        };
     };
 
     return pub;

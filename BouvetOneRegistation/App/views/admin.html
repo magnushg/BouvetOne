@@ -31,6 +31,36 @@
             <tbody data-bind="template: { name: 'sessionsTemplate', foreach: sessions, as: 'session' }">
             </tbody>
         </table>
+        
+        <h2>Registrer talk på vegne av noen</h2>
+        <div class="container registrationWell well" data-bind="with: registrationInput">
+
+            <form role="form" class="form-horizontal">
+                <div class="form-group">
+                    <label class="sr-only">Speaker</label>
+                    <select data-bind="foreach: $root.speakers" class="col-lg-4 form-control">
+                        <option data-bind="value: id, html: name"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="sr-only">Tile</label>
+                    <input type="Text" placeholder="Tittel" data-bind="value: title" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="sr-only">Description</label>
+                    <textarea class="form-control" placeholder="Beskrivelse" data-bind="value: description" />
+                </div>
+                <div class="form-group">
+                    <label class="sr-only">Level</label>
+                    <select data-bind="options:$root.levels, value:level" class="col-lg-4 form-control" />
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" data-bind="click: $root.registerSession">Legg til foredrag</button>
+                </div>
+            </form>
+
+        </div>
+
     </div>
     
     <script type="text/html" id="sessionsTemplate">
