@@ -7,6 +7,7 @@ define(['durandal/app', 'services/programService', 'services/registrationService
     pub.timeslots = ko.observableArray([]);
     pub.rooms = ko.observable();
     pub.sessions = ko.observableArray([]);
+    pub.speakers = ko.observableArray([]);
 
     priv.gridster = null;
     
@@ -93,6 +94,11 @@ define(['durandal/app', 'services/programService', 'services/registrationService
                     });
                 });
             });
+        });
+        
+        //get speakers
+        registrationService.getSpeakers().then(function(speakers) {
+            pub.speakers(speakers);
         });
     };
 

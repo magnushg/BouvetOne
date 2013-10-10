@@ -51,9 +51,13 @@
         });
     };
 
+    self.getSpeakers = function() {
+        return client.getTable('Speaker').read();
+    };
+
     self.deleteSession = function(session) {
         return client.getTable('Session').del({ id: session.id });
-    }
+    };
 
 
     self.getAllSpeakersA = function() {

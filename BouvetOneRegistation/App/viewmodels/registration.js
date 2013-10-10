@@ -14,17 +14,7 @@ define(['durandal/app', 'services/registrationService', 'knockout', 'MobileServi
     pub.levels = ko.observableArray(['Lett - 100', 'Middels - 200', 'Ekspert - 300']);
     pub.editSessionId = ko.observable('');
     pub.speakerRegistered = ko.observable(false);
-    
     pub.registrationInput = ko.observable();
-    
-    //-- forms/templates
-    priv.intializeSessionInput = function () {
-        return {
-            title: ko.observable(''),
-            description: ko.observable(''),
-            level: ko.observable(self.defaultLevel)
-        };
-    };
     
     //-- form actions
     pub.registerSpeaker = function() {
@@ -78,13 +68,6 @@ define(['durandal/app', 'services/registrationService', 'knockout', 'MobileServi
         });
     };
 
-    //-- helpers
-    priv.clearInput = function() {
-        pub.registrationInput().title('');
-        pub.registrationInput().description('');
-        pub.registrationInput().level(self.defaultLevel);
-    };
-
     //-- activate
     pub.activate = function () {
         pub.registrationInput(priv.intializeSessionInput());
@@ -130,5 +113,21 @@ define(['durandal/app', 'services/registrationService', 'knockout', 'MobileServi
         });
     };
         
+    //-- helpers
+    priv.clearInput = function () {
+        pub.registrationInput().title('');
+        pub.registrationInput().description('');
+        pub.registrationInput().level(self.defaultLevel);
+    };
+
+    //-- forms/templates
+    priv.intializeSessionInput = function () {
+        return {
+            title: ko.observable(''),
+            description: ko.observable(''),
+            level: ko.observable(self.defaultLevel)
+        };
+    };
+    
     return pub;
 });
