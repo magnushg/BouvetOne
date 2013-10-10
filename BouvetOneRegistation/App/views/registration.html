@@ -21,7 +21,7 @@
             <div class="container registrationWell well" data-bind="with: registrationInput">
 
                 <form role="form" class="form-horizontal">
-                    <div class="form-group"><strong data-bind="text: 'Registrer foredrag for ' + speaker()"></strong></div>
+                    <div class="form-group"><strong data-bind="text: 'Registrer foredrag for ' + $root.speaker()"></strong></div>
                     <div class="form-group">
                         <label class="sr-only">Tile</label>
                         <input type="Text" placeholder="Tittel" data-bind="value: title" class="form-control" />
@@ -32,10 +32,10 @@
                     </div>
                     <div class="form-group">
                         <label class="sr-only">Level</label>
-                        <select data-bind="options:$parent.levels, value:level" class="col-lg-4 form-control" />
+                        <select data-bind="options:$root.levels, value:level" class="col-lg-4 form-control" />
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-primary" data-bind="click: registerSession">Legg til foredrag</button>
+                        <button class="btn btn-primary" data-bind="click: $root.registerSession">Legg til foredrag</button>
                     </div>
                 </form>
 
@@ -59,7 +59,7 @@
                                     <span data-bind="click:$root.removeSession" class="glyphicon glyphicon-remove"></span>
                                 </td>
                                 <td>
-                                    <span data-bind="click:editSession" class="glyphicon glyphicon-edit"></span>
+                                    <span data-bind="click:$root.editSession" class="glyphicon glyphicon-edit"></span>
                                 </td>
                             </tr>
                         </tbody>

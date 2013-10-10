@@ -1,60 +1,24 @@
 ﻿"use strict";
 define(['durandal/app', 'services/programService', 'services/registrationService'], function (app, programService, registrationService) {
 
-    var displayName = 'Administrator',
-        timeslots = ko.observableArray([]),
-        rooms = ko.observable(),
-        gridster = null,
-        col_width = 200,
-        row_height = 45,
-        sessions = ko.observableArray([]);
+    var priv = {},
+        pub = {};
+
+    pub.timeslots = ko.observableArray([]);
+    pub.rooms = ko.observable();
+    pub.sessions = ko.observableArray([]);
+
+    priv.gridster = null;
     
-
-    //custom serialize function for gridster
-    var gridSerialize = function($w, wgd) {
-        if ($w.hasClass('widget-not-draggable') === false) {
-
-            if (wgd.col <= rooms().length + 1
-                && wgd.row <= timeslots().length + 1) {
-
-                return {
-                    bookingId: parseInt($w.attr('data-booking-id')),
-                    sessionId: parseInt($w.attr('data-session-id')),
-                    timeslotId: gridster.gridmap[1][wgd.row].attr('data-timeslot-id'),
-                    roomId: _.first(_.where(rooms(), { slotIndex: wgd.col - 2 })).id,
-                    dayId: 1,
-                    el: $w[0] //for testing
-                };
-            }
-        }
-        return null;
-    };
-
-    //helper for adding a booking as a gridster widget
-    var addWidget = function (session, booking, timeslotIndex) {
-        var el = $("<li></li>").text(session.title)
-            .addClass('widget-booking')
-            .attr('data-session-id', session.id);
-
-        if (booking != null) {
-            el.attr('data-booking-id', booking.id);
-            gridster.add_widget(el, null, null, booking.room.slotIndex + 2, timeslotIndex + 2);
-        } else {
-            gridster.add_widget(el, null, null, rooms().length + 2, 2);
-        }
-
-        return el;
-    };
-
-    var activate = function() {
+    pub.activate = function() {
         //get rooms for given day
-        programService.getRoomsAsync(1).then(function(_rooms) {
-            rooms(_.sortBy(_rooms, function (room) { return room.slotIndex; }));
+        programService.getRoomsAsync(1).then(function(rooms) {
+            pub.rooms(_.sortBy(rooms, function (room) { return room.slotIndex; }));
         })
         .then(function() {
             //get all sessions
-            return registrationService.getSessionsAsync().then(function(_sessions) {
-                sessions(_.map(_sessions, function (session) {
+            return registrationService.getSessionsAsync().then(function(sessions) {
+                pub.sessions(_.map(sessions, function (session) {
                     return {
                         id: session.id,
                         description: session.description,
@@ -73,7 +37,7 @@ define(['durandal/app', 'services/programService', 'services/registrationService
                     programService.fillEmbeddedInfo(day).done(function() {
 
                         //fill schedule
-                        timeslots(_.map(day.timeslots, function(timeslot) {
+                        pub.timeslots(_.map(day.timeslots, function(timeslot) {
                             return {
                                 id: timeslot.id,
                                 displayTime: moment(timeslot.startTime).format('HH:mm') + '-' + moment(timeslot.endTime).format('HH:mm'),
@@ -81,45 +45,49 @@ define(['durandal/app', 'services/programService', 'services/registrationService
                             };
                         }));
 
+                        var g_el = $('.gridster ul');
+                        var w_width = (g_el.width() / (pub.rooms().length + 2)) - 10,
+                            w_height = 45;
+                        
                         //initialize gridster
-                        gridster = $('.gridster ul').gridster({
+                        priv.gridster = $('.gridster ul').gridster({
                             widget_margins: [5, 5],
-                            widget_base_dimensions: [col_width, row_height],
+                            widget_base_dimensions: [w_width, w_height],
                             avoid_overlapped_widgets: true,
-                            max_cols: rooms().length + 2,
-                            max_rows: rooms().length + 1,
+                            max_cols: pub.rooms().length + 2,
+                            max_rows: pub.rooms().length + 1,
                             static_class: 'widget-not-draggable',
                             draggable: {
                                 items: ".gs_w:not(.widget-not-draggable)"
                             },
-                            serialize_params: gridSerialize,
+                            serialize_params: priv.gridSerialize,
                         }).data('gridster');
 
                         //add 'bucket' for unassigned sessions
-                        gridster.add_widget(
+                        priv.gridster.add_widget(
                             "<li class='widget-not-draggable'>Unassigned</li>",
                             null,
                             null,
-                            rooms().length + 2,
+                            pub.rooms().length + 2,
                             1
                         );
                         var assignedSessionIds = [];
 
                         //add booked sessions to gridster
-                        _.each(timeslots(), function(timeslot, timeslotIndex) {
+                        _.each(pub.timeslots(), function(timeslot, timeslotIndex) {
                             _.each(timeslot.bookings, function(booking) {
-                                addWidget(booking.session, booking, timeslotIndex);
+                                priv.addWidget(booking.session, booking, timeslotIndex);
                                 assignedSessionIds.push(booking.session.id);
                             });
                         });
 
                         //add public + non-booked sessions to the bucket
                         _.each(
-                            _.filter(sessions(), function(session) {
+                            _.filter(pub.sessions(), function(session) {
                                 return session.isPublic() && !(_.contains(assignedSessionIds, session.id));
                             }),
                             function(unassignedSession) {
-                                addWidget(unassignedSession, null, null);
+                                priv.addWidget(unassignedSession, null, null);
                             }
                         );
                     });
@@ -128,13 +96,13 @@ define(['durandal/app', 'services/programService', 'services/registrationService
         });
     };
 
-    var activateSession = function(session) {
+    pub.activateSession = function(session) {
         if (!session.isPublic()) {
             session.isPublic(true);
 
             programService.setSessionPublic(session.id, true).then(function(response) {
 
-                addWidget(session, null, null);
+                priv.addWidget(session, null, null);
             }, function(error) {
                 session.isPublic(false);
                 toastr.error(error);
@@ -142,17 +110,17 @@ define(['durandal/app', 'services/programService', 'services/registrationService
         }
     };
 
-    var deactivateSession = function(session) {
+    pub.deactivateSession = function(session) {
         if (session.isPublic()) {
             session.isPublic(false);
 
             programService.setSessionPublic(session.id, false).then(function(response) {
                 //find widget, 
                 //calling _.each just in case there are duplicates on the grid
-                var el = gridster.$widgets.filter(function() {
+                var el = priv.gridster.$widgets.filter(function() {
                     return $(this).attr('data-session-id') == session.id;
                 });
-                _.each(el, function(e) { gridster.remove_widget(e); });
+                _.each(el, function(e) { priv.gridster.remove_widget(e); });
 
             }, function(error) {
                 session.isPublic(true);
@@ -161,8 +129,8 @@ define(['durandal/app', 'services/programService', 'services/registrationService
         }
     };
 
-    var saveProgram = function() {
-        var list = _.filter(gridster.serialize(), function(w) {
+    pub.saveProgram = function() {
+        var list = _.filter(priv.gridster.serialize(), function(w) {
             return w !== null;
         });
 
@@ -172,14 +140,42 @@ define(['durandal/app', 'services/programService', 'services/registrationService
                 toastr.success('Programmet ble lagret');
             });
     };
+    
+    //custom serialize function for gridster
+    priv.gridSerialize = function ($w, wgd) {
+        if ($w.hasClass('widget-not-draggable') === false) {
 
-    return {        
-        saveProgram: saveProgram,
-        deactivateSession: deactivateSession,
-        activateSession: activateSession,
-        activate: activate,
-        rooms: rooms,
-        sessions: sessions,
-        timeslots: timeslots
+            if (wgd.col <= pub.rooms().length + 1
+                && wgd.row <= pub.timeslots().length + 1) {
+
+                return {
+                    bookingId: parseInt($w.attr('data-booking-id')),
+                    sessionId: parseInt($w.attr('data-session-id')),
+                    timeslotId: priv.gridster.gridmap[1][wgd.row].attr('data-timeslot-id'),
+                    roomId: _.first(_.where(pub.rooms(), { slotIndex: wgd.col - 2 })).id,
+                    dayId: 1,
+                    el: $w[0] //for testing
+                };
+            }
+        }
+        return null;
     };
+
+    //helper for adding a booking as a gridster widget
+    priv.addWidget = function (session, booking, timeslotIndex) {
+        var el = $("<li></li>").text(session.title)
+            .addClass('widget-booking')
+            .attr('data-session-id', session.id);
+
+        if (booking != null) {
+            el.attr('data-booking-id', booking.id);
+            priv.gridster.add_widget(el, null, null, booking.room.slotIndex + 2, timeslotIndex + 2);
+        } else {
+            priv.gridster.add_widget(el, null, null, pub.rooms().length + 2, 2);
+        }
+
+        return el;
+    };
+
+    return pub;
 });

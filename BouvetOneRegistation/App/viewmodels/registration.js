@@ -1,52 +1,52 @@
-﻿define(['durandal/app', 'services/registrationService', 'knockout', 'MobileServiceClient', 'viewmodels/editRegistration', 'services/appsecurity'],
-    function (app, registrationService, ko, webservice, editModal, appsecurity) {
+﻿"use strict";
+define(['durandal/app', 'services/registrationService', 'knockout', 'MobileServiceClient', 'viewmodels/editRegistration', 'services/appsecurity'], function (app, registrationService, ko, webservice, editModal, appsecurity) {
 
-    var self = this;
-    self.displayName = 'Registrering';
+    var pub = {},
+        priv = {};
+
+    pub.displayName = 'Registrering';
 
     //-- observables and variables
-    self.speaker = ko.observable(appsecurity.user().name);
-    //self.speakerId = ko.observable(webservice.currentUser ? webservice.currentUser.userId : '');
-    self.speakerNameInput = ko.observable('');
-    self.mySessions = ko.observableArray([]);
-    self.defaultLevel = 'Middels - 200';
-    self.levels = ko.observableArray(['Lett - 100', self.defaultLevel, 'Ekspert - 300']);
-    self.editSessionId = ko.observable('');
-
-    //-- computed variables
-    self.speakerRegistered = ko.observable(false);
+    pub.speaker = ko.observable(appsecurity.user().name);
+    pub.speakerNameInput = ko.observable('');
+    pub.mySessions = ko.observableArray([]);
+    pub.defaultLevel = 'Middels - 200';
+    pub.levels = ko.observableArray(['Lett - 100', 'Middels - 200', 'Ekspert - 300']);
+    pub.editSessionId = ko.observable('');
+    pub.speakerRegistered = ko.observable(false);
+    
+    pub.registrationInput = ko.observable();
     
     //-- forms/templates
-    self.intializeSessionInput = function () {
+    priv.intializeSessionInput = function () {
         return {
             title: ko.observable(''),
             description: ko.observable(''),
             level: ko.observable(self.defaultLevel)
         };
     };
-    self.registrationInput = ko.observable(self.intializeSessionInput());
-
+    
     //-- form actions
-    self.registerSpeaker = function() {
-        if (self.speakerNameInput() === undefined || self.speakerNameInput() === '') {
+    pub.registerSpeaker = function() {
+        if (pub.speakerNameInput() === undefined || pub.speakerNameInput() === '') {
             toastr.warning('Skriv inn et brukernavn');
             return;
         }
         
-        registrationService.registerSpeakerNameAsync(self.speakerNameInput()).then(function (speaker) {
+        registrationService.registerSpeakerNameAsync(pub.speakerNameInput()).then(function (speaker) {
             //update appsecurity
             appsecurity.getAuthInfo();
             //in case any old sessions bound to the userId exists
-            self.fetchSessions();
-            self.speakerRegistered(true);
+            priv.fetchSessions();
+            pub.speakerRegistered(true);
         });
     };
 
-    self.registerSession = function (session) {
+    pub.registerSession = function (session) {
         registrationService.registerSessionAsync(session).then(function (newSession) {
-            self.clearInput();
+            priv.clearInput();
             
-            self.mySessions.push(
+            pub.mySessions.push(
                 {
                     id: newSession.id,
                     description: ko.observable(newSession.description),
@@ -59,7 +59,7 @@
         });
     };
     
-    self.removeSession = function(session) {
+    pub.removeSession = function(session) {
         app.showMessage('Er du sikker på at du vil slette foredraget "' + session.title() +'"?', 'Slette foredrag', ['Ja', 'Nei']).then(function(dialogResult) {
             if (dialogResult === 'Ja') {
                 
@@ -67,37 +67,37 @@
 
                     toastr.success(session.title() + ' ble slettet.');
 
-                    self.mySessions(_.filter(self.mySessions(), function(s) {
+                    pub.mySessions(_.filter(pub.mySessions(), function (s) {
                         return s.id !== session.id;
                     }));
                 }, 
                 function(error) {
-                    toastr.error('Det skjedde en feil ved sletting av ' + session.title());
+                    toastr.error('Du har ikke tillatelse til å slette ' + session.title() + '. Dette kan skje hvis den allerede står på programmet.');
                 });
             }
         });
     };
 
-    //-- helpers, todo: remove unused
-    
-    self.clearInput = function() {
-        self.registrationInput().title('');
-        self.registrationInput().description('');
-        self.registrationInput().level(self.defaultLevel);
+    //-- helpers
+    priv.clearInput = function() {
+        pub.registrationInput().title('');
+        pub.registrationInput().description('');
+        pub.registrationInput().level(self.defaultLevel);
     };
 
     //-- activate
-    self.activate = function () {
-        self.speakerRegistered(appsecurity.isRegistered());
+    pub.activate = function () {
+        pub.registrationInput(priv.intializeSessionInput());
+        pub.speakerRegistered(appsecurity.isRegistered());
         
-        if (self.speakerRegistered()) {
-            self.fetchSessions();
+        if (pub.speakerRegistered()) {
+            priv.fetchSessions();
         }
     };
 
-    self.fetchSessions = function() {
+    priv.fetchSessions = function() {
         registrationService.getSessionsAsync().then(function (sessions) {
-            self.mySessions(_.map(
+            pub.mySessions(_.map(
                     //filter out sessions that arent the user's
                     _.filter(sessions, function (session) {
                         return session.speakerId === appsecurity.user().userId;
@@ -114,12 +114,12 @@
                     }
                 ));
             
-            return self.mySessions();
+            return pub.mySessions();
         });
     };
         
-    self.editSession = function (session) {
-        app.showDialog(new editModal(session, self.levels)).then(function (results, save) {
+    pub.editSession = function (session) {
+        app.showDialog(new editModal(session, pub.levels)).then(function (results, save) {
             if (save) {
                 session.title(results.title);
                 session.description(results.description);
@@ -130,5 +130,5 @@
         });
     };
         
-    return self;
+    return pub;
 });

@@ -1,41 +1,27 @@
 ﻿define(['durandal/app', 'services/programService', 'knockout','moment'], function(app, programService, ko, moment) {
-    
-    var program = ko.observableArray([]),
-        rooms = ko.observableArray([]),
-        prev_grid_position = 0;
-        
-    var columnClass = ko.computed(function() {
-        return "col-md-2";
-    });
-    
-    //helper for adding a booking as a gridster widget
-    var addWidget = function (session, booking, timeslotIndex) {
-        var el = $("<li></li>").text(session.title)
-            .addClass('widget-not-draggable')
-            .attr('data-sizex', 1)
-            .attr('data-sizey', 1)
-            .attr('data-session-id', session.id);
 
-        if (booking != null) {
-            el.attr('data-booking-id', booking.id);
-            gridster.add_widget(el, null, null, booking.room.slotIndex + 2, timeslotIndex + 2);
-        } else {
-            gridster.add_widget(el, null, null, rooms().length + 2, 2);
-        }
+    var pub = {},
+        priv = {};
 
-        return el;
-    };
+    pub.program = ko.observableArray([]);
+    pub.rooms = ko.observableArray([]);
+    pub.displayName = 'Program';
     
-    var activate = function () {
+    priv.gridster = null;
+    priv.gridster_margins = [5, 5];
+    
+    pub.activate = function () {
         //get rooms for given day
-        programService.getRoomsAsync(1).then(function (_rooms) {
-            rooms(_.sortBy(_rooms, function (room) { return room.slotIndex; }));
+        programService.getRoomsAsync(1).then(function (rooms) {
             
+            pub.rooms(_.sortBy(rooms, function (room) { return room.slotIndex; }));
+            
+            //get bookings and embedded data
             programService.getDayWithTimeSlots(1).then(function (day) {
                 programService.fillBookingsForDay(day).done(function () {
                     programService.fillEmbeddedInfo(day).done(function () {
 
-                        program(_.map(day.timeslots, function (timeslot) {
+                        pub.program(_.map(day.timeslots, function (timeslot) {
                             return {
                                 id: timeslot.id,
                                 displayTime: moment(timeslot.startTime).format('HH:mm') + '-' + moment(timeslot.endTime).format('HH:mm'),
@@ -44,15 +30,16 @@
                         }));
 
                         var g_el = $('.gridster ul');
-                        var w_width = (g_el.width() / (rooms().length + 1)) - 10;
+                        var w_width = (g_el.width() / (pub.rooms().length + 1)) - priv.gridster_margins[0] * 2,
+                            w_height = 45;
 
                         //initialize gridster
-                        gridster = g_el.gridster({
+                        priv.gridster = g_el.gridster({
                             widget_margins: [5, 5],
                             widget_base_dimensions: [w_width, 45],
                             avoid_overlapped_widgets: true,
-                            max_cols: rooms().length + 1,
-                            max_rows: rooms().length + 1,
+                            max_cols: pub.rooms().length + 1,
+                            max_rows: pub.rooms().length + 1,
                             static_class: 'widget-not-draggable',
                             draggable: {
                                 items: ".gs_w:not(.widget-not-draggable)"
@@ -60,9 +47,9 @@
                         }).data('gridster');
 
                         //add booked sessions to gridster
-                        _.each(program(), function (timeslot, timeslotIndex) {
+                        _.each(pub.program(), function (timeslot, timeslotIndex) {
                             _.each(timeslot.bookings, function (booking) {
-                                addWidget(booking.session, booking, timeslotIndex);
+                                priv.addWidget(booking.session, booking, timeslotIndex);
                             });
                         });
                     });
@@ -70,26 +57,24 @@
             });
         });
     };
+    
+    //helper for adding a booking as a gridster widget
+    priv.addWidget = function (session, booking, timeslotIndex) {
+        var el = $("<li></li>").text(session.title)
+            .addClass('widget-not-draggable')
+            .attr('data-sizex', 1)
+            .attr('data-sizey', 1)
+            .attr('data-session-id', session.id);
 
-    //helper function to figure out grid-offset
-    var gridOffset = function (slots, index) {
-        if (index() == 0) {
-            prev_grid_position = slots[index()].room.slotIndex;
-            return "col-md-offset-" + prev_grid_position * 2;
+        if (booking != null) {
+            el.attr('data-booking-id', booking.id);
+            priv.gridster.add_widget(el, null, null, booking.room.slotIndex + 2, timeslotIndex + 2);
+        } else {
+            priv.gridster.add_widget(el, null, null, rooms().length + 2, 2);
         }
-        else {
-            var slotIndex = slots[index()].room.slotIndex;
-            var css = "col-md-offset-" + (slotIndex - (prev_grid_position + 1)) * 2;
-            prev_grid_position = slotIndex;
 
-            return css;
-        }
+        return el;
     };
 
-    return {
-        activate: activate,
-        displayName: 'Program',
-        program: program,
-        rooms: rooms
-    };
+    return pub;
 });
