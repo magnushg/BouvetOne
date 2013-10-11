@@ -9,7 +9,7 @@ define(['durandal/app', 'services/programService', 'services/registrationService
     pub.sessions = ko.observableArray([]);
     pub.speakers = ko.observableArray([]);
     pub.registrationInput = ko.observable();
-
+    pub.levels = ko.observableArray(['Lett - 100', 'Middels - 200', 'Ekspert - 300']);
     priv.gridster = null;
     
     pub.activate = function() {
@@ -96,6 +96,7 @@ define(['durandal/app', 'services/programService', 'services/registrationService
         registrationService.getSpeakers().then(function(speakers) {
             pub.speakers(speakers);
         });
+        
     };
 
     pub.activateSession = function(session) {
@@ -143,17 +144,6 @@ define(['durandal/app', 'services/programService', 'services/registrationService
             });
     };
 
-    pub.registerSession = function() {
-        registrationService.registerSessionAsync(session).then(function (newSession) {
-
-            pub.registrationInput().title('');
-            pub.registrationInput().description('');
-            pub.registrationInput().level(self.defaultLevel);
-
-            pub.sessions.push(priv.mapSession(newSession));
-        });
-    };
-    
     //custom serialize function for gridster
     priv.gridSerialize = function ($w, wgd) {
         if ($w.hasClass('widget-not-draggable') === false) {
@@ -190,12 +180,36 @@ define(['durandal/app', 'services/programService', 'services/registrationService
         return el;
     };
 
-    priv.initSessionRegistration = function() {
+    priv.initSessionRegistration = function () {
         return {
-            speaker: ko.observable(''),
+            speakerId: ko.observable(0),
+            newSpeaker: ko.observable(''),
             title: ko.observable(''),
             description: ko.observable(''),
-            level: ko.observable(self.defaultLevel)
+            level: ko.observable(pub.levels()[1]),
+            
+            newSpeaker_changed: function(val) {
+                if (!_.isEmpty(val.newSpeaker())) {
+                    $("#selectSpeaker").prop('disabled', true);
+                } else {
+                    $("#selectSpeaker").removeAttr('disabled');
+                }
+                return true;
+            },
+            
+            registerSession: function (session) {
+                if (session.speakerId() > 0) {
+                    session.speakerName = _.first(_.where(pub.speakers(), { id: session.speakerId() })).name;
+                }
+                registrationService.registerSessionForAnother(session).then(function (newSession) {
+
+                    pub.registrationInput().title('');
+                    pub.registrationInput().description('');
+                    pub.registrationInput().newSpeaker('');
+
+                    pub.sessions.push(priv.mapSession(newSession));
+                });
+            }
         };
     };
     

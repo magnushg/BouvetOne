@@ -37,6 +37,38 @@
         });
     };
 
+    self.registerSessionForAnother = function (sessionDetails) {
+        var data = {
+            title: sessionDetails.title(),
+            description: sessionDetails.description(),
+            level: sessionDetails.level(),
+            speakerId: sessionDetails.speakerId()
+        };
+        
+        var createSpeaker = !_.isEmpty(sessionDetails.newSpeaker()),
+            promise,
+            name;
+        
+        if (createSpeaker) {
+            promise = self.registerSpeakerNameAsync(sessionDetails.newSpeaker()).then(function (speaker) {
+                name = sessionDetails.newSpeaker();
+                return client.getTable('Session').insert(data);
+            });
+        } else {
+            name = sessionDetails.speakerName;
+            promise = client.getTable('Session').insert(data);
+        }
+        
+        return promise.then(function (response) {
+            toastr.success('Foredraget "' + sessionDetails.title() + '" ble lagt til');
+            response.speaker = { name: name };
+            
+            return response;
+        }, function (error) {
+            toastr.error(error);
+        });
+    };
+
     self.updateSession = function(sessionDetails) {
         var data = { id: sessionDetails.id, title: sessionDetails.title(), description: sessionDetails.description(), level: sessionDetails.level() };
         client.getTable('Session').update(data).then(function(response) {

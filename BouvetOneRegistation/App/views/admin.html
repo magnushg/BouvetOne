@@ -37,10 +37,17 @@
 
             <form role="form" class="form-horizontal">
                 <div class="form-group">
-                    <label class="sr-only">Speaker</label>
-                    <select data-bind="foreach: $root.speakers" class="col-lg-4 form-control">
-                        <option data-bind="value: id, html: name"></option>
-                    </select>
+                    <div class="col-lg-6" style="padding-left: 0">
+                        <label>Lag ny bruker</label>
+                        <input type="Text" placeholder="Navn" data-bind="value: newSpeaker, event: { change: newSpeaker_changed }, valueUpdate: 'afterkeydown'" class="form-control" />    
+                    </div>
+                    <div class="col-lg-6" style="padding-right: 0">
+                        <label>Eller velg blant eksisterende</label>
+                        <select data-bind="value: speakerId, foreach: $root.speakers" class="col-lg-4 form-control" id="selectSpeaker">
+                            <option data-bind="html: name, value: id"></option>
+                        </select>
+
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="sr-only">Tile</label>
@@ -55,7 +62,7 @@
                     <select data-bind="options:$root.levels, value:level" class="col-lg-4 form-control" />
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-primary" data-bind="click: $root.registerSession">Legg til foredrag</button>
+                    <button class="btn btn-primary" data-bind="click: registerSession">Legg til foredrag</button>
                 </div>
             </form>
 
