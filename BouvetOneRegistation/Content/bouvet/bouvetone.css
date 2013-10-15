@@ -1,0 +1,22 @@
+@font-face {font-family: 'Archer'; src: url(/Content/font/Archer-SemiBold-Pro.otf);}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {font-family: Archer;}
+h1, h2{padding-top:20px;}
+.jumbotron{padding:30px 0 30px 0; background-color:#FFFFFF; margin-bottom:0px}
+
+@media screen and (min-width: 768px) {
+  .jumbotron h1 {font-size: 32px;}
+  .bouvetheader {padding-left:0px !important; padding-right:30px !important}
+  .navbar-inverse .navbar-nav > li > a {background:url(/Content/images/degree-circle.png) no-repeat right top;}
+}
+
+.navbar {font-family: Archer; font-size: 18px;}
+.navbar-inverse .navbar-nav > li > a {color:#FFFFFF;}
+.navbar-nav > li > a {padding:3px 12px 0 40px}
+.navbar-nav > li {padding-top:12px}
+.navbar-inverse .navbar-nav > li > a:hover {color:#FF6300;}
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover {color:#FF6300; background-color:#222;}
+
+.bouvetheader {color:#FF6300; padding:0 0 0 20px; width:160px;}
+
+.bouvetheader div {float:right; padding-top:9px; font-weight:bold; font-size:22px; }

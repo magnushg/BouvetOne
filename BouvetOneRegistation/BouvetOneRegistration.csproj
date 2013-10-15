@@ -214,6 +214,7 @@
     <Content Include="Content\bootstrap\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap\bootstrap.css" />
     <Content Include="Content\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\bouvet\bouvetone.css" />
     <Content Include="Content\durandal.css" />
     <Content Include="Content\font-awesome-ie7.css" />
     <Content Include="Content\font-awesome-ie7.min.css" />
@@ -224,6 +225,7 @@
     <Content Include="Content\gridster.css" />
     <Content Include="Content\ie10mobile.css" />
     <Content Include="Content\images\arrow.png" />
+    <Content Include="Content\images\header_logo.png" />
     <Content Include="Content\images\icon.png" />
     <Content Include="Content\images\ios-startup-image-landscape.png" />
     <Content Include="Content\images\ios-startup-image-portrait.png" />
@@ -267,6 +269,9 @@
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\underscore.min.js" />
     <Content Include="Scripts\underscore.min.map" />
+    <Content Include="Content\font\Archer-Book-Pro.otf" />
+    <Content Include="Content\font\Archer-Medium-Pro.otf" />
+    <Content Include="Content\font\Archer-Semibold-Pro.otf" />
     <None Include="Properties\PublishProfiles\BouvetOne.pubxml" />
     <None Include="Web.BouvetOne.config">
       <DependentUpon>Web.config</DependentUpon>

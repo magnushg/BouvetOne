@@ -33,6 +33,7 @@ namespace BouvetOneRegistation {
           .Include("~/Content/Stashy.css")
           .Include("~/Content/site.css")
           .Include("~/Content/gridster.css")
+          .Include("~/Content/bouvet/bouvetone.css")
         );
     }
 
