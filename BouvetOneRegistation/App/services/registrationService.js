@@ -1,19 +1,13 @@
 ﻿define(['plugins/http', 'MobileServiceClient', 'services/appsecurity'], function(http, client, appsecurity) {
     var self = {};
 
-    self.getCurrentSpeakerNameAsync = function () {
-        return client.getTable('Speaker')
-            .where({ userId: client.currentUser.userId })
-            .read().then(function (response) {
-                if (response.length > 0) return _.first(response).name;
-                else return null;
-            }, function(error) {
-                console.log(error);
-            });
-    };
-    
-    self.registerSpeakerNameAsync = function (speakerName) {
-        return client.getTable('Speaker').insert({ name: speakerName }).then(function(response) {
+    self.registerSpeakerNameAsync = function (speakerName, authId) {
+
+        if (_.isNull(authId) || _.isUndefined(authId)) {
+            authId = appsecurity.user().authId;
+        }
+        
+        return client.getTable('Speaker').insert({ name: speakerName, authId: authId }).then(function (response) {
             return response;
         }, function(error) {
             toastr.error('En feil oppstod');
@@ -24,10 +18,9 @@
     self.registerSessionAsync = function(sessionDetails) {
         var data = {
             speakerId: appsecurity.user().userId,
-            speaker: appsecurity.user().name,
             title: sessionDetails.title(),
             description: sessionDetails.description(),
-            level: sessionDetails.level()
+            level: sessionDetails.level(),
         };
         return client.getTable('Session').insert(data).then(function(response) {
             toastr.success('Foredraget "' + sessionDetails.title() + '" ble lagt til');
@@ -50,8 +43,9 @@
             name;
         
         if (createSpeaker) {
-            promise = self.registerSpeakerNameAsync(sessionDetails.newSpeaker()).then(function (speaker) {
+            promise = self.registerSpeakerNameAsync(sessionDetails.newSpeaker(), '').then(function (speaker) {
                 name = sessionDetails.newSpeaker();
+                data.speakerId = speaker.id;
                 return client.getTable('Session').insert(data);
             });
         } else {
@@ -107,7 +101,7 @@
 
     self.getCurrentUserAsync = function() {
         return client.getTable('Speaker')
-            .where({ userId: client.currentUser.userId })
+            .where({ authId: client.currentUser.userId })
             .read().then(function (response) {
                 if (response.length > 0) return _.first(response);
                 else return null;
@@ -127,7 +121,7 @@
             //fetch speaker for session and append to session-object
             _.each(sessions, function(session) {
                 var promise = client.getTable('Speaker')
-                                .where({ 'userId': session.speakerId })
+                                .where({ 'id': session.speakerId })
                                 .read().then(function (user) {
                                     $.extend(session, { speaker: _.first(user) });
                                 });

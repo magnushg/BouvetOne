@@ -115,19 +115,23 @@ define(['durandal/app', 'services/programService', 'services/registrationService
 
     pub.deactivateSession = function(session) {
         if (session.isPublic()) {
+            
             session.isPublic(false);
 
             programService.setSessionPublic(session.id, false).then(function(response) {
-                //find widget, 
-                //calling _.each just in case there are duplicates on the grid
-                var el = priv.gridster.$widgets.filter(function() {
-                    return $(this).attr('data-session-id') == session.id;
-                });
-                _.each(el, function(e) { priv.gridster.remove_widget(e); });
+                programService.deleteBooking(session.id).then(function() {
+                    //find widget, 
+                    //calling _.each just in case there are duplicates on the grid
+                    var el = priv.gridster.$widgets.filter(function() {
+                        return $(this).attr('data-session-id') == session.id;
+                    });
+                    _.each(el, function(e) { priv.gridster.remove_widget(e); });
 
-            }, function(error) {
-                session.isPublic(true);
-                toastr.error(error);
+                }),
+                function(error) {
+                    session.isPublic(true);
+                    toastr.error(error);
+                }
             });
         }
     };
@@ -198,7 +202,9 @@ define(['durandal/app', 'services/programService', 'services/registrationService
             },
             
             registerSession: function (session) {
+                
                 if (session.speakerId() > 0) {
+                    //store the name so we don't have to query for it in the service
                     session.speakerName = _.first(_.where(pub.speakers(), { id: session.speakerId() })).name;
                 }
                 registrationService.registerSessionForAnother(session).then(function (newSession) {

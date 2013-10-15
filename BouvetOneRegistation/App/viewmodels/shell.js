@@ -17,7 +17,6 @@
         }
 
         self.isAuthenticated.subscribe(function(newVal) {
-            console.log(newVal);
             self.refreshRouteAccess();
         });
 
@@ -38,6 +37,11 @@
         appsecurity.login().then(function() {
             appsecurity.getAuthInfo().then(function() {
                 self.isAuthenticated(true);
+
+                //navigate to registration if user is not already registered
+                if (appsecurity.isAuthenticated() && !appsecurity.isRegistered()) {
+                    router.navigate('/')
+                }
             });
         });
     };

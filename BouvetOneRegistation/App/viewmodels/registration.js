@@ -29,6 +29,7 @@ define(['durandal/app', 'services/registrationService', 'knockout', 'MobileServi
             //in case any old sessions bound to the userId exists
             priv.fetchSessions();
             pub.speakerRegistered(true);
+            pub.speaker(speaker.name);
         });
     };
 
@@ -43,7 +44,6 @@ define(['durandal/app', 'services/registrationService', 'knockout', 'MobileServi
                     title: ko.observable(newSession.title),
                     level: ko.observable(newSession.level),
                     isPublic: ko.observable(newSession.isPublic),
-                    speaker: appsecurity.user().name
                 }
             );
         });
@@ -83,7 +83,7 @@ define(['durandal/app', 'services/registrationService', 'knockout', 'MobileServi
             pub.mySessions(_.map(
                     //filter out sessions that arent the user's
                     _.filter(sessions, function (session) {
-                        return session.speakerId === appsecurity.user().userId;
+                        return session.speakerId == appsecurity.user().userId;
                     }),
                     function (session) {
                         return {
@@ -92,7 +92,6 @@ define(['durandal/app', 'services/registrationService', 'knockout', 'MobileServi
                             title: ko.observable(session.title),
                             level: ko.observable(session.level),
                             isPublic: ko.observable(session.isPublic),
-                            speaker: session.speaker.name
                         };
                     }
                 ));

@@ -44,6 +44,9 @@
                     <div class="col-lg-6" style="padding-right: 0">
                         <label>Eller velg blant eksisterende</label>
                         <select data-bind="value: speakerId, foreach: $root.speakers" class="col-lg-4 form-control" id="selectSpeaker">
+                            <!-- ko if: $index() === 0 -->
+                                <option value="0"></option>
+                            <!-- /ko -->
                             <option data-bind="html: name, value: id"></option>
                         </select>
 

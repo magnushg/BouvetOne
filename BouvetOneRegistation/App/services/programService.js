@@ -133,5 +133,11 @@ define(['plugins/http', 'MobileServiceClient', 'jquery'], function(http, client,
         return defer.promise;
     };
 
+    self.deleteBooking = function (sessionId) {
+        return client.getTable('Booking').where({ sessionId: sessionId }).read().then(function (response) {
+            return client.getTable('Booking').del(_.first(response));
+        });
+    };
+
     return self;
 });

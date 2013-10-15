@@ -7,8 +7,9 @@
             antiforgeryToken: null,
             isAdmin: false,
             userId: null,
+            authId: null,
             role: 'Public'
-        }
+        };
     };
     
     var user = ko.observable(getUserTemplate());
@@ -23,10 +24,10 @@
             if (localStorage.currentUser !== null && localStorage.currentUser !== undefined) {
                 mobileservice.currentUser = JSON.parse(localStorage.currentUser);
                 self.user().isAuthenticated = true;
-                self.user().userId = mobileservice.currentUser.userId;
+                self.user().authId = mobileservice.currentUser.userId;
 
                 mobileservice.getTable('Speaker')
-                    .where({ userId: mobileservice.currentUser.userId })
+                    .where({ authId: mobileservice.currentUser.userId })
                     .read()
                     .then(function (usr) {
                         if (usr.length > 0) {
@@ -34,7 +35,7 @@
 
                             self.user().name    = usr.name;
                             self.user().isAdmin = usr.admin;
-                            self.user().name    = usr.name;
+                            self.user().userId = usr.id;
                         }
                         def.resolve(self.user());
                     });
@@ -49,8 +50,8 @@
             return this.user().isAuthenticated;
         },
         
-        isRegistered: function() {
-            return this.user().name !== null;
+        isRegistered: function () {
+            return !(_.isNull(this.user().name) || _.isEmpty(this.user().name));
         },
         
         login: function () {
@@ -66,7 +67,7 @@
         logout: function () {
             mobileservice.logout();
             delete localStorage.currentUser;
-            this.user({ isAuthenticated: false, name: '', antiforgeryToken: null, isAdmin: false, role: 'Public' });
+            this.user({ isAuthenticated: false, name: '', antiforgeryToken: null, isAdmin: false, role: 'Public', authId: null });
             router.navigate('program');
         },
         
