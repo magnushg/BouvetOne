@@ -77,12 +77,28 @@ tbody td {
 }
 
 .widget-booking {
-    background-color: #333333;
+    background-color: cadetblue;
     color: #ffffff;
+    line-height: 120%
 }
 
 .widget-unassigned {
     background-color: #FF6300;
     color: #000000;
+    line-height: 120%
 }
 
+.widget-program-item {
+    background-color: cadetblue;
+    color: #ffffff;
+}
+
+.widget-program-column {
+    background-color: #ffffff;
+    padding-top: 18px;
+}
+
+.widget-program-row {
+    background-color: #ffffff;
+    padding-top: 18px;
+}
