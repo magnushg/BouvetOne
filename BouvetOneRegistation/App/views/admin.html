@@ -5,7 +5,7 @@
             
             <div class="gridster">
                 <ul>
-                    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1" class="widget-not-draggable"></li>
+                    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1" class="widget-not-draggable" style="background-color: inherit"></li>
                     <!-- ko foreach: rooms -->
                     <li data-row="1" data-sizex="1" data-sizey="1" class="widget-not-draggable" data-bind="html: name, attr: {'data-col': slotIndex + 2}"></li>
                     <!-- /ko -->
@@ -16,9 +16,12 @@
                 </ul>
             </div> 
             
-            <button data-bind="click: saveProgram">save</button>
+            <div>
+                <button data-bind="click: saveProgram">save</button>
+            </div>
         </div>
     </div>
+
     <div class="container">
         <h2>Godkjenning av talks</h2>
         
