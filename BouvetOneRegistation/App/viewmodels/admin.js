@@ -53,14 +53,15 @@ define(['durandal/app', 'services/programService', 'services/registrationService
                             max_rows: pub.rooms().length + 1,
                             static_class: 'widget-not-draggable',
                             draggable: {
-                                items: ".gs_w:not(.widget-not-draggable)"
+                                items: ".gs_w:not(.widget-not-draggable)",
+                                stop: priv.decorateWidgetAsUnassigned
                             },
                             serialize_params: priv.gridSerialize,
                         }).data('gridster');
 
                         //add 'bucket' for unassigned sessions
                         priv.gridster.add_widget(
-                            "<li class='widget-not-draggable'>Unassigned</li>",
+                            "<li class='widget-not-draggable widget-unassigned'>Unassigned</li>",
                             null,
                             null,
                             pub.rooms().length + 2,
@@ -172,7 +173,8 @@ define(['durandal/app', 'services/programService', 'services/registrationService
     priv.addWidget = function (session, booking, timeslotIndex) {
         var el = $("<li></li>").text(session.title)
             .addClass('widget-booking')
-            .attr('data-session-id', session.id);
+            .attr('data-session-id', session.id)
+            .attr('alt', session.title);
 
         if (booking != null) {
             el.attr('data-booking-id', booking.id);
@@ -217,6 +219,26 @@ define(['durandal/app', 'services/programService', 'services/registrationService
                 });
             }
         };
+    };
+
+    priv.decorateWidgetAsUnassigned = function (event, ui) {
+        //the hard way to find the properties of the element
+        //that was moved
+        var res = _.where(
+            _.filter(priv.gridster.serialize(), function (val) {
+                return val !== null
+            }), {
+                el: event.toElement
+            });
+
+        //if no obj was found then the el is off the grid, which means
+        //it should be coloured as unassigned
+        if (res.length === 0) {
+            $(event.toElement).addClass('widget-unassigned');
+        }
+        else {
+            $(event.toElement).removeClass('widget-unassigned');
+        }
     };
     
     priv.mapSession = function (session) {
