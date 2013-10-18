@@ -16,7 +16,7 @@ define(['plugins/http', 'MobileServiceClient', 'jquery'], function(http, client,
                         dayItem.timeslots = _.map(timeslots, function(timeslot) {
                             return {
                                 id: timeslot.id,
-                                startTime: timeslot.endTime,
+                                startTime: timeslot.startTime,
                                 endTime: timeslot.endTime
                             };
                         });
