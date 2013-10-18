@@ -62,9 +62,12 @@
     priv.addWidget = function (session, booking, timeslotIndex) {
         var el = $("<li></li>").text(session.title)
             .addClass('widget-not-draggable')
+            .addClass('widget-program-item')
             .attr('data-sizex', 1)
             .attr('data-sizey', 1)
             .attr('data-session-id', session.id);
+        el.click(priv.showFullInformation);
+
 
         if (booking != null) {
             el.attr('data-booking-id', booking.id);
@@ -74,6 +77,10 @@
         }
 
         return el;
+    };
+
+    priv.showFullInformation = function (event) {
+        console.log('a');
     };
 
     return pub;

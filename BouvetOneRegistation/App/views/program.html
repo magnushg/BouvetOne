@@ -10,11 +10,11 @@
         <div class="gridster">
             <ul>
                 <!-- ko foreach: rooms -->
-                <li data-row="1" data-sizex="1" data-sizey="1" class="widget-not-draggable" data-bind="html: name, attr: {'data-col': slotIndex + 2}"></li>
+                <li data-row="1" data-sizex="1" data-sizey="1" class="widget-not-draggable widget-program-column" data-bind="html: name, attr: {'data-col': slotIndex + 2}"></li>
                 <!-- /ko -->
                     
                 <!-- ko foreach: program -->
-                <li data-col="1" data-sizex="1" data-sizey="1" class="widget-not-draggable" data-bind="html: $data.displayTime, attr: {'data-row': $index() + 2, 'data-timeslot-id': $data.id}"></li>
+                <li data-col="1" data-sizex="1" data-sizey="1" class="widget-not-draggable widget-program-row" data-bind="html: $data.displayTime, attr: {'data-row': $index() + 2, 'data-timeslot-id': $data.id}"></li>
                 <!-- /ko -->
             </ul>
         </div> 
