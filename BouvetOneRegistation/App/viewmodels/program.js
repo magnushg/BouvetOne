@@ -1,4 +1,4 @@
-﻿define(['durandal/app', 'services/programService', 'knockout','moment', 'utils/gridster-utils'], function(app, programService, ko, moment, utils) {
+﻿define(['durandal/app', 'services/programService', 'knockout', 'moment', 'utils/gridster-utils'], function (app, programService, ko, moment, utils) {
 
     var pub = {},
         priv = {};
@@ -6,16 +6,16 @@
     pub.program = ko.observableArray([]);
     pub.rooms = ko.observableArray([]);
     pub.displayName = 'Program';
-    
+
     priv.gridster = null;
     priv.gridster_margins = [5, 5];
-    
+
     pub.activate = function () {
         //get rooms for given day
         programService.getRoomsAsync(1).then(function (rooms) {
-            
+
             pub.rooms(_.sortBy(rooms, function (room) { return room.slotIndex; }));
-            
+
             //get bookings and embedded data
             programService.getDayWithTimeSlots(1).then(function (day) {
                 programService.fillBookingsForDay(day).done(function () {
@@ -57,8 +57,9 @@
                 });
             });
         });
+
     };
-    
+
     //helper for adding a booking as a gridster widget
     priv.addWidget = function (session, booking, timeslotIndex) {
         var el = $("<li></li>").text(session.title)
@@ -82,10 +83,38 @@
 
     priv.showFullInformation = function (event) {
         var obj = utils.findObjectByElement(priv.gridster.serialize(), event.target);
+
+        _.each(pub.program(), function (p) {
+            var booking = _.first(_.where(p.bookings, { sessionId: obj.sessionId }));
+            if (!_.isUndefined(booking)) {
+
+                var content = booking.session.description;
+                if (booking.session.tags !== void 0) {
+                    content += "<br />" + booking.session.tags.toString();
+                }
+
+                return app.showMessage(content, booking.session.title, ['Ok']);
+            }
+        });
     };
 
+    //custom serialize function for gridster
     priv.gridSerialize = function ($w, wgd) {
-        return utils.serialize_with_draggable($w, wgd, priv.gridster, pub.rooms(), pub.program());
+
+        if (wgd.col <= pub.rooms().length + 1 && wgd.col > 1
+            && wgd.row <= pub.program().length + 1 && wgd.row > 1) {
+
+            return {
+                bookingId: parseInt($w.attr('data-booking-id')),
+                sessionId: parseInt($w.attr('data-session-id')),
+                timeslotId: priv.gridster.gridmap[1][wgd.row].attr('data-timeslot-id'),
+                roomId: _.first(_.where(pub.rooms(), { slotIndex: wgd.col - 2 })).id,
+                dayId: 1,
+                el: $w[0] //for testing
+            };
+        }
+
+        return null;
     };
 
     return pub;
