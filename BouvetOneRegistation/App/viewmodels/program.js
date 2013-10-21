@@ -9,6 +9,7 @@
 
     priv.gridster = null;
     priv.gridster_margins = [5, 5];
+    priv.prev_grid_position = 0;
 
     pub.activate = function () {
         //get rooms for given day
@@ -25,79 +26,17 @@
                             return {
                                 id: timeslot.id,
                                 displayTime: moment(timeslot.startTime).format('HH:mm') + '-' + moment(timeslot.endTime).format('HH:mm'),
-                                bookings: timeslot.bookings
-                            };
+                                bookings: _.sortBy(timeslot.bookings, function(b) { return b.room.slotIndex; })
+                                };
                         }));
 
-                        var g_el = $('.gridster ul');
-                        var w_width = (g_el.width() / (pub.rooms().length + 1)) - priv.gridster_margins[0] * 2,
-                            w_height = 45;
-
-                        //initialize gridster
-                        priv.gridster = g_el.gridster({
-                            widget_margins: [5, 5],
-                            widget_base_dimensions: [w_width, 45],
-                            avoid_overlapped_widgets: true,
-                            max_cols: pub.rooms().length + 1,
-                            max_rows: pub.rooms().length + 1,
-                            static_class: 'widget-not-draggable',
-                            draggable: {
-                                items: ".gs_w:not(.widget-not-draggable)"
-                            },
-                            serialize_params: priv.gridSerialize
-                        }).data('gridster');
-
-                        //add booked sessions to gridster
-                        _.each(pub.program(), function (timeslot, timeslotIndex) {
-                            _.each(timeslot.bookings, function (booking) {
-                                priv.addWidget(booking.session, booking, timeslotIndex);
-                            });
-                        });
                     });
                 });
             });
         });
 
     };
-
-    //helper for adding a booking as a gridster widget
-    priv.addWidget = function (session, booking, timeslotIndex) {
-        var el = $("<li></li>").text(session.title)
-            .addClass('widget-not-draggable')
-            .addClass('widget-program-item')
-            .attr('data-sizex', 1)
-            .attr('data-sizey', 1)
-            .attr('data-session-id', session.id);
-        el.click(priv.showFullInformation);
-
-
-        if (booking != null) {
-            el.attr('data-booking-id', booking.id);
-            priv.gridster.add_widget(el, null, null, booking.room.slotIndex + 2, timeslotIndex + 2);
-        } else {
-            priv.gridster.add_widget(el, null, null, rooms().length + 2, 2);
-        }
-
-        return el;
-    };
-
-    priv.showFullInformation = function (event) {
-        var obj = utils.findObjectByElement(priv.gridster.serialize(), event.target);
-
-        _.each(pub.program(), function (p) {
-            var booking = _.first(_.where(p.bookings, { sessionId: obj.sessionId }));
-            if (!_.isUndefined(booking)) {
-
-                var content = booking.session.description;
-                if (booking.session.tags !== void 0) {
-                    content += "<br />" + booking.session.tags.toString();
-                }
-
-                return app.showMessage(content, booking.session.title, ['Ok']);
-            }
-        });
-    };
-
+    
     //custom serialize function for gridster
     priv.gridSerialize = function ($w, wgd) {
 
@@ -115,6 +54,28 @@
         }
 
         return null;
+    };
+
+    //helper function to figure out grid-offset
+    pub.gridOffset = function (slots, index) {
+        if (index() == 0) {
+            priv.prev_grid_position = slots[index()].room.slotIndex;
+            return "col-md-offset-" + priv.prev_grid_position;
+        }
+        else {
+            var slotIndex = slots[index()].room.slotIndex;
+            var css = "col-md-offset-" + (slotIndex - (self.prev_grid_position + 1));
+            priv.prev_grid_position = slotIndex;
+
+            return css;
+        }
+    };
+
+    pub.showFullInformation = function (obj) {
+        var content = obj.session.description;
+        if (obj.session.tags !== '') content += "\n\n" + obj.session.tags;
+        
+        return app.showMessage(content, obj.session.title, ['Ok']);
     };
 
     return pub;

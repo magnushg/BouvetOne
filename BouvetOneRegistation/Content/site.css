@@ -15,6 +15,8 @@
     min-height: 40px;
     color: #ffffff;
     border: 1px #3bcbcb solid;
+    height: 60px;
+    margin: 2px;
 }
 
 .slot-space :hover {
@@ -76,6 +78,14 @@ tbody td {
     background-color: #ffffff;
 }
 
+.row > .widget-not-draggable {
+    height: 60px;
+}
+
+.room-columns {
+    height: 40px;
+}
+
 .widget-booking {
     background-color: cadetblue;
     color: #ffffff;
@@ -101,4 +111,14 @@ tbody td {
 .widget-program-row {
     background-color: #ffffff;
     padding-top: 18px;
+}
+
+.modal-body > p {
+    max-width: 400px;
+}
+.modal-header > p {
+    max-width: 400px;
+}
+.gridster > ul {
+    padding-left: 5px;
 }
