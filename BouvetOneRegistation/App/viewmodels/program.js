@@ -1,4 +1,4 @@
-﻿define(['durandal/app', 'services/programService', 'knockout','moment'], function(app, programService, ko, moment) {
+﻿define(['durandal/app', 'services/programService', 'knockout','moment', 'utils/gridster-utils'], function(app, programService, ko, moment, utils) {
 
     var pub = {},
         priv = {};
@@ -43,7 +43,8 @@
                             static_class: 'widget-not-draggable',
                             draggable: {
                                 items: ".gs_w:not(.widget-not-draggable)"
-                            }
+                            },
+                            serialize_params: priv.gridSerialize
                         }).data('gridster');
 
                         //add booked sessions to gridster
@@ -80,7 +81,11 @@
     };
 
     priv.showFullInformation = function (event) {
-        console.log('a');
+        var obj = utils.findObjectByElement(priv.gridster.serialize(), event.target);
+    };
+
+    priv.gridSerialize = function ($w, wgd) {
+        return utils.serialize_with_draggable($w, wgd, priv.gridster, pub.rooms(), pub.program());
     };
 
     return pub;
