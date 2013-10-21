@@ -111,6 +111,10 @@ tbody td {
     border: 1px #ff6300 solid;
 }*/
 
+.top-adjusted {
+    margin-top: 20px;
+}
+
 .widget-program-column {
     background-color: #ffffff;
     padding-top: 18px;
