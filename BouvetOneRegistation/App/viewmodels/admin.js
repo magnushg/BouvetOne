@@ -100,8 +100,9 @@ define(['durandal/app', 'services/programService', 'services/registrationService
         
     };
 
-    pub.activateSession = function(session) {
-        if (!session.isPublic()) {
+    pub.activateSession = function (session) {
+        //uncommented so to easilly be able to clone widgets by pressing multiple times
+        //if (!session.isPublic()) {
             session.isPublic(true);
 
             programService.setSessionPublic(session.id, true).then(function(response) {
@@ -111,7 +112,7 @@ define(['durandal/app', 'services/programService', 'services/registrationService
                 session.isPublic(false);
                 toastr.error(error);
             });
-        }
+        //}
     };
 
     pub.deactivateSession = function(session) {
