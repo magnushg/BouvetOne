@@ -226,6 +226,7 @@
     <Content Include="Content\gridster.css" />
     <Content Include="Content\ie10mobile.css" />
     <Content Include="Content\images\arrow.png" />
+    <Content Include="Content\images\degree-circle.png" />
     <Content Include="Content\images\header_logo.png" />
     <Content Include="Content\images\icon.png" />
     <Content Include="Content\images\ios-startup-image-landscape.png" />

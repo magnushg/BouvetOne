@@ -28,17 +28,7 @@
 }
 
 html {
-    font-family: 'Open Sans, sans-serif';
-}
-
-#eventProgram h1 {
-    font-family: 'Open Sans, sans-serif';
-    font-size: 60px;
-    letter-spacing: -1px;
-    line-height: 1;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 tbody td {
