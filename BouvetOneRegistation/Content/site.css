@@ -102,6 +102,15 @@ tbody td {
     color: #ffffff;
 }
 
+.program-item:hover {
+    background-color: #FF6300;
+    color: #ffffff;
+}
+
+/*.program-item {
+    border: 1px #ff6300 solid;
+}*/
+
 .widget-program-column {
     background-color: #ffffff;
     padding-top: 18px;
