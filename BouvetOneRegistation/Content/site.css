@@ -20,7 +20,7 @@
 }*/
 
 .slot-space :hover {
-    background-color: #000000;
+    background-color: #FF6300;
 }
 
 /* bootstrap offset first room */
@@ -63,7 +63,7 @@ tbody td {
 }
 
 .gridster > ul {
-    background-color: #f5f5f5;
+    background-color: #ffffff;
 }
 
 .gridster > ul > li {
@@ -76,9 +76,12 @@ tbody td {
 .widget-not-draggable {
     background-color: inherit;
     background-color: #ffffff;
+    font-weight: bold;
 }
 
 .row > .widget-not-draggable {
+    font-weight: bold;
+    background-color: #ffffff;
     height: 60px;
 }
 
@@ -99,9 +102,9 @@ tbody td {
 }
 
 .widget-program-item {
-    background-color: cadetblue;
+    background-color: #e0e0e0;
     min-height: 40px;
-    color: #ffffff;
+    color: #222222;
     border: 1px #f5f5f5 solid;
     height: 60px;
     overflow: hidden;
@@ -128,6 +131,7 @@ tbody td {
 }
 
 .widget-program-pause-item {
-    background-color: #f5f5f5;
+    /*background-color: #f5f5f5;*/
+    background-color: #ffffff;
     border: none;
 }
