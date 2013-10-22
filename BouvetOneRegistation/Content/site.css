@@ -1,4 +1,10 @@
-﻿.edit-panel td {
+﻿@media screen and (orientation: portrait) {
+    .container {
+        min-width: 780px;
+    }    
+}
+
+.edit-panel td {
     padding: 20px;
 }
 .edit-panel td:hover {
