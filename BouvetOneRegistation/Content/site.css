@@ -104,6 +104,7 @@ tbody td {
     color: #ffffff;
     border: 1px #3bcbcb solid;
     height: 60px;
+    overflow: hidden;
 }
 
 .widget-program-column {
