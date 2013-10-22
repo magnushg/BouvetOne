@@ -5,37 +5,30 @@
         </div>
     </div>
     <div class="container" id="eventProgram">
-        <div class="gridster">
-            <ul>
-                <li style="width: 100%">
-                    <!-- rooms -->
-                    <div class="row">
-                        <div class="col-xs-1"></div> 
-                        <div data-bind="foreach: rooms">
+        <!-- rooms -->
+        <div class="row">
+            <div class="col-xs-1"></div> 
+            <div data-bind="foreach: rooms">
                             
-                            <!-- ko ifnot: $index() === 10 -->
-                            <div class="col-xs-1 widget-not-draggable" data-bind="html: name"></div>  
-                            <!-- /ko -->
-                        </div>
-                    </div>
+                <!-- ko ifnot: $index() === 10 -->
+                <div class="col-xs-1 widget-not-draggable" data-bind="html: name"></div>  
+                <!-- /ko -->
+            </div>
+        </div>
                     
-                    <!-- timeslots X sessions -->
-                    <div data-bind="foreach:program">
-                        <div class="row">
-                            <div class="col-xs-1 widget-not-draggable room-columns" data-bind="html: displayTime"></div>
-                            <div data-bind="foreach:$data.bookings" class="slot-space">
-                                <!-- ko if: session.title == 'Pause' -->
-                                <div class="col-xs-1 widget-program-pause-item">&nbsp;</div>
-                                <!-- /ko -->
-                                <!-- ko ifnot: session.title == 'Pause' -->
-                                <div class="col-xs-1 widget-program-item" data-bind="html: session.title, click: $root.showFullInformation, css: $root.gridOffset($parent.bookings, $index)"></div>
-                                <!-- /ko -->
-                            </div>
-                        </div>
-                    </div>
-
-                </li>
-            </ul>
+        <!-- timeslots X sessions -->
+        <div data-bind="foreach:program">
+            <div class="row">
+                <div class="col-xs-1 widget-not-draggable room-columns" data-bind="html: displayTime"></div>
+                <div data-bind="foreach:$data.bookings" class="slot-space">
+                    <!-- ko if: session.title == 'Pause' -->
+                    <div class="col-xs-1 widget-program-pause-item">&nbsp;</div>
+                    <!-- /ko -->
+                    <!-- ko ifnot: session.title == 'Pause' -->
+                    <div class="col-xs-1 widget-program-item" data-bind="html: session.title, click: $root.showFullInformation, css: $root.gridOffset($parent.bookings, $index)"></div>
+                    <!-- /ko -->
+                </div>
+            </div>
         </div>
     </div>
 </section>

@@ -21,6 +21,7 @@
 
 .slot-space :hover {
     background-color: #FF6300;
+    cursor: pointer;
 }
 
 /* bootstrap offset first room */
