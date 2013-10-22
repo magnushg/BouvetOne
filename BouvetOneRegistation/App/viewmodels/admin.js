@@ -173,10 +173,9 @@ define(['durandal/app', 'services/programService', 'services/registrationService
     //helper for adding a booking as a gridster widget
     priv.addWidget = function (session, booking, timeslotIndex) {
         var el = $("<li></li>").text(session.title)
-            .attr('data-session-id', session.id)
-            .attr('alt', session.title);
+            .attr('data-session-id', session.id);
         if (_.isNull(booking)) {
-            el.addClass('widget-unassigned')
+            el.addClass('widget-unassigned');
         }
         else {
             el.addClass('widget-booking');
@@ -228,6 +227,7 @@ define(['durandal/app', 'services/programService', 'services/registrationService
     };
 
     priv.decorateWidgetAsUnassigned = function (event, ui) {
+
         //the hard way to find the properties of the element
         //that was moved
         var res = _.where(
