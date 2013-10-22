@@ -25,7 +25,12 @@
                         <div class="row">
                             <div class="col-xs-1 widget-not-draggable room-columns" data-bind="html: displayTime"></div>
                             <div data-bind="foreach:$data.bookings" class="slot-space">
+                                <!-- ko if: session.title == 'Pause' -->
+                                <div class="col-xs-1 widget-program-pause-item"></div>
+                                <!-- /ko -->
+                                <!-- ko ifnot: session.title == 'Pause' -->
                                 <div class="col-xs-1 widget-program-item" data-bind="html: session.title, click: $root.showFullInformation, css: $root.gridOffset($parent.bookings, $index)"></div>
+                                <!-- /ko -->
                             </div>
                         </div>
                     </div>
