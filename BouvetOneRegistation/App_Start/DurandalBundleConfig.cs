@@ -22,10 +22,13 @@ namespace BouvetOneRegistation {
             .Include("~/Scripts/gridster.js")
 		);
 
-      bundles.Add(
+        bundles.Add(new StyleBundle("~/Content/Bouvet")
+             .Include("~/Content/bouvet/bouvetone.css")
+        );
+        
+        bundles.Add(
         new StyleBundle("~/Content/css")
           .Include("~/Content/ie10mobile.css")
-          .Include("~/Content/bootstrap/bootstrap.min.css")
           .Include("~/Content/font-awesome.min.css")
 		  .Include("~/Content/durandal.css")
           .Include("~/Content/starterkit.css")
@@ -33,8 +36,12 @@ namespace BouvetOneRegistation {
           .Include("~/Content/Stashy.css")
           .Include("~/Content/site.css")
           .Include("~/Content/gridster.css")
-          .Include("~/Content/bouvet/bouvetone.css")
         );
+
+        bundles.Add(new StyleBundle("~/Content/bootstrap")
+            .Include("~/Content/bootstrap/bootstrap.min.css")
+        );
+    
     }
 
     public static void AddDefaultIgnorePatterns(IgnoreList ignoreList) {
