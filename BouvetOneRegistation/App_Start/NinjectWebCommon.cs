@@ -1,5 +1,4 @@
 using System.Web.Http;
-using BouvetOneRegistation.Models;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(BouvetOneRegistation.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(BouvetOneRegistation.App_Start.NinjectWebCommon), "Stop")]
@@ -68,7 +67,7 @@ namespace BouvetOneRegistation.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            kernel.Bind<RegistrationDbContext>().ToSelf().InRequestScope();
+           
         }        
     }
 }
